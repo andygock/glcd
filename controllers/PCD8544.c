@@ -9,6 +9,18 @@
 extern uint8_t *glcd_buffer_selected;
 extern glcd_BoundingBox_t *glcd_bbox_selected;
 
+void glcd_command(uint8_t c)
+{
+	GLCD_DC_LOW();
+	glcd_spi_write(c);	
+}
+
+void glcd_data(uint8_t c)
+{
+	GLCD_DC_HIGH();
+	glcd_spi_write(c);	
+}
+
 void glcd_set_contrast(uint8_t val) {
 	glcd_command(PCD8544_FUNCTION_SET | PCD8544_EXTENDED_INSTRUCTION);
 	glcd_command(PCD8544_SET_VOP | (val|0x7f));
@@ -28,18 +40,6 @@ void glcd_power_down(void)
 void glcd_power_up(void)
 {
 	glcd_command(PCD8544_FUNCTION_SET);
-}
-
-void glcd_command(uint8_t c)
-{
-	GLCD_DC_LOW();
-	glcd_spi_write(c);	
-}
-
-void glcd_data(uint8_t c)
-{
-	GLCD_DC_HIGH();
-	glcd_spi_write(c);	
 }
 
 void glcd_set_y_address(uint8_t y)

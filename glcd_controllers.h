@@ -2,13 +2,15 @@
    \file glcd_controllers.h
    \brief Functions specific to certain graphic LCD controllers.
           These are functions are defined in controllers/xxxx.c
+		  
+		  Except for glcd_command() and glcd_data() which are
+		  device specific.
+		  
    \author Andy Gock
  */ 
 
 #ifndef GLCD_CONTROLLERS_H_
 #define GLCD_CONTROLLERS_H_
-
-#include <avr/io.h>
 
 /** \addtogroup Controllers
 Controller specific functions.

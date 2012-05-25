@@ -4,7 +4,6 @@
    \author Andy Gock
  */ 
 
-#include <avr/io.h>
 #include "glcd.h"
 
 static uint8_t glcd_map(uint8_t x1, uint8_t x2, uint8_t x);

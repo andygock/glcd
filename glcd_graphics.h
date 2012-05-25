@@ -8,7 +8,11 @@
 #ifndef GLCD_GRAPHICS_H_
 #define GLCD_GRAPHICS_H_
 
+#if defined(GLCD_DEVICE_AVR8)
 #include <avr/io.h>
+#else
+
+#endif
 
 /** \addtogroup Graphics
  *  Graphics specific functions

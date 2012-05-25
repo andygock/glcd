@@ -42,7 +42,4 @@
 #define PCD8544_MAX_BANKS 6
 #define PCD8544_MAX_COLS  84
 
-
-
-
 #endif /* PCD8544_H_ */

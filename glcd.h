@@ -8,56 +8,28 @@
 #define _GLCD_H
 
 #include "controllers/PCD8544.h"
-#include "glcd_controllers.h"
-#include "glcd_devices.h"
-#include "glcd_graphics.h"
 
 #if defined(GLCD_DEVICE_AVR8)
-
-#include <avr/io.h>
-#include <avr/pgmspace.h>
-
-#ifndef _BITHELPERS_
-#define _BITHELPERS_
-#define sbi(var, mask)   ((var) |= _BV(mask))
-#define cbi(var, mask)   ((var) &= ~(_BV(mask)))
-#define DDR(x) (*(&x - 1))
-#define PIN(x) (*(&x - 2)) 
-#endif
-
-#define swap(a, b) { uint8_t t = a; a = b; b = t; }
-	
-// pins used
-#define PCD8544_MOSI_PORT PORTB
-#define PCD8544_MOSI_PIN  2
-#define PCD8544_MISO_PORT PORTB
-#define PCD8544_MISO_PIN  3
-#define PCD8544_SCK_PORT  PORTB
-#define PCD8544_SCK_PIN   1
-#define PCD8544_SS_PORT   PORTB
-#define PCD8544_SS_PIN    0
-#define PCD8544_DC_PORT   PORTB
-#define PCD8544_DC_PIN    5
-#define PCD8544_RST_PORT  PORTB
-#define PCD8544_RST_PIN   4
-
-#define GLCD_SELECT()     cbi(PCD8544_SS_PORT,PCD8544_SS_PIN)
-#define GLCD_DESELECT()   sbi(PCD8544_SS_PORT,PCD8544_SS_PIN)
-#define GLCD_DC_LOW()     cbi(PCD8544_DC_PORT,PCD8544_DC_PIN)
-#define GLCD_DC_HIGH()    sbi(PCD8544_DC_PORT,PCD8544_DC_PIN)
-#define GLCD_RESET_LOW()  cbi(PCD8544_RST_PORT,PCD8544_RST_PIN)
-#define GLCD_RESET_HIGH() sbi(PCD8544_RST_PORT,PCD8544_RST_PIN)
-
+	#include <avr/pgmspace.h>
+	#include <avr/io.h>
+	#include <avr/interrupt.h>
+	#include <util/delay.h>	
+	#include "devices/AVR8.h"
+#elif defined(GLCD_DEVICE_LPC111X)
+	#include "devices/LPC111x.h"
 #else
 	#error "Device not supported"
 #endif
+
+#include "glcd_controllers.h"
+#include "glcd_devices.h"
+#include "glcd_graphics.h"
 
 #define BLACK 1
 #define WHITE 0
 
 #define GLCD_LCD_WIDTH 84
 #define GLCD_LCD_HEIGHT 48
-
 
 /** Bounding box for pixels that need to be updated */
 typedef struct {
@@ -67,12 +39,17 @@ typedef struct {
 	uint8_t y_max;
 } glcd_BoundingBox_t;
 
+extern uint8_t glcd_buffer[GLCD_LCD_WIDTH * GLCD_LCD_HEIGHT / 8];
+extern glcd_BoundingBox_t glcd_bbox;
+extern uint8_t *glcd_buffer_selected;
+extern glcd_BoundingBox_t *glcd_bbox_selected;
+
 /** \name Base Functions 
  *  @{
  */
 
 void glcd_update_bbox(uint8_t xmin, uint8_t ymin, uint8_t xmax, uint8_t ymax);
-void glcd_reset_bbox();
+void glcd_reset_bbox(void);
 
 /** Clear the display. This will clear the buffer and physically write and commit it to the LCD */
 void glcd_clear(void);
@@ -159,9 +136,11 @@ void glcd_tiny_draw_string_ammend_P(const char *str);
  *  Functions relating to using text fonts of all sizes.
  *  @{
  */
-
+#if defined(GLCD_DEVICE_AVR8)
 void glcd_set_font(PGM_P font_table, uint8_t width, uint8_t height, char start_char, char end_char);
-
+#else
+void glcd_set_font(const char * font_table, uint8_t width, uint8_t height, char start_char, char end_char);
+#endif
 /** Draw a char at specified location.
  *  \param x x location to place top-left of character frame
  *  \param y y location to place top-left of character frame

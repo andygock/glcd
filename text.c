@@ -4,7 +4,6 @@
    \author Andy Gock
  */ 
 
-#include <avr/pgmspace.h>
 #include "glcd.h"
 
 extern uint8_t *glcd_buffer_selected;
@@ -12,7 +11,11 @@ extern glcd_BoundingBox_t *glcd_bbox_selected;
 
 glcd_FontConfig_t font_current;
 
+#if defined(GLCD_DEVICE_AVR8)
 void glcd_set_font(PGM_P font_table, uint8_t width, uint8_t height, char start_char, char end_char)
+#else
+void glcd_set_font(const char * font_table, uint8_t width, uint8_t height, char start_char, char end_char)
+#endif
 {
 	// supports variable width fonts
 	font_current.font_table = font_table;
@@ -33,7 +36,11 @@ uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
 		// font table in Pascal Stang format (single byte height with with no width specifier
 			
 		for ( uint8_t i = 0; i < font_current.width; i++ ) {
+#if defined(GLCD_DEVICE_AVR8)			
 			uint8_t dat = pgm_read_byte( font_current.font_table + ((c - font_current.start_char) * (font_current.width)) + i );
+#else
+			uint8_t dat = *( font_current.font_table + ((c - font_current.start_char) * (font_current.width)) + i );
+#endif
 			for (uint8_t j = 0; j < 8; j++) {
 				if (x+i >= GLCD_LCD_WIDTH || y+j >= GLCD_LCD_HEIGHT) {
 					return 0;
@@ -54,8 +61,12 @@ uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
 		uint8_t bytes_per_char = font_current.width * bytes_high + 1;
 		const char *p;
 		p = font_current.font_table + (c - font_current.start_char) * bytes_per_char;
-		
+
+#if defined(GLCD_DEVICE_AVR8)		
 		uint8_t var_width = pgm_read_byte(p);
+#else
+		uint8_t var_width = *p;
+#endif
 		p++; // step over the variable width field
 
 		/*
@@ -66,7 +77,11 @@ uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
 
 		for ( uint8_t i = 0; i < var_width; i++ ) {
 			for ( uint8_t j = 0; j < bytes_high; j++ ) {
+#if defined(GLCD_DEVICE_AVR8)				
 				uint8_t dat = pgm_read_byte( p + i*bytes_high + j );
+#else
+				uint8_t dat = *( p + i*bytes_high + j );
+#endif
 				for (uint8_t bit = 0; bit < 8; bit++) {
 					
 					if (x+i >= GLCD_LCD_WIDTH || y+j*8+bit >= GLCD_LCD_HEIGHT) {
@@ -107,7 +122,11 @@ void glcd_draw_string_xy_P(uint8_t x, uint8_t y, const char *str)
 {
 	uint8_t width;
 	while (1) {
+#if defined(GLCD_DEVICE_AVR8)		
 		char c = pgm_read_byte(str++);
+#else
+		char c = *(str++);
+#endif
 		if (!c)
 			return;
 					

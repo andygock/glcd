@@ -5,21 +5,17 @@
 
  */ 
 
-
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include "util/delay.h"
 #include "../glcd.h"
 
-extern uint8_t *glcd_buffer;
-extern glcd_BoundingBox_t glcd_bbox;
-extern uint8_t *glcd_buffer_selected;
-extern glcd_BoundingBox_t *glcd_bbox_selected;
+
 
 #if defined(GLCD_DEVICE_AVR8)
 
 void glcd_init(void)
 {
+	
+#if defined(GLCD_CONTROLLER_PCD8544)
+
 	// set pin directions
 	
 	// Set MOSI, Master SS, SCK to output (otherwise SPI won't work)
@@ -44,7 +40,7 @@ void glcd_init(void)
 	glcd_reset();
 	
 	// get into the EXTENDED mode!
-	glcd_command(PCD8544_FUNCTION_SET | PCD8544_EXTENDED_INSTRUCTION );
+	glcd_command(PCD8544_FUNCTION_SET | PCD8544_EXTENDED_INSTRUCTION);
 
 	// LCD bias select (4 is optimal?)
 	glcd_command(PCD8544_SET_BIAS | 0x2);
@@ -61,6 +57,11 @@ void glcd_init(void)
 	glcd_select_screen((uint8_t *)&glcd_buffer,&glcd_bbox);
 	
 	glcd_clear();
+
+#else
+	
+#endif /* GLCD_CONTROLLER_PCD8544 */
+	
 }
 
 void glcd_spi_write(uint8_t c)

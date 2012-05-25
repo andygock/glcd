@@ -8,11 +8,6 @@
 #include <stdlib.h>
 #include "glcd.h"
 
-extern uint8_t glcd_buffer[GLCD_LCD_WIDTH * GLCD_LCD_HEIGHT / 8];
-extern glcd_BoundingBox_t glcd_bbox;
-extern uint8_t *glcd_buffer_selected;
-extern glcd_BoundingBox_t *glcd_bbox_selected;
-
 // based on PCD8544 library by Limor Fried
 void glcd_set_pixel(uint8_t x, uint8_t y, uint8_t color) {
 	if (x > (GLCD_LCD_WIDTH-1) || y > (GLCD_LCD_HEIGHT-1))

@@ -9,7 +9,11 @@
 #ifndef GLCD_DEVICES_H_
 #define GLCD_DEVICES_H_
 
+#if defined(GLCD_DEVICE_AVR8)
 #include <avr/io.h>
+#else
+
+#endif
 
 /** \addtogroup Devices 
 Device specific functions.

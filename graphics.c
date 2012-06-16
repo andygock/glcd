@@ -13,9 +13,9 @@ void glcd_set_pixel(uint8_t x, uint8_t y, uint8_t color) {
 	if (x > (GLCD_LCD_WIDTH-1) || y > (GLCD_LCD_HEIGHT-1))
 		return;
 	if (color) 
-		glcd_buffer[x+ (y/8)*GLCD_LCD_WIDTH] |= _BV(y%8);  
+		glcd_buffer[x+ (y/8)*GLCD_LCD_WIDTH] |= ( 1<< (y%8));
 	else
-		glcd_buffer[x+ (y/8)*GLCD_LCD_WIDTH] &= ~_BV(y%8); 
+		glcd_buffer[x+ (y/8)*GLCD_LCD_WIDTH] &= ~ (1<< (y%8));
 	glcd_update_bbox(x,y,x,y);
 }
 

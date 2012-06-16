@@ -7,7 +7,7 @@
 #ifndef _GLCD_H
 #define _GLCD_H
 
-#include "controllers/PCD8544.h"
+
 
 #if defined(GLCD_DEVICE_AVR8)
 	#include <avr/pgmspace.h>
@@ -16,14 +16,24 @@
 	#include <util/delay.h>	
 	#include "devices/AVR8.h"
 #elif defined(GLCD_DEVICE_LPC111X)
+	#include <LPC11xx.h>
 	#include "devices/LPC111x.h"
+	#define PROGMEM
+	#define _delay_ms(t) delay_ms(t)
 #else
 	#error "Device not supported"
 #endif
 
-#include "glcd_controllers.h"
+#if defined(GLCD_CONTROLLER_PCD8544)
+	#include "controllers/PCD8544.h"
+#else
+	#error "Controller not supported"
+#endif
+
 #include "glcd_devices.h"
+#include "glcd_controllers.h"
 #include "glcd_graphics.h"
+#include "unit_tests.h"
 
 #define BLACK 1
 #define WHITE 0
@@ -39,6 +49,7 @@ typedef struct {
 	uint8_t y_max;
 } glcd_BoundingBox_t;
 
+/* Global variables used for GLCD library */
 extern uint8_t glcd_buffer[GLCD_LCD_WIDTH * GLCD_LCD_HEIGHT / 8];
 extern glcd_BoundingBox_t glcd_bbox;
 extern uint8_t *glcd_buffer_selected;

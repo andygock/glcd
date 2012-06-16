@@ -10,9 +10,11 @@
 #define GLCD_DEVICES_H_
 
 #if defined(GLCD_DEVICE_AVR8)
-#include <avr/io.h>
+	#include <avr/io.h>
+#elif defined(GLCD_DEVICE_LPC111X)
+	#include <LPC11xx.h>
 #else
-
+	#error "Device not supported"
 #endif
 
 /** \addtogroup Devices 

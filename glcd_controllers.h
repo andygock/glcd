@@ -3,9 +3,6 @@
    \brief Functions specific to certain graphic LCD controllers.
           These are functions are defined in controllers/xxxx.c
 		  
-		  Except for glcd_command() and glcd_data() which are
-		  device specific.
-		  
    \author Andy Gock
  */ 
 

@@ -145,6 +145,7 @@ void glcd_draw_string_xy(uint8_t x, uint8_t y, char *c)
 	while (*c) {
 		width = glcd_draw_char_xy(x,y,*c);
 		x += (width + 1);
+		// ignore section - up to user to make sure text does not overflow display width
 		//if (x+width >= GLCD_LCD_WIDTH) {
 		//	return;
 		//}
@@ -155,6 +156,12 @@ void glcd_draw_string_xy(uint8_t x, uint8_t y, char *c)
 void glcd_draw_string_xy_P(uint8_t x, uint8_t y, const char *str)
 {
 	uint8_t width;
+
+	if (y > (GLCD_LCD_HEIGHT - font_current.height - 1)) {
+		// character won't fit
+		return;
+	}
+
 	while (1) {
 #if defined(GLCD_DEVICE_AVR8)		
 		char c = pgm_read_byte(str++);
@@ -166,6 +173,7 @@ void glcd_draw_string_xy_P(uint8_t x, uint8_t y, const char *str)
 					
 		width = glcd_draw_char_xy(x,y,c);
 		x += (width + 1);
+		// ignore section - up to user to make sure text does not overflow display width
 		//if (x+width >= GLCD_LCD_WIDTH) {
 		//	return;
 		//}		

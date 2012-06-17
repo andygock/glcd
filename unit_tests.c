@@ -33,17 +33,16 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include "glcd.h"
 #include "unit_tests.h"
 
 /** Fonts */
-#include "library/glcd/fonts/font5x7.h"
-//#include "library/glcd/fonts/Liberation_Sans11x14_Numbers.h"
-#include "library/glcd/fonts/Liberation_Sans15x21_Numbers.h"
-//#include "library/glcd/fonts/Liberation_Sans17x17_Alpha.h"
-//#include "library/glcd/fonts/Liberation_Sans27x36_Numbers.h"
-//#include "library/glcd/fonts/Bebas_Neue20x36_Bold_Numbers.h"
+#include "fonts/font5x7.h"
+//#include "fonts/Liberation_Sans11x14_Numbers.h"
+#include "fonts/Liberation_Sans15x21_Numbers.h"
+//#include "fonts/Liberation_Sans17x17_Alpha.h"
+//#include "fonts/Liberation_Sans27x36_Numbers.h"
+//#include "fonts/Bebas_Neue20x36_Bold_Numbers.h"
 
 // Commercial fonts not included with distribution
 //#include "library/glcd/fonts/HelveticaNeueLT_Com_57_Cn23x35_Numbers.h"

@@ -47,6 +47,34 @@ glcd_BoundingBox_t *glcd_bbox_selected;
 
 void glcd_update_bbox(uint8_t xmin, uint8_t ymin, uint8_t xmax, uint8_t ymax)
 {
+	// keep and check bounding box within limits of LCD screen dimensions
+	if (xmin < 0) {
+		xmin = 0;
+	}
+	if (xmin > (GLCD_LCD_WIDTH-1)) {
+		xmin = GLCD_LCD_WIDTH-1;
+	}
+	if (xmax < 0) {
+		xmax = 0;
+	}
+	if (xmax > (GLCD_LCD_WIDTH-1)) {
+		xmax = GLCD_LCD_WIDTH-1;
+	}
+
+	if (ymin < 0) {
+		ymin = 0;
+	}
+	if (ymin > (GLCD_LCD_HEIGHT-1)) {
+		ymin = GLCD_LCD_HEIGHT-1;
+	}
+	if (ymax < 0) {
+		ymax = 0;
+	}
+	if (ymax > (GLCD_LCD_HEIGHT-1)) {
+		ymax = GLCD_LCD_HEIGHT-1;
+	}
+
+	// update the bounding box size
 	if (xmin < glcd_bbox_selected->x_min) {
 		glcd_bbox_selected->x_min = xmin;
 	}		

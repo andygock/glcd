@@ -42,12 +42,19 @@
 
 // based on PCD8544 library by Limor Fried
 void glcd_set_pixel(uint8_t x, uint8_t y, uint8_t color) {
-	if (x > (GLCD_LCD_WIDTH-1) || y > (GLCD_LCD_HEIGHT-1))
+	if (x > (GLCD_LCD_WIDTH-1) || y > (GLCD_LCD_HEIGHT-1)) {
+		// don't do anything if x/y is outside bounds of display size
 		return;
-	if (color) 
+	}
+
+	if (color) {
+		// set black
 		glcd_buffer[x+ (y/8)*GLCD_LCD_WIDTH] |= ( 1<< (y%8));
-	else
+	} else {
+		// set white
 		glcd_buffer[x+ (y/8)*GLCD_LCD_WIDTH] &= ~ (1<< (y%8));
+	}
+
 	glcd_update_bbox(x,y,x,y);
 }
 
@@ -103,8 +110,8 @@ void glcd_draw_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t colo
 
 void glcd_fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color)
 {
-	for (uint8_t i=x; i<x+w; i++) {
-		for (uint8_t j=y; j<y+h; j++) {
+	for (int16_t i=x; i<x+w; i++) {
+		for (int16_t j=y; j<y+h; j++) {
 			glcd_set_pixel(i, j, color);
 		}
 	}
@@ -113,11 +120,11 @@ void glcd_fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color)
 
 void glcd_draw_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color)
 {
-	for (uint8_t i=x; i<x+w; i++) {
+	for (int16_t i=x; i<x+w; i++) {
 		glcd_set_pixel(i, y, color);
 		glcd_set_pixel(i, y+h-1, color);
 	}
-	for (uint8_t i=y; i<y+h; i++) {
+	for (int16_t i=y; i<y+h; i++) {
 		glcd_set_pixel(x, i, color);
 		glcd_set_pixel(x+w-1, i, color);
 	} 
@@ -162,7 +169,6 @@ void glcd_draw_circle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color)
 	}
 }
 
-/* \bug doesn't work when fill area is outside bounds of LCD, not sure why, need to fix! */
 void glcd_fill_circle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color)
 {
 	glcd_update_bbox(x0-r, y0-r, x0+r, y0+r);
@@ -173,7 +179,7 @@ void glcd_fill_circle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color)
 	int8_t x = 0;
 	int8_t y = r;
 	
-	for (uint8_t i=y0-r; i<=y0+r; i++) {
+	for (int16_t i=y0-r; i<=y0+r; i++) {
 		glcd_set_pixel(x0, i, color);
 	}
 	
@@ -187,11 +193,11 @@ void glcd_fill_circle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color)
 		ddF_x += 2;
 		f += ddF_x;
 		
-		for (uint8_t i=y0-y; i<=y0+y; i++) {
+		for (int16_t i=y0-y; i<=y0+y; i++) {
 			glcd_set_pixel(x0+x, i, color);
 			glcd_set_pixel(x0-x, i, color);
 		} 
-		for (uint8_t i=y0-x; i<=y0+x; i++) {
+		for (int16_t i=y0-x; i<=y0+x; i++) {
 			glcd_set_pixel(x0+y, i, color);
 			glcd_set_pixel(x0-y, i, color);
 		}    

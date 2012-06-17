@@ -51,7 +51,7 @@ void glcd_set_font(const char * font_table, uint8_t width, uint8_t height, char 
 	font_current.height = height;
 	font_current.start_char = start_char;
 	font_current.end_char = end_char;
-	font_current.table_type = MIKRO;
+	font_current.table_type = MIKRO; // only supports MikroElektronika generated format
 }
 
 uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
@@ -136,6 +136,12 @@ uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
 void glcd_draw_string_xy(uint8_t x, uint8_t y, char *c)
 {
 	uint8_t width;
+
+	if (y > (GLCD_LCD_HEIGHT - font_current.height - 1)) {
+		// character won't fit
+		return;
+	}
+
 	while (*c) {
 		width = glcd_draw_char_xy(x,y,*c);
 		x += (width + 1);

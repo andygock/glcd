@@ -35,12 +35,6 @@
 
 #if defined(GLCD_DEVICE_LPC111X)
 
-// this needs to be defined elsewhere in the application
-extern void delay_ms(uint32_t ms);
-
-// make avr _delay_ms() compatible macro
-#define _delay_ms(ms) delay_ms(ms);
-
 void glcd_init(void)
 {
 

@@ -35,8 +35,6 @@
 #ifndef _GLCD_H
 #define _GLCD_H
 
-
-
 #if defined(GLCD_DEVICE_AVR8)
 	#include <avr/pgmspace.h>
 	#include <avr/io.h>
@@ -46,6 +44,7 @@
 #elif defined(GLCD_DEVICE_LPC111X)
 	#include <LPC11xx.h>
 	#include "devices/LPC111x.h"
+	extern void delay_ms(uint32_t ms);
 	#define PROGMEM
 	#define _delay_ms(t) delay_ms(t)
 #else
@@ -83,6 +82,8 @@ extern glcd_BoundingBox_t glcd_bbox;
 extern uint8_t *glcd_buffer_selected;
 extern glcd_BoundingBox_t *glcd_bbox_selected;
 
+
+
 /** \name Base Functions 
  *  @{
  */
@@ -116,6 +117,10 @@ typedef struct {
 	char end_char;
 	enum font_table_type table_type;
 } glcd_FontConfig_t;
+
+extern uint8_t *glcd_buffer_selected;
+extern glcd_BoundingBox_t *glcd_bbox_selected;
+extern glcd_FontConfig_t font_current;
 
 /** \name Tiny Text
  *  Functions relating to using tiny 5x7 text fonts.
@@ -176,8 +181,24 @@ void glcd_tiny_draw_string_ammend_P(const char *str);
  *  @{
  */
 #if defined(GLCD_DEVICE_AVR8)
+/** Set GLCD font to predefined font table
+ *
+ *  \param font_table pointer to font table to be used
+ *  \param width width of each character
+ *  \param height height of each character
+ *  \param start_char first character of font table
+ *  \param end_char last character of font table
+ */
 void glcd_set_font(PGM_P font_table, uint8_t width, uint8_t height, char start_char, char end_char);
 #else
+/** Set GLCD font to predefined font table
+ *
+ *  \param font_table pointer to font table to be used
+ *  \param width width of each character
+ *  \param height height of each character
+ *  \param start_char first character of font table
+ *  \param end_char last character of font table
+ */
 void glcd_set_font(const char * font_table, uint8_t width, uint8_t height, char start_char, char end_char);
 #endif
 /** Draw a char at specified location.

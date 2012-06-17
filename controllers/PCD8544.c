@@ -81,7 +81,9 @@ void glcd_write()
 {
 	uint8_t bank;
 	
+
 	for (bank = 0; bank < PCD8544_MAX_BANKS; bank++) {
+		// each bank is a single row 8 bits tall
 		uint8_t column;		
 		
 		if (glcd_bbox_selected->y_min >= (bank+1)*8) {

@@ -34,9 +34,7 @@
 
 #include "glcd.h"
 
-extern uint8_t *glcd_buffer_selected;
-extern glcd_BoundingBox_t *glcd_bbox_selected;
-extern glcd_FontConfig_t font_current;
+
 
 #if defined(GLCD_DEVICE_AVR8)
 void glcd_tiny_set_font(PGM_P font_table, uint8_t width, uint8_t height, char start_char, char end_char)

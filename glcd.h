@@ -171,8 +171,13 @@ void glcd_tiny_draw_string_ammend(char *str);
  */
 void glcd_tiny_draw_string_ammend_P(const char *str);
 
+/** Initialise 5x7 text */
 #define GLCD_TEXT_INIT()  glcd_tiny_set_font(Font5x7,5,7,32,127);
+
+/** Write string to bottom-most line after scrolling everything else up */
 #define GLCD_WRITE(str)   glcd_tiny_draw_string_ammend(str)
+
+/** Write string from program memory to bottom-most line after scrolling everything else up */
 #define GLCD_WRITE_P(str) glcd_tiny_draw_string_ammend_P(str)
 
 /** @}*/

@@ -193,6 +193,8 @@ void glcd_set_font(PGM_P font_table, uint8_t width, uint8_t height, char start_c
 #else
 /** Set GLCD font to predefined font table
  *
+ *  Note it is very important the arguments are set accurately, otherwise it will not work properly.
+ *
  *  \param font_table pointer to font table to be used
  *  \param width width of each character
  *  \param height height of each character

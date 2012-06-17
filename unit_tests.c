@@ -139,3 +139,39 @@ void glcd_test_text_up_down(void)
 	}
 
 }
+
+void glcd_test_tiny_text(void)
+{
+	char string[20] = "Hello World!";
+
+	GLCD_TEXT_INIT();
+
+	uint8_t c = 32;
+
+	while(1) {
+		// write chars to string from 32 to 127 ASCII
+		for (uint8_t i=0; i<14; i++) {
+			string[i] = c;
+			c++;
+			if (c > 127) {
+				c = 32;
+			}
+		}
+
+		// write null terminator
+		string[14] = '\0';
+
+		GLCD_WRITE(string);
+		delay_ms(1000);
+	}
+
+}
+
+void glcd_test_hello_world(void)
+{
+	glcd_tiny_set_font(Font5x7,5,7,32,127);
+	glcd_clear_buffer();
+	glcd_tiny_draw_string(0,0,"Hello World!");
+	glcd_write();
+	while(1);
+}

@@ -171,6 +171,7 @@ void glcd_tiny_draw_string_ammend(char *str);
  */
 void glcd_tiny_draw_string_ammend_P(const char *str);
 
+#define GLCD_TEXT_INIT()  glcd_tiny_set_font(Font5x7,5,7,32,127);
 #define GLCD_WRITE(str)   glcd_tiny_draw_string_ammend(str)
 #define GLCD_WRITE_P(str) glcd_tiny_draw_string_ammend_P(str)
 

@@ -8,3 +8,18 @@ Works with:
 MCUs supported:
 - Atmel AVR 8-bit
 - NXP LPC111x ARM Cortex
+
+The following symbols need to be set for the compiler:
+
+Pick microcontroller type (pick one only):
+GLCD_DEVICE_LPX111X
+GLCD_DEVICE_AVR8
+
+Pick LCD controller type (pick one only):
+GLCD_CONTROLLER_PCD8544
+
+These symbols need to be set in the configuration options of your IDE, usually
+in the "defined symbols" section, or they can be defined in a makefile
+as -D options.
+
+e.g "-DGLCD_DEVICE_LPC111X"

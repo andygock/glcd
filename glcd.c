@@ -117,7 +117,7 @@ void glcd_select_screen(uint8_t *buffer, glcd_BoundingBox_t *bbox)
 void glcd_scroll(int8_t x, int8_t y)
 {
 	for (uint8_t y=0; y<6; y++) {
-		for (uint8_t x=0; x<84; x++) {
+		for (uint8_t x=0; x<GLCD_LCD_WIDTH; x++) {
 			
 		}
 	}
@@ -128,10 +128,10 @@ void glcd_scroll_line(void)
 	for (uint8_t y=0; y<6; y++) {
 		if (y <= 4) {
 			// first 5 lines - banks 0 to 4
-			memcpy(glcd_buffer_selected + y*84, glcd_buffer_selected + y*84 + 84, 84);
+			memcpy(glcd_buffer_selected + y*GLCD_LCD_WIDTH, glcd_buffer_selected + y*GLCD_LCD_WIDTH + GLCD_LCD_WIDTH, GLCD_LCD_WIDTH);
 		} else {
 			// last line - back 5 - clear it
-			memset(glcd_buffer_selected + 5*84, 0x00, 84);
+			memset(glcd_buffer_selected + 5*GLCD_LCD_WIDTH, 0x00, GLCD_LCD_WIDTH);
 		}
 	}
 	glcd_update_bbox(0,0,GLCD_LCD_WIDTH - 1,GLCD_LCD_HEIGHT - 1);

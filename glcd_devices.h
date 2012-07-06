@@ -39,7 +39,7 @@
 #if defined(GLCD_DEVICE_AVR8)
 	#include <avr/io.h>
 #elif defined(GLCD_DEVICE_LPC111X)
-	#include <LPC11xx.h>
+	#include "LPC11xx.h"
 #else
 	#error "Device not supported"
 #endif

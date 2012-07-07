@@ -47,17 +47,17 @@ void glcd_init(void)
 	 */
 
 	/* Select SSP/SPI port */
-	SSP_IOConfig( PCD8544_SPI_PORT_NUMBER );
+	SSP_IOConfig( CONTROLLER_SPI_PORT_NUMBER );
 
 	/* Initialise SSP/SPI port */
-	SSP_Init( PCD8544_SPI_PORT_NUMBER );
+	SSP_Init( CONTROLLER_SPI_PORT_NUMBER );
 
 	/* Above functions take care of SPI pins */
 
 	/* Set SS, DC and RST pins to output */
-	PCD8544_SS_PORT->DIR  |= (1 << PCD8544_SS_PIN);
-	PCD8544_DC_PORT->DIR  |= (1 << PCD8544_DC_PIN);
-	PCD8544_RST_PORT->DIR |= (1 << PCD8544_RST_PIN);
+	CONTROLLER_SS_PORT->DIR  |= (1 << CONTROLLER_SS_PIN);
+	CONTROLLER_DC_PORT->DIR  |= (1 << CONTROLLER_DC_PIN);
+	CONTROLLER_RST_PORT->DIR |= (1 << CONTROLLER_RST_PIN);
 
 	/* Deselect LCD */
 	//GLCD_DESELECT();
@@ -93,7 +93,7 @@ void glcd_init(void)
 void glcd_spi_write(uint8_t c)
 {
 	GLCD_SELECT();
-	SSP_Send(PCD8544_SPI_PORT_NUMBER,&c,1);
+	SSP_Send(CONTROLLER_SPI_PORT_NUMBER,&c,1);
 	GLCD_DESELECT();
 }
 

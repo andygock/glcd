@@ -36,8 +36,6 @@
 
 #include "../glcd.h"
 
-
-
 #if defined(GLCD_DEVICE_AVR8)
 
 void glcd_init(void)
@@ -51,14 +49,14 @@ void glcd_init(void)
 	 *  Set MOSI, Master SS, SCK to output (otherwise SPI won't work)
 	 *  Must be done even if native SS pin not used
 	 */
-	sbi(DDR(PCD8544_MOSI_PORT),PCD8544_MOSI_PIN);
-	sbi(DDR(PCD8544_SS_PORT),PCD8544_SS_PIN);
-	sbi(DDR(PCD8544_SCK_PORT),PCD8544_SCK_PIN);
+	sbi(DDR(CONTROLLER_MOSI_PORT),CONTROLLER_MOSI_PIN);
+	sbi(DDR(CONTROLLER_SS_PORT),CONTROLLER_SS_PIN);
+	sbi(DDR(CONTROLLER_SCK_PORT),CONTROLLER_SCK_PIN);
 		
 	/* Set SS, DC and RST pins to output */
-	sbi( DDR(PCD8544_SS_PORT), PCD8544_SS_PIN );
-	sbi( DDR(PCD8544_DC_PORT), PCD8544_DC_PIN );
-	sbi( DDR(PCD8544_RST_PORT), PCD8544_RST_PIN );
+	sbi( DDR(CONTROLLER_SS_PORT), CONTROLLER_SS_PIN );
+	sbi( DDR(CONTROLLER_DC_PORT), CONTROLLER_DC_PIN );
+	sbi( DDR(CONTROLLER_RST_PORT), CONTROLLER_RST_PIN );
 	
 	/* Deselect LCD */
 	GLCD_DESELECT();

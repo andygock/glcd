@@ -38,13 +38,14 @@ Example:
 #define PCD8544_RST_PIN   5
 \endcode
  
-If certain code is specific to a controller and is not universal, use #ifdef statements to isolate them e.g:
+If certain code is specific to a controller and is not universal, use ifdef statements to isolate them e.g:
 
 \code
 #if defined(GLCD_CONTROLLER_PCD8544)
-    /* insert code */
+	/* insert code */
 #else
-    #error "Controller not supported for LPC111x" /* Use meaningful error messages */
+	/* Use a meaningful error message */
+	#error "Controller not supported for LPC111x"
 #endif
 \endcode
 

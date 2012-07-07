@@ -1,5 +1,8 @@
-/** Functions relating to PCD8544 LCD Controller (Nokia 5110 LCD).
-   \author Andy Gock
+/**
+ * \file PCD8544.c
+ * \brief Functions relating to PCD8544 LCD Controller (Nokia 5110 LCD).
+ * \author Andy Gock
+ * \see glcd.h
  */ 
 
 /*
@@ -55,10 +58,10 @@ void glcd_set_contrast(uint8_t val) {
 
 void glcd_power_down(void)
 {
-	// first, fill RAM with zeroes to ensure minimum specified current consumption
+	/* First, fill RAM with zeroes to ensure minimum specified current consumption */
 	glcd_clear();
 	
-	// power down
+	/* Power down */
 	glcd_command(PCD8544_FUNCTION_SET|PCD8544_POWER_DOWN);
 }
 
@@ -83,15 +86,15 @@ void glcd_write()
 	
 
 	for (bank = 0; bank < PCD8544_MAX_BANKS; bank++) {
-		// each bank is a single row 8 bits tall
+		/* Each bank is a single row 8 bits tall */
 		uint8_t column;		
 		
 		if (glcd_bbox_selected->y_min >= (bank+1)*8) {
-			continue; // skip the entire bank
+			continue; /* Skip the entire bank */
 		}
 		
 		if (glcd_bbox_selected->y_max < bank*8) {
-			break;    // no more banks need updating
+			break;    /* No more banks need updating */
 		}
 		
 		glcd_command(PCD8544_SET_Y_ADDRESS | bank);

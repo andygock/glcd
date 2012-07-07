@@ -37,17 +37,38 @@
 #include <stdio.h>
 #include "glcd.h"
 
-// display buffer (e.g 504 bytes for 48x84 LCD)
+/** \addtogroup GlobalVars Global Variables
+ *  @{
+ */
+
+/**
+ *  Screen buffer
+ *
+ *  Requires at least one bit for every pixel (e.g 504 bytes for 48x84 LCD)
+ */
 uint8_t glcd_buffer[GLCD_LCD_WIDTH * GLCD_LCD_HEIGHT / 8];
+
+/**
+ * Keeps track of bounding box of area on LCD which need to be
+ * updated next reresh cycle
+ */
 glcd_BoundingBox_t glcd_bbox;
 
-// pointers to buffer and bounding box for current screen being updated
+/**
+ * Pointer to screen buffer currently in use.
+ */
 uint8_t *glcd_buffer_selected;
+
+/**
+ * Pointer to bounding box currently in use.
+ */
 glcd_BoundingBox_t *glcd_bbox_selected;
+
+/** @} */
 
 void glcd_update_bbox(uint8_t xmin, uint8_t ymin, uint8_t xmax, uint8_t ymax)
 {
-	// keep and check bounding box within limits of LCD screen dimensions
+	/* Keep and check bounding box within limits of LCD screen dimensions */
 	if (xmin < 0) {
 		xmin = 0;
 	}
@@ -74,7 +95,7 @@ void glcd_update_bbox(uint8_t xmin, uint8_t ymin, uint8_t xmax, uint8_t ymax)
 		ymax = GLCD_LCD_HEIGHT-1;
 	}
 
-	// update the bounding box size
+	/* update the bounding box size */
 	if (xmin < glcd_bbox_selected->x_min) {
 		glcd_bbox_selected->x_min = xmin;
 	}		
@@ -127,10 +148,10 @@ void glcd_scroll_line(void)
 {
 	for (uint8_t y=0; y<6; y++) {
 		if (y <= 4) {
-			// first 5 lines - banks 0 to 4
+			/* first 5 lines - banks 0 to 4 */
 			memcpy(glcd_buffer_selected + y*GLCD_LCD_WIDTH, glcd_buffer_selected + y*GLCD_LCD_WIDTH + GLCD_LCD_WIDTH, GLCD_LCD_WIDTH);
 		} else {
-			// last line - back 5 - clear it
+			/* last line - back 5 - clear it */
 			memset(glcd_buffer_selected + 5*GLCD_LCD_WIDTH, 0x00, GLCD_LCD_WIDTH);
 		}
 	}

@@ -1,6 +1,7 @@
-/** Unit Tests
- *  \author Andy Gock
- *
+/**
+ * \file unit_tests.c
+ * \brief Various test functions to demonstrate features of the library
+ * \author Andy Gock
  */
 
 /*

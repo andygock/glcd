@@ -1,5 +1,6 @@
 /**
- * Pinouts and driver config for NXP LPC111x ARM Cortex M0 MCUs
+ * \file LPC111x.h
+ * \brief Pinouts and driver config for NXP LPC111x ARM Cortex-M0 MCUs.
  * \author Andy Gock
  */
 
@@ -33,7 +34,7 @@
 
 #if defined(GLCD_DEVICE_LPC111X)
 
-/**
+/*
  * Set up SSP and GPIO drivers (GPIO drivers required for SSP)
  * Change these paths if the files are located elsewhere
  */
@@ -42,7 +43,7 @@
 
 #define swap(a, b) { uint8_t t = a; a = b; b = t; }
 
-// Define port and pins used to connecto LCD
+/* Define port and pins used to connecto LCD */
 #define PCD8544_SPI_PORT_NUMBER 1
 #define PCD8544_MOSI_PORT LPC_GPIO2
 #define PCD8544_MOSI_PIN  3
@@ -57,7 +58,7 @@
 #define PCD8544_RST_PORT  LPC_GPIO2
 #define PCD8544_RST_PIN   5
 
-// Preprocessor macros
+/* Preprocessor macros */
 #define GLCD_SELECT()     PCD8544_SS_PORT->DATA  &= ~(1 << PCD8544_SS_PIN)
 #define GLCD_DESELECT()   PCD8544_SS_PORT->DATA  |=  (1 << PCD8544_SS_PIN)
 #define GLCD_DC_LOW()     PCD8544_DC_PORT->DATA  &= ~(1 << PCD8544_DC_PIN)

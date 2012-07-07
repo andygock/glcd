@@ -1,5 +1,7 @@
 /**
- * Pinouts for Atmel 8-bit AVR MCUs
+ * \file AVR8.h
+ * \brief Pinouts to Atmel AVR 8-bit AVRs.
+ * \author Andy Gock
  */
 
 /*
@@ -48,26 +50,47 @@
 
 #define swap(a, b) { uint8_t t = a; a = b; b = t; }
 	
-// ports and pins used
+/**
+ * \name SPI port and pins
+ * @{
+ */
 #define PCD8544_MOSI_PORT PORTB
 #define PCD8544_MOSI_PIN  2
 #define PCD8544_MISO_PORT PORTB
 #define PCD8544_MISO_PIN  3
 #define PCD8544_SCK_PORT  PORTB
 #define PCD8544_SCK_PIN   1
+/**@}*/
+
+#if defined(GLCD_CONTROLLER_PCD8544)
+
+/**
+ * \name Other pins needed for PCD8544
+ * @{
+ */
 #define PCD8544_SS_PORT   PORTB
 #define PCD8544_SS_PIN    0
 #define PCD8544_DC_PORT   PORTB
 #define PCD8544_DC_PIN    5
 #define PCD8544_RST_PORT  PORTB
 #define PCD8544_RST_PIN   4
+/**@}*/
 
+#else
+	#error "Controller not supported by AVR8"
+#endif
+
+/**
+ * \name Macros for control lines
+ * @{
+ */
 #define GLCD_SELECT()     cbi(PCD8544_SS_PORT,PCD8544_SS_PIN)
 #define GLCD_DESELECT()   sbi(PCD8544_SS_PORT,PCD8544_SS_PIN)
 #define GLCD_DC_LOW()     cbi(PCD8544_DC_PORT,PCD8544_DC_PIN)
 #define GLCD_DC_HIGH()    sbi(PCD8544_DC_PORT,PCD8544_DC_PIN)
 #define GLCD_RESET_LOW()  cbi(PCD8544_RST_PORT,PCD8544_RST_PIN)
 #define GLCD_RESET_HIGH() sbi(PCD8544_RST_PORT,PCD8544_RST_PIN)
+/**@}*/
 
 #endif
 

@@ -1,5 +1,7 @@
 /**
- *
+ * \file unit_tests.h
+ * \brief Various test functions to demonstrate features of the library
+ * \author Andy Gock
  */
 
 /*

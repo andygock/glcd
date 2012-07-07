@@ -63,17 +63,24 @@
 #include "unit_tests.h"
 
 /**
- * \name ColourConstants Colour Constants
- * \{
+ * \name Colour Constants
+ * @{
  */
 #define BLACK 1
 #define WHITE 0
-/**\}*/
+/**@}*/
 
+/**
+ * \name LCD Dimensions
+ * @{
+ */
 #define GLCD_LCD_WIDTH 84
 #define GLCD_LCD_HEIGHT 48
+/**@}*/
 
-/** Bounding box for pixels that need to be updated */
+/**
+ * Bounding box for pixels that need to be updated
+ */
 typedef struct {
 	uint8_t x_min;
 	uint8_t y_min;
@@ -86,7 +93,6 @@ extern uint8_t glcd_buffer[GLCD_LCD_WIDTH * GLCD_LCD_HEIGHT / 8];
 extern glcd_BoundingBox_t glcd_bbox;
 extern uint8_t *glcd_buffer_selected;
 extern glcd_BoundingBox_t *glcd_bbox_selected;
-
 
 
 /** \name Base Functions 
@@ -107,11 +113,6 @@ void glcd_scroll_line(void);
 
 /** @}*/
 
-/** \addtogroup Text
- *  Functions relating to using text fonts.
- *  @{
- */
-
 enum font_table_type { STANG, MIKRO };
 
 typedef struct {
@@ -127,7 +128,12 @@ extern uint8_t *glcd_buffer_selected;
 extern glcd_BoundingBox_t *glcd_bbox_selected;
 extern glcd_FontConfig_t font_current;
 
-/** \name Tiny Text
+/** \addtogroup Text
+ *  Functions relating to using text fonts.
+ *  @{
+ */
+
+/** \addtogroup TinyText Tiny Text
  *  Functions relating to using tiny 5x7 text fonts.
  *  @{
  */
@@ -187,7 +193,7 @@ void glcd_tiny_draw_string_ammend_P(const char *str);
 
 /** @}*/
 
-/** \name Standard Text
+/** \addtogroup StandardText Standard Text
  *  Functions relating to using text fonts of all sizes.
  *  @{
  */

@@ -36,7 +36,7 @@
 #define GLCD_CONTROLLERS_H_
 
 /**
- * \addtogroup FunctionsControllers Functions - Controllers
+ * \addtogroup Controllers Controllers
  * Controller specific functions.
  *
  * Currently only the following controllers are supported:

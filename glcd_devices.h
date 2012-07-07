@@ -44,7 +44,7 @@
 	#error "Device not supported"
 #endif
 
-/** \addtogroup FunctionsDevices Functions - Devices
+/** \addtogroup Devices Devices
  *  Functions specific to certain devices (microcontrollers)
  *  \{
  */

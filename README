@@ -1,5 +1,3 @@
-\mainpage
-
 glcd - Graphic LCD Library
 
 by Andy Gock
@@ -25,3 +23,5 @@ in the "defined symbols" section, or they can be defined in a makefile
 as -D options.
 
 e.g "-DGLCD_DEVICE_LPC111X"
+
+Refer to Doxygen generated pages for detailed documentation.

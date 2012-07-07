@@ -2,9 +2,40 @@
 
 \mainpage
 
+\section Introduction Introduction
+
 Welcome to GLCD, an open source graphic LCD library written by Andy Gock.
 
 http://micro.gock.net/
 
+https://github.com/andygock/glcd
+
+This library has been written cleanly, to allow easy modification for use with different microcontroller devices and controller chipsets. Logic relating to devices and controllers are palced in seperate files and specific implementations can be chosen by the use of special defined symbols.
+
+It is suitable for monochrome (black and white) LCDs with page by page data and command write style data transfer protocol.
+
+\section SupportedControllers Supported Controllers
+
+Current supported controllers:
+- PCD8544 (used in Nokia 5110 LCDs)
+
+To be supported in the future:
+- KS0108
+- ST7565R
+
+\section SupportedDevices Supported Devices
+
+Current supported devices:
+- AVR8
+- LPC111X
+
+To be supported in the future:
+- STM32
+
+\section CustomFonts Custom Fonts
+
+Custom fonts can be generated using the free MikroElektronika GLCD Font Creator tool. The standard 5x7 tiny text font is included together with also a few extra custom fonts to get you started.
+
+http://www.mikroe.com/eng/products/view/683/glcd-font-creator/
 
 */

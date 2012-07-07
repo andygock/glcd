@@ -1,5 +1,7 @@
 /**
- *  Initialisation and confirugration functions for NXP LPC111x
+ * \file LPC111x.c
+ * \brief Initialisation and driver confiuration for NXP LPC111x ARM Cortex-M0 MCUs.
+ * \author Andy Gock
  */
 
 /*
@@ -39,41 +41,43 @@ void glcd_init(void)
 {
 
 #if defined(GLCD_CONTROLLER_PCD8544)
-	// Set up SPI (SSP)
-	// Note: Max allowed SPI clock is 4 MHz from datasheet.
+	/*
+	 * Set up SPI (SSP)
+	 * Note: Max allowed SPI clock is 4 MHz from datasheet.
+	 */
 
-	// select SSP/SPI port
+	/* Select SSP/SPI port */
 	SSP_IOConfig( PCD8544_SPI_PORT_NUMBER );
 
-	// initialise SSP/SPI port
+	/* Initialise SSP/SPI port */
 	SSP_Init( PCD8544_SPI_PORT_NUMBER );
 
-	// above functions take care of SPI pins
+	/* Above functions take care of SPI pins */
 
-	// set SS, DC and RST pins to output
+	/* Set SS, DC and RST pins to output */
 	PCD8544_SS_PORT->DIR  |= (1 << PCD8544_SS_PIN);
 	PCD8544_DC_PORT->DIR  |= (1 << PCD8544_DC_PIN);
 	PCD8544_RST_PORT->DIR |= (1 << PCD8544_RST_PIN);
 
-	// deselect LCD
+	/* Deselect LCD */
 	//GLCD_DESELECT();
 
-	// reset the display
+	/* Reset the display */
 	glcd_reset();
 
-	// get into the EXTENDED mode!
+	/* Get into the EXTENDED mode! */
 	glcd_command(PCD8544_FUNCTION_SET | PCD8544_EXTENDED_INSTRUCTION);
 
-	// LCD bias select (4 is optimal?)
+	/* LCD bias select (4 is optimal?) */
 	glcd_command(PCD8544_SET_BIAS | 0x2);
 
-	// set VOP
+	/* Set VOP */
 	glcd_command(PCD8544_SET_VOP | 50); // Experimentally determined
 
-	// back to standard instructions
+	/* Back to standard instructions */
 	glcd_command(PCD8544_FUNCTION_SET);
 
-	// normal mode
+	/* Normal mode */
 	glcd_command(PCD8544_DISPLAY_CONTROL | PCD8544_DISPLAY_NORMAL);
 
 	glcd_select_screen((uint8_t *)&glcd_buffer,&glcd_bbox);
@@ -81,7 +85,7 @@ void glcd_init(void)
 	glcd_clear();
 
 #else /* GLCD_CONTROLLER_PCD8544 */
-	#error Controller not supported.
+	#error "Controller not supported by LPC111x"
 #endif
 
 }
@@ -95,7 +99,7 @@ void glcd_spi_write(uint8_t c)
 
 void glcd_reset(void)
 {
-	// toggle RST low to reset. Minimum pulse 100ns on datasheet.
+	/* Toggle RST low to reset. Minimum pulse 100ns on datasheet. */
 	GLCD_SELECT();
 	GLCD_RESET_LOW();
 	_delay_ms(1);

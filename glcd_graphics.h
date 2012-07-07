@@ -35,7 +35,7 @@
 #ifndef GLCD_GRAPHICS_H_
 #define GLCD_GRAPHICS_H_
 
-/** \addtogroup FunctionsGraphics Functions - Graphics
+/** \addtogroup Graphics Graphics
  *  Graphics specific functions such as drawing lines, circles, rectangles etc.
  *  @{
  */

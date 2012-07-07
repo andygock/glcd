@@ -87,7 +87,7 @@ void glcd_init(void)
 	glcd_clear();
 
 #else
-	
+	#error "Controller not supported"
 #endif /* GLCD_CONTROLLER_PCD8544 */
 	
 }

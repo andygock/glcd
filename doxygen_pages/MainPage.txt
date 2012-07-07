@@ -1,0 +1,10 @@
+/**
+
+\mainpage
+
+Welcome to GLCD, an open source graphic LCD library written by Andy Gock.
+
+http://micro.gock.net/
+
+
+*/

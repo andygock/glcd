@@ -62,8 +62,13 @@
 #include "glcd_graphics.h"
 #include "unit_tests.h"
 
+/**
+ * \name ColourConstants Colour Constants
+ * \{
+ */
 #define BLACK 1
 #define WHITE 0
+/**\}*/
 
 #define GLCD_LCD_WIDTH 84
 #define GLCD_LCD_HEIGHT 48

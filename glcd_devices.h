@@ -1,7 +1,7 @@
 /**
    \file glcd_devices.h
-   \brief Functions specific to certain devices.
-          These are functions are defined in devices/xxxx.c
+   \brief Functions specific to certain devices (microcontrollers).
+          These are functions are defined in devices/yourdevice.c
    \author Andy Gock
  */ 
 
@@ -44,23 +44,26 @@
 	#error "Device not supported"
 #endif
 
-/** \addtogroup Devices 
-Device specific functions.
-Currently only the following devices are supported:
-- Atmel 8-bit AVR
+/** \addtogroup FunctionsDevices Functions - Devices
+ *  Functions specific to certain devices (microcontrollers)
+ *  \{
+ */
 
-The following is planned to be supported in the near future:
-- Atmel 32-bit AVR
-- NXP LPC1xxx ARM Cortex-M0
-@{ */
-
-/** Initialise the LCD. This function is platform and controller specific. */
+/**
+ * Initialise the LCD. This function is platform and controller specific.
+ */
 void glcd_init(void);
 
-/** Write a byte to the connected SPI slave. (AVR8 only)*/
+/**
+ * Write a byte to the connected SPI slave.
+ * \param c Byte to be written
+ */
 void glcd_spi_write(uint8_t c);
 
-/** Reset the LCD. */
+/**
+ *  Reset the LCD.
+ *  \note Not all LCD controllers support reset.
+ */
 void glcd_reset(void);
 
 /** @}*/

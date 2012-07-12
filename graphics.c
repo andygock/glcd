@@ -69,6 +69,10 @@ uint8_t glcd_get_pixel(uint8_t x, uint8_t y) {
 // bresenham's algorithm - based on PCD8544 library Limor Fried
 void glcd_draw_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t color) {
 	uint8_t steep = abs(y1 - y0) > abs(x1 - x0);
+	uint8_t dx, dy;
+	int8_t err;
+	int8_t ystep;
+	
 	if (steep) {
 		swap(x0, y0);
 		swap(x1, y1);
@@ -81,12 +85,11 @@ void glcd_draw_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t colo
 	
 	glcd_update_bbox( x0, y0, x1, y1 );
 	
-	uint8_t dx, dy;
+
 	dx = x1 - x0;
 	dy = abs(y1 - y0);
 	
-	int8_t err = dx / 2;
-	int8_t ystep;
+	err = dx / 2;
 	
 	if (y0 < y1) {
 		ystep = 1;
@@ -110,8 +113,10 @@ void glcd_draw_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t colo
 
 void glcd_fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color)
 {
-	for (int16_t i=x; i<x+w; i++) {
-		for (int16_t j=y; j<y+h; j++) {
+	int16_t i;
+	for (i=x; i<x+w; i++) {
+		int16_t j;
+		for (j=y; j<y+h; j++) {
 			glcd_set_pixel(i, j, color);
 		}
 	}
@@ -120,11 +125,12 @@ void glcd_fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color)
 
 void glcd_draw_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color)
 {
-	for (int16_t i=x; i<x+w; i++) {
+	int16_t i;
+	for (i=x; i<x+w; i++) {
 		glcd_set_pixel(i, y, color);
 		glcd_set_pixel(i, y+h-1, color);
 	}
-	for (int16_t i=y; i<y+h; i++) {
+	for (i=y; i<y+h; i++) {
 		glcd_set_pixel(x, i, color);
 		glcd_set_pixel(x+w-1, i, color);
 	} 
@@ -133,13 +139,14 @@ void glcd_draw_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color)
 
 void glcd_draw_circle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color)
 {
-	glcd_update_bbox(x0-r, y0-r, x0+r, y0+r);
-	
+		
 	int8_t f = 1 - r;
 	int8_t ddF_x = 1;
 	int8_t ddF_y = -2 * r;
 	int8_t x = 0;
 	int8_t y = r;
+	
+	glcd_update_bbox(x0-r, y0-r, x0+r, y0+r);
 	
 	glcd_set_pixel(x0, y0+r, color);
 	glcd_set_pixel(x0, y0-r, color);
@@ -171,7 +178,6 @@ void glcd_draw_circle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color)
 
 void glcd_fill_circle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color)
 {
-	glcd_update_bbox(x0-r, y0-r, x0+r, y0+r);
 	
 	int8_t f = 1 - r;
 	int8_t ddF_x = 1;
@@ -179,7 +185,11 @@ void glcd_fill_circle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color)
 	int8_t x = 0;
 	int8_t y = r;
 	
-	for (int16_t i=y0-r; i<=y0+r; i++) {
+	int16_t i;
+
+	glcd_update_bbox(x0-r, y0-r, x0+r, y0+r);
+	
+	for (i=y0-r; i<=y0+r; i++) {
 		glcd_set_pixel(x0, i, color);
 	}
 	
@@ -193,11 +203,11 @@ void glcd_fill_circle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color)
 		ddF_x += 2;
 		f += ddF_x;
 		
-		for (int16_t i=y0-y; i<=y0+y; i++) {
+		for (i=y0-y; i<=y0+y; i++) {
 			glcd_set_pixel(x0+x, i, color);
 			glcd_set_pixel(x0-x, i, color);
 		} 
-		for (int16_t i=y0-x; i<=y0+x; i++) {
+		for (i=y0-x; i<=y0+x; i++) {
 			glcd_set_pixel(x0+y, i, color);
 			glcd_set_pixel(x0-y, i, color);
 		}    

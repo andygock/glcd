@@ -54,6 +54,8 @@ void glcd_test_circles(void)
 	uint8_t x,y,radius;
 
 	while (1) {
+		uint8_t i;
+		
 		glcd_clear();
 
 		// generate random(ish) position on display
@@ -64,14 +66,15 @@ void glcd_test_circles(void)
 		//x = 70; y=25; radius=50; // for debugging
 
 		// fill circle with black
-		for (uint8_t i=0; i<=radius; i++) {
+		
+		for (i=0; i<=radius; i++) {
 			glcd_fill_circle(x,y,i,BLACK);
 			glcd_write();
 			_delay_ms(2);
 		}
 
 		// fill the same circle above but with white
-		for (uint8_t i=0; i<=radius; i++) {
+		for (i=0; i<=radius; i++) {
 			glcd_fill_circle(x,y,i,WHITE);
 			glcd_write();
 			_delay_ms(1);
@@ -112,12 +115,13 @@ void glcd_test_text_up_down(void)
 	// moves some text up and down the display
 
 	uint8_t y;
-
+	uint8_t max_y;
+	
 	//glcd_set_font(Liberation_Sans11x14_Numbers,11,14,46,57);
 	glcd_set_font(Liberation_Sans15x21_Numbers,15,21,46,57);
 	//glcd_set_font(Liberation_Sans17x17_Alpha,17,17,46,90);
 
-	uint8_t max_y = GLCD_LCD_HEIGHT - font_current.height - 2; // max y start position for draw_string
+	max_y = GLCD_LCD_HEIGHT - font_current.height - 2; // max y start position for draw_string
 
 	while(1) {
 		// move top to bottom
@@ -145,13 +149,14 @@ void glcd_test_tiny_text(void)
 {
 	char string[20] = "Hello World!";
 
-	GLCD_TEXT_INIT();
-
 	uint8_t c = 32;
 
+	GLCD_TEXT_INIT();
+	
 	while(1) {
 		// write chars to string from 32 to 127 ASCII
-		for (uint8_t i=0; i<14; i++) {
+		uint8_t i;
+		for (i=0; i<14; i++) {
 			string[i] = c;
 			c++;
 			if (c > 127) {

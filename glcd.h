@@ -47,16 +47,25 @@
 	extern void delay_ms(uint32_t ms);
 	#define PROGMEM
 	#define _delay_ms(t) delay_ms(t)
+#elif defined(GLCD_DEVICE_LPC11UXX)
+	#include <LPC11Uxx.h>
+	#include "devices/LPC11Uxx.h"
+	extern void delay_ms(uint32_t ms);
+	#define PROGMEM
+	#define _delay_ms(t) delay_ms(t)	
 #else
 	#error "Device not supported"
 #endif
 
 #if defined(GLCD_CONTROLLER_PCD8544)
 	#include "controllers/PCD8544.h"
+#elif defined(GLCD_CONTROLLER_NT75451)
+	#include "controllers/NT75451.h"	
 #else
 	#error "Controller not supported"
 #endif
 
+#include <stdint.h>
 #include "glcd_devices.h"
 #include "glcd_controllers.h"
 #include "glcd_graphics.h"

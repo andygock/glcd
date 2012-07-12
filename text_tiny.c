@@ -50,6 +50,8 @@ void glcd_tiny_set_font(const char * font_table, uint8_t width, uint8_t height, 
 
 void glcd_tiny_draw_char(uint8_t x, uint8_t line, char c)
 {
+	uint8_t i;
+	
 	// only works for fonts < 8 bits in height
 	if (font_current.height >= 8) {
 		return;
@@ -66,7 +68,7 @@ void glcd_tiny_draw_char(uint8_t x, uint8_t line, char c)
 	
 	glcd_update_bbox(x, line*(font_current.height + 1), x+font_current.width, line*(font_current.height + 1) + (font_current.height + 1));
 	
-	for ( uint8_t i = 0; i < font_current.width; i++ ) {
+	for ( i = 0; i < font_current.width; i++ ) {
 #if defined(GLCD_DEVICE_AVR8)		
 		glcd_buffer_selected[x + (line * GLCD_LCD_WIDTH)] = pgm_read_byte( font_current.font_table + ((c - font_current.start_char) * (font_current.width)) + i );
 #else

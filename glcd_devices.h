@@ -40,6 +40,8 @@
 	#include <avr/io.h>
 #elif defined(GLCD_DEVICE_LPC111X)
 	#include "LPC11xx.h"
+#elif defined(GLCD_DEVICE_LPC11UXX)
+	#include "LPC11Uxx.h"
 #else
 	#error "Device not supported"
 #endif

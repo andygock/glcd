@@ -69,27 +69,15 @@ glcd_BoundingBox_t *glcd_bbox_selected;
 void glcd_update_bbox(uint8_t xmin, uint8_t ymin, uint8_t xmax, uint8_t ymax)
 {
 	/* Keep and check bounding box within limits of LCD screen dimensions */
-	if (xmin < 0) {
-		xmin = 0;
-	}
 	if (xmin > (GLCD_LCD_WIDTH-1)) {
 		xmin = GLCD_LCD_WIDTH-1;
-	}
-	if (xmax < 0) {
-		xmax = 0;
 	}
 	if (xmax > (GLCD_LCD_WIDTH-1)) {
 		xmax = GLCD_LCD_WIDTH-1;
 	}
 
-	if (ymin < 0) {
-		ymin = 0;
-	}
 	if (ymin > (GLCD_LCD_HEIGHT-1)) {
 		ymin = GLCD_LCD_HEIGHT-1;
-	}
-	if (ymax < 0) {
-		ymax = 0;
 	}
 	if (ymax > (GLCD_LCD_HEIGHT-1)) {
 		ymax = GLCD_LCD_HEIGHT-1;
@@ -137,8 +125,12 @@ void glcd_select_screen(uint8_t *buffer, glcd_BoundingBox_t *bbox)
 
 void glcd_scroll(int8_t x, int8_t y)
 {
-	for (uint8_t y=0; y<6; y++) {
-		for (uint8_t x=0; x<GLCD_LCD_WIDTH; x++) {
+	uint8_t row;
+	
+	/** \todo Rows should not be fixed to 6! */
+	for (row=0; row<6; row++) {
+		uint8_t x;
+		for (x=0; x<GLCD_LCD_WIDTH; x++) {
 			
 		}
 	}
@@ -146,7 +138,8 @@ void glcd_scroll(int8_t x, int8_t y)
 
 void glcd_scroll_line(void)
 {
-	for (uint8_t y=0; y<6; y++) {
+	uint8_t y;
+	for (y=0; y<6; y++) {
 		if (y <= 4) {
 			/* first 5 lines - banks 0 to 4 */
 			memcpy(glcd_buffer_selected + y*GLCD_LCD_WIDTH, glcd_buffer_selected + y*GLCD_LCD_WIDTH + GLCD_LCD_WIDTH, GLCD_LCD_WIDTH);

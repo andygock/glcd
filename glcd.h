@@ -65,6 +65,8 @@
 	#error "Controller not supported"
 #endif
 
+#define swap(a, b) { uint8_t t = a; a = b; b = t; }
+
 #include <stdint.h>
 #include "glcd_devices.h"
 #include "glcd_controllers.h"

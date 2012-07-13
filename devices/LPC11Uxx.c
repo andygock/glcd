@@ -2,7 +2,7 @@
 #include "LPC11Uxx.h"
 
 
-#if defined(GLCD_DEVICE_LPC111X)
+#if defined(GLCD_DEVICE_LPC11UXX)
 
 void glcd_init(void)
 {
@@ -27,7 +27,7 @@ void glcd_init(void)
 	CONTROLLER_RST_PORT->DIR |= (1 << CONTROLLER_RST_PIN);
 
 	/* Deselect LCD */
-	//GLCD_DESELECT();
+	GLCD_DESELECT();
 
 	/* Reset the display */
 	glcd_reset();
@@ -51,11 +51,25 @@ void glcd_init(void)
 
 	glcd_clear();
 
+#elif defined(GLCD_CONTROLLER_NT75451)
+	/* Parallel interface controller used on NGX BlueBoards */
+	
+	
 #else /* GLCD_CONTROLLER_PCD8544 */
 	#error "Controller not supported by LPC111x"
 #endif
 
 }
+
+#if defined(GLCD_USE_PARALLEL)
+
+void glcd_parallel_write(uint8_t c)
+{
+
+	
+}
+
+#else
 
 void glcd_spi_write(uint8_t c)
 {
@@ -64,14 +78,21 @@ void glcd_spi_write(uint8_t c)
 	GLCD_DESELECT();
 }
 
+#endif /* GLCD_USE_PARALLEL */
+
 void glcd_reset(void)
 {
+#if defined(GLCD_CONTROLLER_PCD8544)
 	/* Toggle RST low to reset. Minimum pulse 100ns on datasheet. */
 	GLCD_SELECT();
 	GLCD_RESET_LOW();
 	_delay_ms(1);
 	GLCD_RESET_HIGH();
 	GLCD_DESELECT();
+	
+#elif defined(GLCD_CONTROLLER_NT75451)
+	
+#endif /* GLCD_CONTROLLER_PCD8544 */	
 }
 
-#endif /* GLCD_DEVICE_LPC111x */
+#endif /* GLCD_DEVICE_LPC11UXX */

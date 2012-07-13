@@ -56,12 +56,16 @@
  */
 void glcd_init(void);
 
+#if defined(GLCD_USE_SPI)
+
 /**
  * Write a byte to the connected SPI slave.
  * \param c Byte to be written
  * \return Returned value from SPI (often not used)
  */
 uint8_t glcd_spi_write(uint8_t c);
+
+#endif /* GLCD_USE_SPI */
 
 /**
  *  Reset the LCD.

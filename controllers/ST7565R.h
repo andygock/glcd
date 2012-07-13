@@ -1,8 +1,7 @@
 /**
-   \file glcd_devices.h
-   \brief Functions specific to certain devices (microcontrollers).
-          These are functions are defined in devices/yourdevice.c
-   \author Andy Gock
+ * \file ST7565R.h
+ * \brief Constants relating to ST7565R LCD controller.
+ * \author Andy Gock
  */ 
 
 /*
@@ -33,42 +32,9 @@
 	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef GLCD_DEVICES_H_
-#define GLCD_DEVICES_H_
+#ifndef ST7565R_H_
+#define ST7565R_H_
 
-#if defined(GLCD_DEVICE_AVR8)
-	#include <avr/io.h>
-#elif defined(GLCD_DEVICE_LPC111X)
-	#include "LPC11xx.h"
-#elif defined(GLCD_DEVICE_LPC11UXX)
-	#include "LPC11Uxx.h"
-#else
-	#error "Device not supported"
-#endif
+void glcd_pattern(void);
 
-/** \addtogroup Devices Devices
- *  Functions specific to certain devices (microcontrollers)
- *  \{
- */
-
-/**
- * Initialise the LCD. This function is platform and controller specific.
- */
-void glcd_init(void);
-
-/**
- * Write a byte to the connected SPI slave.
- * \param c Byte to be written
- * \return Returned value from SPI (often not used)
- */
-uint8_t glcd_spi_write(uint8_t c);
-
-/**
- *  Reset the LCD.
- *  \note Not all LCD controllers support reset.
- */
-void glcd_reset(void);
-
-/** @}*/
-
-#endif /* GLCD_DEVICES_H_ */
+#endif /* ST7565R_H_ */

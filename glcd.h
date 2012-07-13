@@ -59,6 +59,8 @@
 
 #if defined(GLCD_CONTROLLER_PCD8544)
 	#include "controllers/PCD8544.h"
+#elif defined(GLCD_CONTROLLER_ST7565R)
+	#include "controllers/ST7565R.h"	
 #elif defined(GLCD_CONTROLLER_NT75451)
 	#include "controllers/NT75451.h"	
 #else
@@ -85,8 +87,12 @@
  * \name LCD Dimensions
  * @{
  */
-#define GLCD_LCD_WIDTH 84
-#define GLCD_LCD_HEIGHT 48
+#define GLCD_LCD_WIDTH 128
+#define GLCD_LCD_HEIGHT 64
+
+#define GLCD_MAX_BANKS 8
+#define GLCD_MAX_COLS  128
+
 /**@}*/
 
 /**

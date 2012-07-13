@@ -91,18 +91,54 @@ void glcd_init(void)
 	/* Clear screen, we are now ready to go */
 	glcd_clear();
 
+#elif defined(GLCD_CONTROLLER_ST7565R)
+
+	// set backlight and A0 pins as output
+	//sbi(DDR(CONTROLLER_A0_PORT),CONTROLLER_A0_PIN);
+	//sbi(DDR(CONTROLLER_SS_PORT),CONTROLLER_SS_PIN); // A4
+	
+	// set SS line high for default
+	//sbi(CONTROLLER_SS_PORT,CONTROLLER_SS_PIN);
+	
+	_delay_ms(20); // example in datasheet does this (20ms)
+
+	glcd_command(0xa2); // 1/9 bias
+	glcd_command(0xa0); // ADC select, normal
+	glcd_command(0xc8); // com output reverse
+	glcd_command(0xa4); // display all points normal
+	glcd_command(0x40); // display start line set
+	glcd_command(0x25); // internal resistor ratio
+	glcd_command(0x81); // electronic volume mode set
+	//glcd_command(0x10); // electronic volume - datasheet's contrast example doesn't work
+	glcd_command(45); // this works better
+	glcd_command(0x2f); // power controller set
+	glcd_command(0xaf); // display on
+
+	glcd_all_on();
+	
+	_delay_ms(500);
+	glcd_normal();
+
+	glcd_set_start_line(0);
+	glcd_clear_now();
+			
+	glcd_select_screen((uint8_t *)&glcd_buffer,&glcd_bbox);
+	
+	glcd_clear();	
+	
 #else
 	#error "Controller not supported"
 #endif /* GLCD_CONTROLLER_PCD8544 */
 	
 }
 
-void glcd_spi_write(uint8_t c)
+uint8_t glcd_spi_write(uint8_t c)
 {
 	GLCD_SELECT();
 	SPDR = c;
 	while(!(SPSR & (1<<SPIF))); /* wait until transmission is complete */
 	GLCD_DESELECT();	
+	return SPDR;
 }
 
 void glcd_reset(void)

@@ -97,6 +97,29 @@ void glcd_set_x_address(uint8_t x);
  */
 void glcd_write(void);
 
+#if defined(GLCD_CONTROLLER_ST7565R)
+/* These functions only available on ST7565 implementation */
+
+void glcd_all_on(void);
+
+void glcd_normal(void);
+
+void glcd_set_page_address(uint8_t addr);
+
+void glcd_set_column_upper(uint8_t addr);
+
+void glcd_set_column_lower(uint8_t addr);
+
+void glcd_set_column(uint8_t addr);
+
+void glcd_set_start_line(uint8_t addr);
+
+/** Clear the display immediately, does not buffer */
+void glcd_clear_now(void);
+
+#endif
+
+
 /** @}*/
 
 #endif /* GLCD_CONTROLLERS_H_ */

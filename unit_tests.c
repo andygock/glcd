@@ -168,7 +168,7 @@ void glcd_test_tiny_text(void)
 		string[14] = '\0';
 
 		GLCD_WRITE(string);
-		delay_ms(1000);
+		_delay_ms(1000);
 	}
 
 }

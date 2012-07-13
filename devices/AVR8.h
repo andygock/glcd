@@ -62,14 +62,14 @@
 #define CONTROLLER_SCK_PIN   1
 /**@}*/
 
-#if defined(GLCD_CONTROLLER_PCD8544)
+#if defined(GLCD_CONTROLLER_PCD8544) || defined (GLCD_CONTROLLER_ST7565R)
 
 /**
- * \name Other pins needed for PCD8544
+ * \name Other pins needed for serial LCD controller
  * @{
  */
-#define CONTROLLER_SS_PORT   PORTB
-#define CONTROLLER_SS_PIN    0
+#define CONTROLLER_SS_PORT   PORTA
+#define CONTROLLER_SS_PIN    5
 #define CONTROLLER_DC_PORT   PORTB
 #define CONTROLLER_DC_PIN    5
 #define CONTROLLER_RST_PORT  PORTB
@@ -78,6 +78,12 @@
 
 #else
 	#error "Controller not supported by AVR8"
+#endif
+
+#if defined (GLCD_CONTROLLER_ST7565R)
+	/* These extra pins are used for ST7565 */
+	#define CONTROLLER_A0_PORT      PORTA /**< Output port to GLCD A0 pin. */
+	#define CONTROLLER_A0_PIN       6     /**< Output pin number to GLCD A0 pin. */	
 #endif
 
 /**

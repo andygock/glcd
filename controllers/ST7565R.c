@@ -46,27 +46,27 @@ void glcd_set_x_address(uint8_t x)
 
 void glcd_all_on(void)
 {
-	glcd_command(0b10100101); // all display points on
+	glcd_command(ST7565R_DISPLAY_ALL_ON);
 }
 
 void glcd_normal(void)
 {
-	glcd_command(0b10100100); // normal display
+	glcd_command(ST7565R_DISPLAY_NORMAL);
 }
 
 void glcd_set_page_address(uint8_t addr)
 {
-	glcd_command(0b10110000 | (0b00001111 & addr));
+	glcd_command(ST7565R_PAGE_ADDRESS_SET | (0b00001111 & addr));
 }
 
 void glcd_set_column_upper(uint8_t addr)
 {
-	glcd_command(0b00010000 | (addr >> 4));
+	glcd_command(ST7565R_COLUMN_ADDRESS_SET_UPPER | (addr >> 4));
 }
 
 void glcd_set_column_lower(uint8_t addr)
 {
-	glcd_command(0x0f & addr);
+	glcd_command(ST7565R_COLUMN_ADDRESS_SET_LOWER | (0x0f & addr));
 }
 
 void glcd_set_column(uint8_t addr)
@@ -77,16 +77,16 @@ void glcd_set_column(uint8_t addr)
 
 void glcd_set_start_line(uint8_t addr)
 {
-	glcd_command(_BV(6) | (0b00111111 & addr));
+	glcd_command( ST7565R_SET_START_LINE | (0b00111111 & addr));
 }
 
 /** Clear the display immediately, does not buffer */
 void glcd_clear_now(void)
 {
-	for (uint8_t page = 0; page < 65; page++) {
+	for (uint8_t page = 0; page < GLCD_NUMBER_OF_BANKS; page++) {
 		glcd_set_page_address(page);
 		glcd_set_column(0);
-		for (uint8_t col = 0; col < 133; col++) {
+		for (uint8_t col = 0; col < GLCD_NUMBER_OF_COLS; col++) {
 			glcd_data(0);
 		}			
 	}
@@ -94,10 +94,10 @@ void glcd_clear_now(void)
 
 void glcd_pattern(void)
 {
-	for (uint8_t page = 0; page < 65; page++) {
+	for (uint8_t page = 0; page < GLCD_NUMBER_OF_BANKS; page++) {
 		glcd_set_page_address(page);
 		glcd_set_column(0);
-		for (uint8_t col = 0; col < 133; col++) {
+		for (uint8_t col = 0; col < GLCD_NUMBER_OF_COLS; col++) {
 			glcd_data( (col / 8 + 2) % 2 == 1 ? 0xff : 0x00 );
 		}			
 	}
@@ -108,7 +108,7 @@ void glcd_write()
 
 	uint8_t bank;
 
-	for (bank = 0; bank < GLCD_MAX_BANKS; bank++) {
+	for (bank = 0; bank < GLCD_NUMBER_OF_BANKS; bank++) {
 		/* Each bank is a single row 8 bits tall */
 		uint8_t column;		
 		
@@ -125,7 +125,7 @@ void glcd_write()
 
 		for (column = glcd_bbox_selected->x_min; column <= glcd_bbox_selected->x_max; column++)
 		{
-			glcd_data( glcd_buffer_selected[GLCD_MAX_COLS * bank + column] );
+			glcd_data( glcd_buffer_selected[GLCD_NUMBER_OF_COLS * bank + column] );
 		}
 	}
 

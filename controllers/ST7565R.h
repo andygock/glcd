@@ -2,6 +2,9 @@
  * \file ST7565R.h
  * \brief Constants relating to ST7565R LCD controller.
  * \author Andy Gock
+ *
+ * Tested with Newhaven Display model NHD-C12864WC-FSW-FBW-3V3-M
+ *
  */ 
 
 /*
@@ -35,6 +38,14 @@
 #ifndef ST7565R_H_
 #define ST7565R_H_
 
-void glcd_pattern(void);
+/* Commands */
+#define ST7565R_DISPLAY_ON 0b10101111	 
+#define ST7565R_DISPLAY_OFF 0b10101110	 
+#define ST7565R_PAGE_ADDRESS_SET 0b10110000	 
+#define ST7565R_COLUMN_ADDRESS_SET_LOWER 0x00 
+#define ST7565R_COLUMN_ADDRESS_SET_UPPER 0x10 
+#define ST7565R_DISPLAY_NORMAL 0b10100100
+#define ST7565R_DISPLAY_ALL_ON 0b10100101
+#define ST7565R_SET_START_LINE (1<<6)
 
 #endif /* ST7565R_H_ */

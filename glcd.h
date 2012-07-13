@@ -41,30 +41,38 @@
 	#include <avr/interrupt.h>
 	#include <util/delay.h>	
 	#include "devices/AVR8.h"
+	
 #elif defined(GLCD_DEVICE_LPC111X)
 	#include <LPC11xx.h>
 	#include "devices/LPC111x.h"
 	extern void delay_ms(uint32_t ms);
 	#define PROGMEM
 	#define _delay_ms(t) delay_ms(t)
+	
 #elif defined(GLCD_DEVICE_LPC11UXX)
 	#include <LPC11Uxx.h>
 	#include "devices/LPC11Uxx.h"
 	extern void delay_ms(uint32_t ms);
 	#define PROGMEM
 	#define _delay_ms(t) delay_ms(t)	
+	
 #else
 	#error "Device not supported"
+	
 #endif
 
 #if defined(GLCD_CONTROLLER_PCD8544)
 	#include "controllers/PCD8544.h"
+	
 #elif defined(GLCD_CONTROLLER_ST7565R)
 	#include "controllers/ST7565R.h"	
+	
 #elif defined(GLCD_CONTROLLER_NT75451)
-	#include "controllers/NT75451.h"	
+	#include "controllers/NT75451.h"
+		
 #else
 	#error "Controller not supported"
+	
 #endif
 
 #define swap(a, b) { uint8_t t = a; a = b; b = t; }
@@ -90,8 +98,8 @@
 #define GLCD_LCD_WIDTH 128
 #define GLCD_LCD_HEIGHT 64
 
-#define GLCD_MAX_BANKS 8
-#define GLCD_MAX_COLS  128
+#define GLCD_NUMBER_OF_BANKS 8
+#define GLCD_NUMBER_OF_COLS  128
 
 /**@}*/
 
@@ -110,7 +118,6 @@ extern uint8_t glcd_buffer[GLCD_LCD_WIDTH * GLCD_LCD_HEIGHT / 8];
 extern glcd_BoundingBox_t glcd_bbox;
 extern uint8_t *glcd_buffer_selected;
 extern glcd_BoundingBox_t *glcd_bbox_selected;
-
 
 /** \name Base Functions 
  *  @{

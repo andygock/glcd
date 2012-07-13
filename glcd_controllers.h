@@ -41,6 +41,7 @@
  *
  * Currently only the following controllers are supported:
  *  - PCD8544 (Nokia 5110 LCD) SPI interface
+ *  - ST7565R with SPI interface
  *
  * The C and header files defining these functions are stored in the subdirectory:
  *
@@ -82,6 +83,8 @@ void glcd_power_up(void);
  * - for PCD8544, device must be under basic instruction set mode before using this.
  * \param y Y address of RAM (0 <= Y <= GLCD_LCD_HEIGHT-1)
  * \see   GLCD_LCD_HEIGHT
+ *
+ * \note Update: \p y is actually bank number, not pixel number!
  */
 void glcd_set_y_address(uint8_t y);
 
@@ -98,7 +101,10 @@ void glcd_set_x_address(uint8_t x);
 void glcd_write(void);
 
 #if defined(GLCD_CONTROLLER_ST7565R)
-/* These functions only available on ST7565 implementation */
+
+/* These functions only available on ST7565 implementation (for now) */
+
+/* \todo These should be moved to be more 'universal' */
 
 void glcd_all_on(void);
 
@@ -116,6 +122,9 @@ void glcd_set_start_line(uint8_t addr);
 
 /** Clear the display immediately, does not buffer */
 void glcd_clear_now(void);
+
+/** Show a black and white line pattern on the display */
+void glcd_pattern(void);
 
 #endif
 

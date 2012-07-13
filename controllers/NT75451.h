@@ -2,6 +2,6 @@
 
 #include "../glcd.h"
 
-
+void glcd_parallel_write(uint8_t c);
 
 #endif

@@ -138,6 +138,7 @@ void glcd_scroll(int8_t x, int8_t y)
 
 void glcd_scroll_line(void)
 {
+	/** \todo These limits in for loop should not be hard set for Nokia LCD size, need to fix! */
 	uint8_t y;
 	for (y=0; y<6; y++) {
 		if (y <= 4) {

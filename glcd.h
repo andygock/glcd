@@ -98,6 +98,7 @@
 #define GLCD_LCD_WIDTH 128
 #define GLCD_LCD_HEIGHT 64
 
+/* GLCD_NUMBER_OF_BANKS is typically GLCD_LCD_HEIGHT/8 */
 #define GLCD_NUMBER_OF_BANKS 8
 #define GLCD_NUMBER_OF_COLS  128
 
@@ -314,6 +315,8 @@ void glcd_bar_graph_vertical(uint8_t x, uint8_t y, uint8_t width, uint8_t height
  *  \param val value to display in graph (0-255 8 bit value).
  */ 
 void glcd_bar_graph_vertical_no_border(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint8_t val);
+
+void glcd_delay(uint32_t us);
 
 /** @}*/
 

@@ -93,13 +93,6 @@ void glcd_init(void)
 
 #elif defined(GLCD_CONTROLLER_ST7565R)
 
-	// set backlight and A0 pins as output
-	//sbi(DDR(CONTROLLER_A0_PORT),CONTROLLER_A0_PIN);
-	//sbi(DDR(CONTROLLER_SS_PORT),CONTROLLER_SS_PIN); // A4
-	
-	// set SS line high for default
-	//sbi(CONTROLLER_SS_PORT,CONTROLLER_SS_PIN);
-	
 	_delay_ms(20); // example in datasheet does this (20ms)
 
 	glcd_command(0xa2); // 1/9 bias

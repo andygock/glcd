@@ -49,41 +49,63 @@
 #endif
 
 #define swap(a, b) { uint8_t t = a; a = b; b = t; }
+
+#if defined(GLCD_CONTROLLER_PCD8544)
 	
-/**
- * \name SPI port and pins
- * @{
- */
-#define CONTROLLER_MOSI_PORT PORTB
-#define CONTROLLER_MOSI_PIN  2
-#define CONTROLLER_MISO_PORT PORTB
-#define CONTROLLER_MISO_PIN  3
-#define CONTROLLER_SCK_PORT  PORTB
-#define CONTROLLER_SCK_PIN   1
-/**@}*/
+	/**
+	 * \name SPI port and pins
+	 * @{
+	 */
+	#define AVR_SS_PORT          PORTB
+	#define AVR_SS_PIN           0		
+	#define CONTROLLER_MOSI_PORT PORTB
+	#define CONTROLLER_MOSI_PIN  2
+	#define CONTROLLER_MISO_PORT PORTB
+	#define CONTROLLER_MISO_PIN  3
+	#define CONTROLLER_SCK_PORT  PORTB
+	#define CONTROLLER_SCK_PIN   1
+	/**@}*/
 
-#if defined(GLCD_CONTROLLER_PCD8544) || defined (GLCD_CONTROLLER_ST7565R)
+	/**
+	 * \name Other pins needed for serial LCD controller
+	 * @{
+	 */
+	#define CONTROLLER_SS_PORT   PORTA
+	#define CONTROLLER_SS_PIN    5
+	#define CONTROLLER_DC_PORT   PORTB
+	#define CONTROLLER_DC_PIN    5
+	#define CONTROLLER_RST_PORT  PORTB
+	#define CONTROLLER_RST_PIN   4
+	/**@}*/
 
-/**
- * \name Other pins needed for serial LCD controller
- * @{
- */
-#define CONTROLLER_SS_PORT   PORTA
-#define CONTROLLER_SS_PIN    5
-#define CONTROLLER_DC_PORT   PORTB
-#define CONTROLLER_DC_PIN    5
-#define CONTROLLER_RST_PORT  PORTB
-#define CONTROLLER_RST_PIN   4
-/**@}*/
+#elif defined (GLCD_CONTROLLER_ST7565R)
+	/**
+	 * \name SPI port and pins
+	 * @{
+	 */
+	#define AVR_SS_PORT          PORTB
+	#define AVR_SS_PIN           0	
+	#define CONTROLLER_MOSI_PORT PORTB
+	#define CONTROLLER_MOSI_PIN  2
+	#define CONTROLLER_MISO_PORT PORTB
+	#define CONTROLLER_MISO_PIN  3
+	#define CONTROLLER_SCK_PORT  PORTB
+	#define CONTROLLER_SCK_PIN   1
+	/**@}*/
 
+	/**
+	 * \name Other pins needed for serial LCD controller
+	 * @{
+	 */
+	#define CONTROLLER_A0_PORT   PORTA /**< Output port to GLCD A0 pin. */
+	#define CONTROLLER_A0_PIN    6     /**< Output pin number to GLCD A0 pin. */	
+	#define CONTROLLER_SS_PORT   PORTA
+	#define CONTROLLER_SS_PIN    5
+	#define CONTROLLER_RST_PORT  PORTB
+	#define CONTROLLER_RST_PIN   4
+	/**@}*/
 #else
 	#error "Controller not supported by AVR8"
-#endif
-
-#if defined (GLCD_CONTROLLER_ST7565R)
-	/* These extra pins are used for ST7565 */
-	#define CONTROLLER_A0_PORT      PORTA /**< Output port to GLCD A0 pin. */
-	#define CONTROLLER_A0_PIN       6     /**< Output pin number to GLCD A0 pin. */	
 #endif
 
 /**
@@ -96,6 +118,10 @@
 #define GLCD_DC_HIGH()    sbi(CONTROLLER_DC_PORT,CONTROLLER_DC_PIN)
 #define GLCD_RESET_LOW()  cbi(CONTROLLER_RST_PORT,CONTROLLER_RST_PIN)
 #define GLCD_RESET_HIGH() sbi(CONTROLLER_RST_PORT,CONTROLLER_RST_PIN)
+
+#define GLCD_A0_LOW()     cbi(CONTROLLER_A0_PORT,CONTROLLER_A0_PIN)
+#define GLCD_A0_HIGH()    sbi(CONTROLLER_A0_PORT,CONTROLLER_A0_PIN)
+
 /**@}*/
 
 #endif

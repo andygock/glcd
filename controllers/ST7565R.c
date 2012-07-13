@@ -10,13 +10,13 @@
 
 void glcd_command(uint8_t c)
 {
-	GLCD_DC_LOW();
+	GLCD_A0_LOW();
 	glcd_spi_write(c);	
 }
 
 void glcd_data(uint8_t c)
 {
-	GLCD_DC_HIGH();
+	GLCD_A0_HIGH();
 	glcd_spi_write(c);	
 }
 

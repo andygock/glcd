@@ -81,8 +81,9 @@ void glcd_power_up(void);
 /**
  * Set Y address of RAM (select bank).
  * - for PCD8544, device must be under basic instruction set mode before using this.
- * \param y Y address of RAM (0 <= Y <= GLCD_LCD_HEIGHT-1)
+ * \param y page address of RAM (0 <= Y < GLCD_LCD_HEIGHT/8)
  * \see   GLCD_LCD_HEIGHT
+ * \see   GLCD_NUMBER_OF_BANKS
  *
  * \note Update: \p y is actually bank number, not pixel number!
  */
@@ -99,35 +100,6 @@ void glcd_set_x_address(uint8_t x);
  * Update the display within the specified bounding box. This physically writes data to the device's RAM.
  */
 void glcd_write(void);
-
-#if defined(GLCD_CONTROLLER_ST7565R)
-
-/* These functions only available on ST7565 implementation (for now) */
-
-/* \todo These should be moved to be more 'universal' */
-
-void glcd_all_on(void);
-
-void glcd_normal(void);
-
-void glcd_set_page_address(uint8_t addr);
-
-void glcd_set_column_upper(uint8_t addr);
-
-void glcd_set_column_lower(uint8_t addr);
-
-void glcd_set_column(uint8_t addr);
-
-void glcd_set_start_line(uint8_t addr);
-
-/** Clear the display immediately, does not buffer */
-void glcd_clear_now(void);
-
-/** Show a black and white line pattern on the display */
-void glcd_pattern(void);
-
-#endif
-
 
 /** @}*/
 

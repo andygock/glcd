@@ -3,7 +3,10 @@
  * \brief Constants relating to ST7565R LCD controller.
  * \author Andy Gock
  *
+ * Constants and functions specific to ST7565R.
  * Tested with Newhaven Display model NHD-C12864WC-FSW-FBW-3V3-M
+ * 
+ * \todo Need to move functions to be controller independent
  *
  */ 
 
@@ -47,5 +50,26 @@
 #define ST7565R_DISPLAY_NORMAL 0b10100100
 #define ST7565R_DISPLAY_ALL_ON 0b10100101
 #define ST7565R_SET_START_LINE (1<<6)
+
+/* These functions only available on ST7565 implementation (for now) */
+
+/* Private functions */
+static void glcd_set_column_upper(uint8_t addr);
+static void glcd_set_column_lower(uint8_t addr);
+
+/** All display points on (native) */
+void glcd_all_on(void);
+
+/** Set to normal mode */
+void glcd_normal(void);
+
+/** Set start line/page */
+void glcd_set_start_line(uint8_t addr);
+
+/** Clear the display immediately, does not buffer */
+void glcd_clear_now(void);
+
+/** Show a black and white line pattern on the display */
+void glcd_pattern(void);
 
 #endif /* ST7565R_H_ */

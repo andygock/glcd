@@ -27,7 +27,7 @@ GLCD_CONTROLLER_NT75451
 If using a parallel interface LCD (e.g NT75451 on NGX BlueBoard):
 GLCD_USE_PARALLEL
 
-When SPI controllers:
+When using SPI controllers:
 GLCD_USE_SPI
 
 Note the SPI symbol isn't checked, and it is fine if it is not used.

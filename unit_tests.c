@@ -149,7 +149,7 @@ void glcd_test_tiny_text(void)
 {
 	/* Write tiny text on display */
 	
-	char string[20] = "Hello World!";
+	char string[GLCD_LCD_WIDTH / 6 + 1];
 
 	uint8_t c = 32;
 	uint8_t len = GLCD_LCD_WIDTH / 6;

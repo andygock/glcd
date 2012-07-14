@@ -113,24 +113,25 @@ void glcd_parallel_write(uint8_t c)
 		( ( (1U << 6) & c ? 1 : 0 ) << CONTROLLER_LCD_D6_PIN ) | \
 		( ( (1U << 7) & c ? 1 : 0 ) << CONTROLLER_LCD_D7_PIN );
 
-	volatile uint32_t parmask = GLCD_PARALLEL_MASK; // for debugging
-	
 	/* Perform the write */
 
 	/* Clear data bits to zero and set required bits as needed */
 	LPC_GPIO->CLR[CONTROLLER_LCD_D0_PORT] |= GLCD_PARALLEL_MASK;
 	LPC_GPIO->SET[CONTROLLER_LCD_D0_PORT] |= port_output;
 	
-	GLCD_EN_HIGH();
-	GLCD_CS_LOW();
 	GLCD_RW_LOW();
+	GLCD_CS_LOW();
+	GLCD_EN_HIGH();
 	
-	/* Add a delay here if we need to - determines on your freqs chip is running at */
-	//glcd_delay(10);
+	/* Must hold for minimum 80 ns = ~12.5 MHz pulse */
 	
-	GLCD_RW_HIGH();
-	GLCD_CS_HIGH();
+	/* Do whatever is needed for your MCU */
+	//glcd_delay(1);
+	
 	GLCD_EN_LOW();
+	GLCD_CS_HIGH();
+	GLCD_RW_HIGH();
+	
 }
 
 #else
@@ -155,6 +156,7 @@ void glcd_reset(void)
 	GLCD_DESELECT();
 	
 #elif defined(GLCD_CONTROLLER_NT75451)
+	/* No physical reset possible with our test board (BlueBoard) */
 	
 #endif /* GLCD_CONTROLLER_PCD8544 */	
 }

@@ -40,13 +40,13 @@
 	/* Parallel interface */
 	
 	#define CONTROLLER_LCD_EN_PORT 0
-	#define CONTROLLER_LCD_EN_PIN  12 /**< Does not get used at all */
+	#define CONTROLLER_LCD_EN_PIN  12 /**< Read write enable pin */
 	#define CONTROLLER_LCD_RW_PORT 0
-	#define CONTROLLER_LCD_RW_PIN  13
+	#define CONTROLLER_LCD_RW_PIN  13 /**< Read write signal pin */
 	#define CONTROLLER_LCD_RS_PORT 0
-	#define CONTROLLER_LCD_RS_PIN  14
+	#define CONTROLLER_LCD_RS_PIN  14 /**< Command data select pin */
 	#define CONTROLLER_LCD_CS_PORT 1
-	#define CONTROLLER_LCD_CS_PIN  13
+	#define CONTROLLER_LCD_CS_PIN  13 /**< Chip select pin */
 
 	#define CONTROLLER_LCD_D0_PORT  1
 	#define CONTROLLER_LCD_D1_PORT  1

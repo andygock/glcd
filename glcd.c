@@ -125,10 +125,11 @@ void glcd_select_screen(uint8_t *buffer, glcd_BoundingBox_t *bbox)
 
 void glcd_scroll(int8_t x, int8_t y)
 {
+	/* Not implemented, I don't even remember what this was for?! */
+	
 	uint8_t row;
 	
-	/** \todo Rows should not be fixed to 6! */
-	for (row=0; row<6; row++) {
+	for (row=0; row<(GLCD_LCD_HEIGHT / 8); row++) {
 		uint8_t x;
 		for (x=0; x<GLCD_LCD_WIDTH; x++) {
 			
@@ -138,15 +139,15 @@ void glcd_scroll(int8_t x, int8_t y)
 
 void glcd_scroll_line(void)
 {
-	/** \todo These limits in for loop should not be hard set for Nokia LCD size, need to fix! */
 	uint8_t y;
-	for (y=0; y<6; y++) {
-		if (y <= 4) {
-			/* first 5 lines - banks 0 to 4 */
+	uint8_t number_of_rows = GLCD_LCD_HEIGHT / 8;
+	for (y=0; y<number_of_rows; y++) {
+		if (y < (number_of_rows - 1)) {
+			/* All lines except the last */
 			memcpy(glcd_buffer_selected + y*GLCD_LCD_WIDTH, glcd_buffer_selected + y*GLCD_LCD_WIDTH + GLCD_LCD_WIDTH, GLCD_LCD_WIDTH);
 		} else {
-			/* last line - back 5 - clear it */
-			memset(glcd_buffer_selected + 5*GLCD_LCD_WIDTH, 0x00, GLCD_LCD_WIDTH);
+			/* Last line, clear it */
+			memset(glcd_buffer_selected + (number_of_rows - 1)*GLCD_LCD_WIDTH, 0x00, GLCD_LCD_WIDTH);
 		}
 	}
 	glcd_update_bbox(0,0,GLCD_LCD_WIDTH - 1,GLCD_LCD_HEIGHT - 1);

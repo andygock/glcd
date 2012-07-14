@@ -147,16 +147,19 @@ void glcd_test_text_up_down(void)
 
 void glcd_test_tiny_text(void)
 {
+	/* Write tiny text on display */
+	
 	char string[20] = "Hello World!";
 
 	uint8_t c = 32;
-
+	uint8_t len = GLCD_LCD_WIDTH / 6;
+	
 	GLCD_TEXT_INIT();
 	
 	while(1) {
 		// write chars to string from 32 to 127 ASCII
 		uint8_t i;
-		for (i=0; i<14; i++) {
+		for (i=0; i<len; i++) {
 			string[i] = c;
 			c++;
 			if (c > 127) {
@@ -165,7 +168,7 @@ void glcd_test_tiny_text(void)
 		}
 
 		// write null terminator
-		string[14] = '\0';
+		string[len] = '\0';
 
 		GLCD_WRITE(string);
 		_delay_ms(1000);

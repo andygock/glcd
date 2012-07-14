@@ -43,7 +43,7 @@ void glcd_test_counter_and_graph(void);
 /** Scroll some text up and down the screen */
 void glcd_test_text_up_down(void);
 
-/** Display all chars of tiny 5x7 font, scrolling previous lines one by one */
+/** Display all chars of tiny 5x7 font, scrolling previous lines one by one every second */
 void glcd_test_tiny_text(void);
 
 /** Print hello world to display */

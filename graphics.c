@@ -60,10 +60,15 @@ void glcd_set_pixel(uint8_t x, uint8_t y, uint8_t color) {
 
 // based on PCD8544 library by Limor Fried
 uint8_t glcd_get_pixel(uint8_t x, uint8_t y) {
-	if ((x >= GLCD_LCD_WIDTH) || (y >= GLCD_LCD_HEIGHT))
+	if ((x >= GLCD_LCD_WIDTH) || (y >= GLCD_LCD_HEIGHT)) {
 		return 0;
+	}
 	
-	return (glcd_buffer[x+ (y/8)*GLCD_LCD_WIDTH] >> (7-(y%8))) & 0x1;  
+	if ( glcd_buffer[x+ (y/8)*GLCD_LCD_WIDTH] & ( 1<< (y%8)) ) {
+		return 1;
+	} else {
+		return 0;
+	}
 }
 
 // bresenham's algorithm - based on PCD8544 library Limor Fried

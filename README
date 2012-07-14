@@ -12,6 +12,9 @@ MCUs supported:
 - NXP LPC111x ARM Cortex
 - NXP LPC11Uxx ARM Cortex
 
+Development boards tested on:
+- NGX BlueBoard LPC11U37 (with NT75451 graphic LCD)
+
 The following symbols need to be set for the compiler:
 
 Pick microcontroller type (pick one only):

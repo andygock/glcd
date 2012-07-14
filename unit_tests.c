@@ -49,6 +49,18 @@
 //#include "library/glcd/fonts/HelveticaNeueLT_Com_57_Cn23x35_Numbers.h"
 //#include "library/glcd/fonts/HelveticaNeueLT_Com_95_Blk18x19.h"
 
+#if 1
+	volatile uint8_t unit_test_return = 0;
+#else
+	#define unit_test_return 1
+#endif
+
+/**
+ *  Return from test procedure. Global var \p unit_test_return is set high externally,
+ *  to signal function to return.
+ */
+#define DEMO_RETURN() if (unit_test_return) {	unit_test_return = 0;	return;	}
+
 void glcd_test_circles(void)
 {
 	uint8_t x,y,radius;
@@ -79,6 +91,7 @@ void glcd_test_circles(void)
 			glcd_write();
 			_delay_ms(1);
 		}
+		DEMO_RETURN();
 	}
 }
 
@@ -106,6 +119,7 @@ void glcd_test_counter_and_graph(void)
 		glcd_write();
 		count += 1;
 
+		DEMO_RETURN();
 	}
 
 }
@@ -119,6 +133,7 @@ void glcd_test_text_up_down(void)
 	
 	//glcd_set_font(Liberation_Sans11x14_Numbers,11,14,46,57);
 	glcd_set_font(Liberation_Sans15x21_Numbers,15,21,46,57);
+	//glcd_set_font(Liberation_Sans27x36_Numbers,27,36,46,57);
 	//glcd_set_font(Liberation_Sans17x17_Alpha,17,17,46,90);
 
 	max_y = GLCD_LCD_HEIGHT - font_current.height - 2; // max y start position for draw_string
@@ -126,6 +141,7 @@ void glcd_test_text_up_down(void)
 	while(1) {
 		// move top to bottom
 		for (y=0; y<max_y; y++) {
+			DEMO_RETURN();
 			glcd_clear_buffer();
 			glcd_draw_string_xy(0,y,"123");
 			glcd_write();
@@ -134,20 +150,20 @@ void glcd_test_text_up_down(void)
 
 		// move bottom to top
 		for (y=(max_y); y>0; y--) {
+			DEMO_RETURN();
 			glcd_clear_buffer();
 			glcd_draw_string_xy(0,y,"456");
 			glcd_write();
 			_delay_ms(80);
 		}
-
-
+		
 	}
 
 }
 
 void glcd_test_tiny_text(void)
 {
-	/* Write tiny text on display */
+	/* Write tiny text on display, all chars, scrolling up every second */
 	
 	char string[GLCD_LCD_WIDTH / 6 + 1];
 
@@ -171,6 +187,9 @@ void glcd_test_tiny_text(void)
 		string[len] = '\0';
 
 		GLCD_WRITE(string);
+		
+		DEMO_RETURN();
+		
 		_delay_ms(1000);
 	}
 
@@ -182,5 +201,7 @@ void glcd_test_hello_world(void)
 	glcd_clear_buffer();
 	glcd_tiny_draw_string(0,0,"Hello World!");
 	glcd_write();
-	while(1);
+	while(1) {
+		DEMO_RETURN();
+	}
 }

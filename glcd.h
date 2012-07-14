@@ -316,7 +316,8 @@ void glcd_bar_graph_vertical(uint8_t x, uint8_t y, uint8_t width, uint8_t height
  */ 
 void glcd_bar_graph_vertical_no_border(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint8_t val);
 
-//void glcd_delay(uint32_t us);
+/** \todo write doc */
+void glcd_scrolling_bar_graph(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint8_t val);
 
 /** @}*/
 

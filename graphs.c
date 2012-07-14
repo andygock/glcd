@@ -64,6 +64,44 @@ void glcd_bar_graph_vertical_no_border(uint8_t x, uint8_t y, uint8_t width, uint
 	glcd_fill_rect(x, y+glcd_map(0,height-2,255-val), width, height-2-glcd_map(0,height-2,255-val), BLACK);
 }
 
+void glcd_scrolling_bar_graph(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint8_t val)
+{
+	uint8_t nx, ny;
+	uint8_t color;
+	
+	/* Draw border of graph */
+	glcd_draw_rect(x,y,width,height,BLACK);
+	
+	/* Scroll inner contents left by one pixel width */
+
+	/* Draw new bar */
+	//glcd_draw_line(x+width-2,y+height-2,x+width-2,y+height-2-val,BLACK);
+
+	
+	#if 1
+	for (ny = 1; ny <= (height-2); ny++) {
+		
+		/* Redraw each horizontal line */
+		for (nx = 1; nx <= (width-3); nx++) {
+			
+			color = glcd_get_pixel(x+nx+1,y+ny);
+			glcd_set_pixel(x+nx,y+ny,color);
+			glcd_write();
+			//_delay_ms(1);
+		}
+		
+	}
+	#endif
+	
+	/* Draw new bar */
+	glcd_draw_line(x+width-2,y+height-2,x+width-2,y+height-2-val,BLACK);
+	glcd_draw_line(x+width-2,y+height-3-val,x+width-2,y+1,WHITE);
+	
+	/* Write to display */
+	glcd_write();
+	//_delay_ms(1000);
+}
+
 static uint8_t glcd_map(uint8_t x1, uint8_t x2, uint8_t x)
 {
 	return x1+(x2-x1)*x/255;	

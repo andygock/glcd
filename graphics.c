@@ -137,6 +137,42 @@ void glcd_draw_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color)
 	glcd_update_bbox(x, y, x+w-1, y+h-1);
 }
 
+void glcd_draw_rect_thick(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tx, uint8_t ty, uint8_t color)
+{
+	int16_t i, t;
+	
+	if (tx == 0) {
+		tx = 1;
+	}
+
+	if (ty == 0) {
+		ty = 1;
+	}
+	
+	for (i=x; i<x+w; i++) {
+		/* Top and bottom sides */
+		for (t=0; t<(ty); t++) {
+			glcd_set_pixel(i, y+t, color);
+			glcd_set_pixel(i, y+h-1-t, color);
+		}
+	}
+	for (i=y; i<y+h; i++) {
+		/* Left and right sides */
+		for (t=0; t<(tx); t++) {
+			glcd_set_pixel(x+t, i, color);
+			glcd_set_pixel(x+w-1-t, i, color);
+		}
+	} 
+	glcd_update_bbox(x, y, x+w-1, y+h-1);
+}
+
+void glcd_draw_rect_shadow(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color)
+{
+	glcd_draw_rect(x, y, w, h, color);
+	glcd_draw_line(x+1, y+h, x+w, y+h, color);
+	glcd_draw_line(x+w, y+1, x+w, y+h, color);
+}
+
 void glcd_draw_circle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color)
 {
 		

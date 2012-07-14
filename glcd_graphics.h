@@ -94,6 +94,32 @@ void glcd_fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color);
 void glcd_draw_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color);
 
 /**
+ * Draw rectangle but do not fill. User specified thickness.
+ * The border of the rectangle is the same as fill colour
+ * \param x Start x-coordinate (left-most)
+ * \param y Start y-coordinate (top-most)
+ * \param w Width (outermost pixels)
+ * \param h Height
+ * \param tx Thickness of horizontal border along X axis
+ * \param ty Thickness of vertical border along Y axis
+ * \param color Colour of border
+ * \see ColourConstants
+ */
+void glcd_draw_rect_thick(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t tx, uint8_t ty, uint8_t color);
+
+/**
+ * Draw rectangle but do not fill. Place a shadow line on the bottom-right of the window.
+ * The border of the rectangle is the same as fill colour
+ * \param x Start x-coordinate (left-most)
+ * \param y Start y-coordinate (top-most)
+ * \param w Width
+ * \param h Height
+ * \param color Colour of border
+ * \see ColourConstants
+ */
+void glcd_draw_rect_shadow(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color);
+
+/**
  * Draw circle but do not fill.
  * The border of the rectangle is the same as fill colour
  * \param x0 Centre x-coordinate (left-most)

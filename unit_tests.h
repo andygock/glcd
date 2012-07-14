@@ -49,4 +49,7 @@ void glcd_test_tiny_text(void);
 /** Print hello world to display */
 void glcd_test_hello_world(void);
 
+/* Demonstrating rectangle drawing */
+void glcd_test_rectangles(void);
+
 #endif

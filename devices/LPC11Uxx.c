@@ -1,10 +1,7 @@
 #include "../glcd.h"
 #include "LPC11Uxx.h"
 
-
 #if defined(GLCD_DEVICE_LPC11UXX)
-
-//static void glcd_delay(uint32_t count);
 
 void glcd_init(void)
 {
@@ -57,21 +54,13 @@ void glcd_init(void)
 	/* Parallel interface controller used on NGX BlueBoards */
 	
 	/* Set 4x control lines pins as output */
-	LPC_GPIO->DIR[CONTROLLER_LCD_EN_PORT] |= (1U<<CONTROLLER_LCD_EN_PIN); /* Doesn't get used anyway */
+	LPC_GPIO->DIR[CONTROLLER_LCD_EN_PORT] |= (1U<<CONTROLLER_LCD_EN_PIN);
 	LPC_GPIO->DIR[CONTROLLER_LCD_RW_PORT] |= (1U<<CONTROLLER_LCD_RW_PIN);
 	LPC_GPIO->DIR[CONTROLLER_LCD_RS_PORT] |= (1U<<CONTROLLER_LCD_RS_PIN);
 	LPC_GPIO->DIR[CONTROLLER_LCD_CS_PORT] |= (1U<<CONTROLLER_LCD_CS_PIN);
 	
-	/* Set RS high */
-	//LPC_GPIO->SET[CONTROLLER_LCD_RS_PORT] |= (1U<<CONTROLLER_LCD_RS_PIN);
+	/* Don't worry about setting default RS/RW/CS/EN, they get set during use */
 	
-	/* Set RW low (for write mode, just guessing) - won't need to change, we only ever write */
-	//LPC_GPIO->CLR[CONTROLLER_LCD_RW_PORT] |= (1U<<CONTROLLER_LCD_RW_PIN);
-	
-	/* Set CS high */
-	//LPC_GPIO->SET[CONTROLLER_LCD_CS_PORT] |= (1U<<CONTROLLER_LCD_CS_PIN);
-
-
 #ifdef CONTROLLER_LCD_DATA_PORT	
 	/* Set data pins as output */
 	LPC_GPIO->DIR[CONTROLLER_LCD_D0_PORT] |= GLCD_PARALLEL_MASK;
@@ -79,31 +68,28 @@ void glcd_init(void)
 	#error "Support of parallel data pins on different ports not supported."
 #endif
 
-	//_delay_ms(250); /* Make sure it is powered on fully */
-	
 	/* Initialise sequence - code by NGX Technologies */
-	glcd_command(0xE2);					/*	S/W RESWT 				*/
-	glcd_command(0xA0);					/*	ADC select				*/
-	glcd_command(0xC8);  				/*	SHL Normal				*/
-	glcd_command(0xA3);					/*	LCD bias				*/
-	glcd_command(0x2F);					/*	Power control			*/
-	glcd_command(0x22);					/*	reg resistor select		*/
-	glcd_command(0x40);					/*	Initial display line 40	*/
-	glcd_command(0xA4);					/*	Normal display			*/
-	glcd_command(0xA6);					/*	Reverce display a7		*/
-	glcd_command(0x81);					/*	Ref vg select mode		*/
-	glcd_command(0x3f);					/*	Ref vg reg select		*/
-	glcd_command(0xB0);					/*	Set page address		*/
-	glcd_command(0x10);					/*	Set coloumn addr  MSB 	*/
-	glcd_command(0x00);					/*	Set coloumn addr LSB	*/
-	glcd_command(0xAF);					/*	Display ON				*/
+	glcd_command(0xE2);  /*	S/W RESWT               */
+	glcd_command(0xA0);  /*	ADC select              */
+	glcd_command(0xC8);  /*	SHL Normal              */
+	glcd_command(0xA3);  /*	LCD bias                */
+	glcd_command(0x2F);  /*	Power control           */
+	glcd_command(0x22);  /*	reg resistor select     */
+	glcd_command(0x40);  /*	Initial display line 40 */
+	glcd_command(0xA4);  /*	Normal display          */
+	glcd_command(0xA6);  /*	Reverce display a7      */
+	glcd_command(0x81);  /*	Ref vg select mode      */
+	glcd_command(0x3f);  /*	Ref vg reg select       */
+	glcd_command(0xB0);  /*	Set page address        */
+	glcd_command(0x10);  /*	Set coloumn addr MSB    */
+	glcd_command(0x00);  /*	Set coloumn addr LSB    */
+	glcd_command(0xAF);  /*	Display ON              */
 
 	/* Select default screen buffer */
-	//glcd_select_screen((uint8_t *)&glcd_buffer,&glcd_bbox);
+	glcd_select_screen((uint8_t *)&glcd_buffer,&glcd_bbox);
 
-	//glcd_clear();
-	
-	//_delay_ms(1000); // TEST
+	/* Clear the screen buffer */
+	glcd_clear();
 	
 #else /* GLCD_CONTROLLER_PCD8544 */
 	#error "Controller not supported by LPC111x"
@@ -131,17 +117,20 @@ void glcd_parallel_write(uint8_t c)
 	
 	/* Perform the write */
 
-	GLCD_CS_LOW();
-	GLCD_RW_LOW();
-
 	/* Clear data bits to zero and set required bits as needed */
 	LPC_GPIO->CLR[CONTROLLER_LCD_D0_PORT] |= GLCD_PARALLEL_MASK;
 	LPC_GPIO->SET[CONTROLLER_LCD_D0_PORT] |= port_output;
-	glcd_delay(50);
+	
+	GLCD_EN_HIGH();
+	GLCD_CS_LOW();
+	GLCD_RW_LOW();
+	
+	/* Add a delay here if we need to - determines on your freqs chip is running at */
+	//glcd_delay(10);
 	
 	GLCD_RW_HIGH();
 	GLCD_CS_HIGH();
-
+	GLCD_EN_LOW();
 }
 
 #else

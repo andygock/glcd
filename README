@@ -24,6 +24,15 @@ GLCD_CONTROLLER_PCD8544
 GLCD_CONTROLLER_ST7565R
 GLCD_CONTROLLER_NT75451
 
+If using a parallel interface LCD (e.g NT75451 on NGX BlueBoard):
+GLCD_USE_PARALLEL
+
+When SPI controllers:
+GLCD_USE_SPI
+
+Note the SPI symbol isn't checked, and it is fine if it is not used.
+It is for forward compatibility only.
+
 These symbols need to be set in the configuration options of your IDE, usually
 in the "defined symbols" section, or they can be defined in a makefile
 as -D options.

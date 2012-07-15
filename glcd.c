@@ -152,3 +152,4 @@ void glcd_scroll_line(void)
 	}
 	glcd_update_bbox(0,0,GLCD_LCD_WIDTH - 1,GLCD_LCD_HEIGHT - 1);
 }
+

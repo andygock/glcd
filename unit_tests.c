@@ -257,3 +257,24 @@ void glcd_test_rectangles(void)
 	}
 	
 }
+
+void glcd_test_scrolling_graph(void)
+{
+	glcd_clear();
+	glcd_write();
+	while(1) {
+		uint16_t n;
+		for (n=0; n<=255; n += 20) {
+			glcd_scrolling_bar_graph(0,0,50,50,n);
+			glcd_scrolling_bar_graph(60,0,50,30,n);
+			glcd_scrolling_bar_graph(60,35,60,20,n);
+			DEMO_RETURN();
+		}
+		for (n=0; n<=255; n += 20) {
+			glcd_scrolling_bar_graph(0,0,50,50,255-n);
+			glcd_scrolling_bar_graph(60,0,50,30,n);
+			glcd_scrolling_bar_graph(60,35,60,20,n);
+			DEMO_RETURN();
+		}
+	}	
+}

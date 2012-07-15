@@ -49,7 +49,10 @@ void glcd_test_tiny_text(void);
 /** Print hello world to display */
 void glcd_test_hello_world(void);
 
-/* Demonstrating rectangle drawing */
+/** Demonstrating rectangle drawing */
 void glcd_test_rectangles(void);
+
+/** Demonstrate scrolling bar graph */
+void glcd_test_scrolling_graph(void);
 
 #endif

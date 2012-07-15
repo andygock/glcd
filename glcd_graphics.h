@@ -147,6 +147,15 @@ void glcd_draw_circle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color);
  */
 void glcd_fill_circle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color);
 
+/**
+ * Invert pixels in a retangular area.
+ * \param x Start x-coordinate (left-most)
+ * \param y Start y-coordinate (top-most)
+ * \param w Width
+ * \param h Height 
+ */
+void glcd_invert_area(uint8_t x, uint8_t y, uint8_t w, uint8_t h);
+
 /** @}*/
 
 #endif /* GLCD_GRAPHICS_H_ */

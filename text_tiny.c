@@ -136,3 +136,8 @@ void glcd_tiny_draw_string_ammend_P(const char *str) {
 	glcd_tiny_draw_string_P(0, (GLCD_LCD_HEIGHT/8-1), str);
 	glcd_write();
 }
+
+void glcd_tiny_invert_line(uint8_t line)
+{
+		/** \todo */
+}

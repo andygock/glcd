@@ -207,6 +207,8 @@ void glcd_tiny_draw_string_ammend(char *str);
  */
 void glcd_tiny_draw_string_ammend_P(const char *str);
 
+void glcd_tiny_invert_line(uint8_t line);
+
 /** Initialise 5x7 text */
 #define GLCD_TEXT_INIT()  glcd_tiny_set_font(Font5x7,5,7,32,127);
 

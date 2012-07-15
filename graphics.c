@@ -40,25 +40,25 @@
 #include <stdlib.h>
 #include "glcd.h"
 
-// based on PCD8544 library by Limor Fried
+/* Based on PCD8544 library by Limor Fried */
 void glcd_set_pixel(uint8_t x, uint8_t y, uint8_t color) {
 	if (x > (GLCD_LCD_WIDTH-1) || y > (GLCD_LCD_HEIGHT-1)) {
-		// don't do anything if x/y is outside bounds of display size
+		/* don't do anything if x/y is outside bounds of display size */
 		return;
 	}
 
 	if (color) {
-		// set black
+		/* Set black */
 		glcd_buffer[x+ (y/8)*GLCD_LCD_WIDTH] |= ( 1 << (y%8));
 	} else {
-		// set white
+		/* Set white */
 		glcd_buffer[x+ (y/8)*GLCD_LCD_WIDTH] &= ~ (1 << (y%8));
 	}
 
 	glcd_update_bbox(x,y,x,y);
 }
 
-// based on PCD8544 library by Limor Fried
+/* Based on PCD8544 library by Limor Fried */
 uint8_t glcd_get_pixel(uint8_t x, uint8_t y) {
 	if ((x >= GLCD_LCD_WIDTH) || (y >= GLCD_LCD_HEIGHT)) {
 		return 0;
@@ -79,7 +79,7 @@ void glcd_invert_pixel(uint8_t x, uint8_t y) {
 	glcd_buffer[x+ (y/8)*GLCD_LCD_WIDTH] ^= ( 1 << (y%8));
 }
 
-// bresenham's algorithm - based on PCD8544 library Limor Fried
+/* Bresenham's algorithm - based on PCD8544 library Limor Fried */
 void glcd_draw_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t color) {
 	uint8_t steep = abs(y1 - y0) > abs(x1 - x0);
 	uint8_t dx, dy;
@@ -97,7 +97,6 @@ void glcd_draw_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t colo
 	}
 	
 	glcd_update_bbox( x0, y0, x1, y1 );
-	
 
 	dx = x1 - x0;
 	dy = abs(y1 - y0);
@@ -242,7 +241,7 @@ void glcd_fill_circle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color)
 		glcd_set_pixel(x0, i, color);
 	}
 	
-	while (x<y) {
+	while (x < y) {
 		if (f >= 0) {
 			y--;
 			ddF_y += 2;

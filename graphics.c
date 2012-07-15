@@ -264,6 +264,14 @@ void glcd_fill_circle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color)
 
 void glcd_invert_area(uint8_t x, uint8_t y, uint8_t w, uint8_t h)
 {
-		/** \todo */
+	/** \todo Untested! */
+	uint8_t xx, yy;
+	for (xx = x; xx < (x+w); xx++) {
+		/* Loop through each partial column */
+		for (yy = y; yy < (y+h); yy++) {
+			/* Go down and invert every pixel */
+			glcd_invert_pixel(xx,yy);
+		}
+	}
 }
 

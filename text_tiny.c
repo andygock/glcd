@@ -139,5 +139,5 @@ void glcd_tiny_draw_string_ammend_P(const char *str) {
 
 void glcd_tiny_invert_line(uint8_t line)
 {
-		/** \todo */
+	glcd_invert_area(0,line*8,GLCD_LCD_WIDTH-1,8);
 }

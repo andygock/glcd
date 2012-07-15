@@ -68,7 +68,6 @@ void glcd_scrolling_bar_graph(uint8_t x, uint8_t y, uint8_t width, uint8_t heigh
 {
 	uint8_t nx, ny;
 	uint8_t color;
-	uint8_t ns;
 	
 	/* Draw border of graph */
 	glcd_draw_rect(x,y,width,height,BLACK);

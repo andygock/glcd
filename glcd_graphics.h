@@ -54,9 +54,15 @@ void glcd_set_pixel(uint8_t x, uint8_t y, uint8_t color);
  * \param x X-coordinate
  * \param y Y-coordinate
  * \return Colour
- * \see ColourConstants
  */
 uint8_t glcd_get_pixel(uint8_t x, uint8_t y);
+
+/**
+ * Invert state of pixel of specified location
+ * \param x X-coordinate
+ * \param y Y-coordinate
+ */
+void glcd_invert_pixel(uint8_t x, uint8_t y);
 
 /**
  * Draw line

@@ -87,11 +87,11 @@ void glcd_tiny_draw_string(uint8_t x, uint8_t line, char *str)
 		glcd_tiny_draw_char(x, line, *str++);
 		x += (font_current.width + 1);
 		if ((x + font_current.width + 1) > GLCD_LCD_WIDTH) {
-			x = 0;    // ran out of this line
+			x = 0; /* Ran out of this line */
 			line++;
 		}
 		if (line >= (GLCD_LCD_HEIGHT/(font_current.height + 1)))
-			return;        // ran out of space :(
+			return; /* Ran out of space :( */
 	}
 }
 
@@ -113,11 +113,11 @@ void glcd_tiny_draw_string_P(uint8_t x, uint8_t line, const char *str)
 		
 		x += (font_current.width + 1);
 		if ((x + font_current.width + 1) > GLCD_LCD_WIDTH) {
-			x = 0;    // ran out of this line
+			x = 0; /* Ran out of this line */
 			line++;
 		}
 		if (line >= (GLCD_LCD_HEIGHT/(font_current.height + 1)))
-			return;        // ran out of space :(
+			return; /* Ran out of space :( */
 	}	
 }
 

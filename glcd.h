@@ -193,7 +193,11 @@ void glcd_tiny_draw_string(uint8_t x, uint8_t line, char *str);
  *  \param line line to be written (each line is 8 pixels high)
  *  \param str  string stored in flash memory to be written
  */
+#if defined(GLCD_DEVICE_AVR8) 
+void glcd_tiny_draw_string_P(uint8_t x, uint8_t line, PGM_P str);
+#else
 void glcd_tiny_draw_string_P(uint8_t x, uint8_t line, const char *str);
+#endif
 
 /** Write string to bottom row of display.
  *  Screen buffer is scrolled up by one line. Screen is then physically updated.

@@ -83,7 +83,7 @@ void glcd_update_bbox(uint8_t xmin, uint8_t ymin, uint8_t xmax, uint8_t ymax)
 		ymax = GLCD_LCD_HEIGHT-1;
 	}
 
-	/* update the bounding box size */
+	/* Update the bounding box size */
 	if (xmin < glcd_bbox_selected->x_min) {
 		glcd_bbox_selected->x_min = xmin;
 	}		

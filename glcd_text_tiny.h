@@ -37,6 +37,10 @@
 
 /** \addtogroup TinyText Tiny Text
  *  Functions relating to using tiny 5x7 text fonts.
+ *
+ * Tiny text functions are usually used on a line by line basis. Each line being 8 bits high.
+ * Characters start on the top most bit and are 7 bits high, leaving a one bit space underneath.
+ *
  *  @{
  */
 

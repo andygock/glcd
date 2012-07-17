@@ -81,6 +81,8 @@
 #include "glcd_devices.h"
 #include "glcd_controllers.h"
 #include "glcd_graphics.h"
+#include "glcd_graphs.h"
+#include "glcd_text_tiny.h"
 #include "unit_tests.h"
 
 /**
@@ -95,12 +97,33 @@
  * \name LCD Dimensions
  * @{
  */
-#define GLCD_LCD_WIDTH 128
-#define GLCD_LCD_HEIGHT 64
 
-/* GLCD_NUMBER_OF_BANKS is typically GLCD_LCD_HEIGHT/8 */
-#define GLCD_NUMBER_OF_BANKS 8
-#define GLCD_NUMBER_OF_COLS  128
+/* Set to custom value, or leave at 0 for automatic assignment. */ 
+#define GLCD_LCD_WIDTH  0
+#define GLCD_LCD_HEIGHT 0
+
+/* Automatic assignment of width and height, if required. */
+#if !GLCD_LCD_WIDTH && !GLCD_LCD_HEIGHT
+	#undef GLCD_LCD_WIDTH
+	#undef GLCD_LCD_HEIGHT
+	#if defined(GLCD_CONTROLLER_PCD8544)
+		#define GLCD_LCD_WIDTH 96
+		#define GLCD_LCD_HEIGHT 48
+	#elif defined(GLCD_CONTROLLER_ST7565R) || defined(GLCD_CONTROLLER_NT75451)
+		#define GLCD_LCD_WIDTH 128
+		#define GLCD_LCD_HEIGHT 64
+	#else
+		#define GLCD_LCD_WIDTH 128
+		#define GLCD_LCD_HEIGHT 64
+	#endif
+#endif
+
+/*
+ * GLCD_NUMBER_OF_BANKS is typically GLCD_LCD_HEIGHT/8
+ * Don't adjust these below unless required.
+ */
+#define GLCD_NUMBER_OF_BANKS (GLCD_LCD_WIDTH / 8)
+#define GLCD_NUMBER_OF_COLS  GLCD_LCD_WIDTH
 
 /**@}*/
 
@@ -132,6 +155,7 @@ void glcd_clear(void);
 
 /** Clear the display buffer only. This does not physically write the changes to the LCD */
 void glcd_clear_buffer(void);
+
 void glcd_select_screen(uint8_t *buffer, glcd_BoundingBox_t *bbox);
 void glcd_scroll(int8_t x, int8_t y);
 void glcd_scroll_line(void);
@@ -152,179 +176,5 @@ typedef struct {
 extern uint8_t *glcd_buffer_selected;
 extern glcd_BoundingBox_t *glcd_bbox_selected;
 extern glcd_FontConfig_t font_current;
-
-/** \addtogroup Text
- *  Functions relating to using text fonts.
- *  @{
- */
-
-/** \addtogroup TinyText Tiny Text
- *  Functions relating to using tiny 5x7 text fonts.
- *  @{
- */
-
-/** Set font to be used from now on. This is the tiny 5x7 monospace font.
- *  \param font_table flash pointer to start from font table
- *  \param width      width of each character
- *  \param height     height of each character
- *  \param start_char start character
- *  \param end_char   end character
- */
-void glcd_tiny_set_font(const char *font_table, uint8_t width, uint8_t height, char start_char, char end_char);
-
-/** Write character to LCD in tiny 5x7 font.
- *  \param x    column position to start 
- *  \param line line number to be written (each line is 8 pixels high)
- *  \param c    char to be written
- */
-void glcd_tiny_draw_char(uint8_t x, uint8_t line, char c);
-
-/** Write string to display buffer in tiny 5x7 font.
- *  Will wrap to next line if needed. Screen is not updated. Use glcd_write() to physically update display.
- *  \param x    column position to start 
- *  \param line line number to be written (each line is 8 pixels high)
- *  \param str  string to be written
- */
-void glcd_tiny_draw_string(uint8_t x, uint8_t line, char *str);
-
-/** Write flash string to display buffer in tiny 5x7 font.
- *  Will wrap to next line if needed. Screen is not updated. Use glcd_write() to physically update display.
- *  \param x    column position to start 
- *  \param line line to be written (each line is 8 pixels high)
- *  \param str  string stored in flash memory to be written
- */
-#if defined(GLCD_DEVICE_AVR8) 
-void glcd_tiny_draw_string_P(uint8_t x, uint8_t line, PGM_P str);
-#else
-void glcd_tiny_draw_string_P(uint8_t x, uint8_t line, const char *str);
-#endif
-
-/** Write string to bottom row of display.
- *  Screen buffer is scrolled up by one line. Screen is then physically updated.
- *  \param str string to be written
- */
-void glcd_tiny_draw_string_ammend(char *str);
-
-/** Write string from flash memory to bottom row of display.
- *  Screen buffer is scrolled up by one line. Screen is then physically updated.
- *  \param str string to be written
- */
-void glcd_tiny_draw_string_ammend_P(const char *str);
-
-void glcd_tiny_invert_line(uint8_t line);
-
-/** Initialise 5x7 text */
-#define GLCD_TEXT_INIT()  glcd_tiny_set_font(Font5x7,5,7,32,127);
-
-/** Write string to bottom-most line after scrolling everything else up */
-#define GLCD_WRITE(str)   glcd_tiny_draw_string_ammend(str)
-
-/** Write string from program memory to bottom-most line after scrolling everything else up */
-#define GLCD_WRITE_P(str) glcd_tiny_draw_string_ammend_P(str)
-
-/** @}*/
-
-/** \addtogroup StandardText Standard Text
- *  Functions relating to using text fonts of all sizes.
- *  @{
- */
-#if defined(GLCD_DEVICE_AVR8)
-/** Set GLCD font to predefined font table
- *
- *  \param font_table pointer to font table to be used
- *  \param width width of each character
- *  \param height height of each character
- *  \param start_char first character of font table
- *  \param end_char last character of font table
- */
-void glcd_set_font(PGM_P font_table, uint8_t width, uint8_t height, char start_char, char end_char);
-#else
-/** Set GLCD font to predefined font table
- *
- *  Note it is very important the arguments are set accurately, otherwise it will not work properly.
- *
- *  \param font_table pointer to font table to be used
- *  \param width width of each character
- *  \param height height of each character
- *  \param start_char first character of font table
- *  \param end_char last character of font table
- */
-void glcd_set_font(const char * font_table, uint8_t width, uint8_t height, char start_char, char end_char);
-#endif
-/** Draw a char at specified location.
- *  \param x x location to place top-left of character frame
- *  \param y y location to place top-left of character frame
- *  \param c character to be drawn
- *  \return width of character, 0 on error (e.g could not read font table)
- */
-uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c);
-
-/** Draw a string at specified location.
- *  \param x x location to place top-left of character frame
- *  \param y y location to place top-left of character frame
- *  \param c pointer to string to be drawn
- */
-void glcd_draw_string_xy(uint8_t x, uint8_t y, char *c);
-
-/** Draw a string from program memory at specified location.
- *  \param x x location to place top-left of character frame
- *  \param y y location to place top-left of character frame
- *  \param str pointer to string in program memory to be drawn
- */
-void glcd_draw_string_xy_P(uint8_t x, uint8_t y, const char *str);
-
-/** @}*/
-
-/** @}*/
-
-/** \addtogroup Graphing
- *  Functions for graphing, e.g drawing bar graphs etc.
- *  @{
- */
-
-/** Draw horizontal bar graph with 1 px wide border.
- *  The bar graph draws from left to right as val increases.
- *  \param x x location for top-left of border
- *  \param y y location for top-left of border
- *  \param width width of the border
- *  \param height height of the border (must be over 2)
- *  \param val value to display in graph (0-255 8 bit value).
- */
-void glcd_bar_graph_horizontal(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint8_t val);
-
-/** Draw horizontal bar graph with no border.
- *  The bar graph draws from left to right as val increases.
- *  \param x x location for top-left of bar
- *  \param y y location for top-left of bar
- *  \param width width of the bar at full val
- *  \param height height of the bar
- *  \param val value to display in graph (0-255 8 bit value).
- */
-void glcd_bar_graph_horizontal_no_border(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint8_t val);
-
-/** Draw vertical bar graph with 1px wide border.
- *  The bar graph draws from bottom to top as val increases.
- *  \param x x location for top-left of border
- *  \param y y location for top-left of border
- *  \param width width of the border
- *  \param height height of the border
- *  \param val value to display in graph (0-255 8 bit value).
- */ 
-void glcd_bar_graph_vertical(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint8_t val);
-
-/** Draw vertical bar graph with no border.
- *  The bar graph draws from bottom to top as val increases.
- *  \param x x location for top-left of bar
- *  \param y y location for top-left of bar
- *  \param width width of the bar
- *  \param height height of the bar
- *  \param val value to display in graph (0-255 8 bit value).
- */ 
-void glcd_bar_graph_vertical_no_border(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint8_t val);
-
-/** \todo write doc */
-void glcd_scrolling_bar_graph(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint8_t val);
-
-/** @}*/
 
 #endif

@@ -47,7 +47,11 @@
  *  \param start_char start character
  *  \param end_char   end character
  */
+#if defined(GLCD_DEVICE_AVR8)  
+void glcd_tiny_set_font(PGM_P font_table, uint8_t width, uint8_t height, char start_char, char end_char);
+#else
 void glcd_tiny_set_font(const char *font_table, uint8_t width, uint8_t height, char start_char, char end_char);
+#endif
 
 /** Write character to LCD in tiny 5x7 font.
  *  \param x    column position to start 
@@ -86,7 +90,11 @@ void glcd_tiny_draw_string_ammend(char *str);
  *  Screen buffer is scrolled up by one line. Screen is then physically updated.
  *  \param str string to be written
  */
+#if defined(GLCD_DEVICE_AVR8)
+void glcd_tiny_draw_string_ammend_P(PGM_P str);
+#else
 void glcd_tiny_draw_string_ammend_P(const char *str);
+#endif
 
 void glcd_tiny_invert_line(uint8_t line);
 

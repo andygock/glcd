@@ -125,7 +125,7 @@ void glcd_select_screen(uint8_t *buffer, glcd_BoundingBox_t *bbox)
 
 void glcd_scroll(int8_t x, int8_t y)
 {
-	/* Not implemented, I don't even remember what this was for?! */
+	/** \todo Skeleton */
 	
 	uint8_t row;
 	

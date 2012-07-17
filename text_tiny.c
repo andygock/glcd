@@ -52,7 +52,7 @@ void glcd_tiny_draw_char(uint8_t x, uint8_t line, char c)
 {
 	uint8_t i;
 	
-	// only works for fonts < 8 bits in height
+	/* Only works for fonts < 8 bits in height */
 	if (font_current.height >= 8) {
 		return;
 	}

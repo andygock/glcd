@@ -100,6 +100,10 @@ void glcd_tiny_draw_string_ammend_P(PGM_P str);
 void glcd_tiny_draw_string_ammend_P(const char *str);
 #endif
 
+/**
+ * Invert all contents of line number. Line 0 is the top most line.
+ * \param line Line number (0 is top most line)
+ */
 void glcd_tiny_invert_line(uint8_t line);
 
 /** Initialise 5x7 text */

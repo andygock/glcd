@@ -100,7 +100,18 @@
  */
 
 /* Set to custom value, or leave at 0 for automatic assignment. */ 
+
+/**
+ * User specified GLCD width in pixels
+ * Set to 0 for automatic assignment based on controller
+ */
 #define GLCD_LCD_WIDTH  0
+
+/**
+ * User specified GLCD height in pixels
+ * Set to 0 for automatic assignment based on controller
+ */
+
 #define GLCD_LCD_HEIGHT 0
 
 /* Automatic assignment of width and height, if required. */
@@ -148,17 +159,64 @@ extern glcd_BoundingBox_t *glcd_bbox_selected;
  *  @{
  */
 
+/**
+ * Update bounding box.
+ *
+ * The bounding box defines a rectangle in which needs to be refreshed next time
+ * glcd_write() is called. glcd_write() only writes to those pixels inside the bounding box plus any
+ * surrounding pixels which are required according to the bank/column write method of the controller.
+ *
+ * Define a rectangle here, and it will be <em>added</em> to the existing bounding box.
+ *
+ * \param xmin Minimum x value of rectangle
+ * \param ymin Minimum y value of rectangle
+ * \param xmax Maximum x value of rectangle
+ * \param ymax Maximum y value of rectangle
+ * \see glcd_bbox
+ * \see glcd_bbox_selected
+ */
 void glcd_update_bbox(uint8_t xmin, uint8_t ymin, uint8_t xmax, uint8_t ymax);
+
+/**
+ * Reset the bounding box.
+ * After resetting the bounding box, no pixels are marked as needing refreshing.
+ */
 void glcd_reset_bbox(void);
 
-/** Clear the display. This will clear the buffer and physically write and commit it to the LCD */
+/**
+ * Clear the display. This will clear the buffer and physically write and commit it to the LCD
+ */
 void glcd_clear(void);
 
-/** Clear the display buffer only. This does not physically write the changes to the LCD */
+/**
+ * Clear the display buffer only. This does not physically write the changes to the LCD
+ */
 void glcd_clear_buffer(void);
 
+/**
+ * Select screen buffer and bounding box structure.
+ * This should be selected at initialisation. There are future plans to support multiple screen buffers
+ * but this not yet available.
+ * \param buffer Pointer to screen buffer
+ * \param bbox   Pointer to bounding box object.
+ * \see glcd_BoundingBox_t
+ */
 void glcd_select_screen(uint8_t *buffer, glcd_BoundingBox_t *bbox);
+
+/**
+ * Scroll entire screne buffer by x and y pixels. (not implemented yet)
+ * \note Items scrolled off the extents of the display dimensions will be lost.
+ *
+ * \param x X distance to scroll
+ * \param y Y distance to scroll
+ */
 void glcd_scroll(int8_t x, int8_t y);
+
+/**
+ * Scroll screen buffer up by 8 pixels.
+ * This is designed to be used in conjunciton with tiny text functions which are 8 bits high.
+ * \see Tiny Text
+ */
 void glcd_scroll_line(void);
 
 /** @}*/

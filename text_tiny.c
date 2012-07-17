@@ -141,3 +141,37 @@ void glcd_tiny_invert_line(uint8_t line)
 {
 	glcd_invert_area(0,line*8,GLCD_LCD_WIDTH-1,8);
 }
+
+void glcd_tiny_draw_char_xy(uint8_t x, uint8_t y, char c)
+{
+	uint8_t i;
+	uint8_t xvar, yvar;
+	uint8_t dat;
+	
+	/* Only works for fonts < 8 bits in height */
+	
+	/* Check all important bounds requirements are okay */
+	if ( (y >= GLCD_LCD_HEIGHT) || ((x+font_current.width) >= GLCD_LCD_WIDTH) || (font_current.height >= 8) || font_current.table_type != STANG) {
+		return;
+	}		
+	if (c < font_current.start_char || c > font_current.end_char) {
+		c = '.';
+	}
+	
+	xvar = x;
+	
+	for ( i = 0; i < font_current.width; i++ ) {
+#if defined(GLCD_DEVICE_AVR8)			
+		pgm_read_byte( font_current.font_table + ((c - font_current.start_char) * (font_current.width)) + i );
+#else
+		dat = *( font_current.font_table + ((c - font_current.start_char) * (font_current.width)) + i );
+#endif
+		for (yvar = 0; yvar < font_current.height; yvar++) {
+			glcd_set_pixel(xvar,y+yvar, (dat & (1<<yvar) ? 1 : 0) );
+		}
+		xvar++;
+	}
+	
+	glcd_update_bbox(x, y, x+font_current.width,y+font_current.height);
+	
+}

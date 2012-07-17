@@ -106,6 +106,17 @@ void glcd_tiny_draw_string_ammend_P(const char *str);
  */
 void glcd_tiny_invert_line(uint8_t line);
 
+/** Write character to LCD in tiny 5x7 font to specified X, Y location.
+ *  If position is aligned with 8 bit line heights, use glcd_tiny_draw_char() instead
+ *  as it will be faster.
+ * 
+ *  \param x    column position to start 
+ *  \param y    row position to start (pixel based, not 8 bit high rows)
+ *  \param c    char to be written
+ *  \see glcd_tiny_draw_char()
+ */
+void glcd_tiny_draw_char_xy(uint8_t x, uint8_t y, char c);
+
 /** Initialise 5x7 text */
 #define GLCD_TEXT_INIT()  glcd_tiny_set_font(Font5x7,5,7,32,127);
 

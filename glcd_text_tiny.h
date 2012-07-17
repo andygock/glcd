@@ -50,6 +50,9 @@
  *  \param height     height of each character
  *  \param start_char start character
  *  \param end_char   end character
+ *  \note Only suitable for Stang font storage format. For MikroElektronika format, use 
+ *        glcd_set_font()
+ *  \see glcd_set_font() 
  */
 #if defined(GLCD_DEVICE_AVR8)  
 void glcd_tiny_set_font(PGM_P font_table, uint8_t width, uint8_t height, char start_char, char end_char);
@@ -113,7 +116,9 @@ void glcd_tiny_invert_line(uint8_t line);
  *  \param x    column position to start 
  *  \param y    row position to start (pixel based, not 8 bit high rows)
  *  \param c    char to be written
- *  \see glcd_tiny_draw_char()
+ *  \see  glcd_tiny_draw_char()
+ *  \note This does the same thing as glcd_tiny_draw_char_xy() but is limited to Stang format
+ *        font tables.
  */
 void glcd_tiny_draw_char_xy(uint8_t x, uint8_t y, char c);
 

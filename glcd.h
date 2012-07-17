@@ -83,6 +83,7 @@
 #include "glcd_graphics.h"
 #include "glcd_graphs.h"
 #include "glcd_text_tiny.h"
+#include "glcd_text.h"
 #include "unit_tests.h"
 
 /**

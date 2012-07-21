@@ -64,9 +64,9 @@ void glcd_init(void)
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
 
 	/* SS pin */
-	GPIO_InitStructure.GPIO_Pin = CONTROLLER_SPI_SS_PIN;
+	GPIO_InitStructure.GPIO_Pin   = CONTROLLER_SPI_SS_PIN;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_Level_3;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_OUT;
 	GPIO_Init(CONTROLLER_SPI_SS_PORT, &GPIO_InitStructure);
 	
 	/* DC pin */
@@ -81,9 +81,9 @@ void glcd_init(void)
 	GLCD_DESELECT();
 
 	/* Set up GPIO for SPI pins */
-	GPIO_InitStructure.GPIO_Pin = CONTROLLER_SPI_SCK_PIN | CONTROLLER_SPI_MISO_PIN | CONTROLLER_SPI_MOSI_PIN;
+	GPIO_InitStructure.GPIO_Pin   = CONTROLLER_SPI_SCK_PIN | CONTROLLER_SPI_MISO_PIN | CONTROLLER_SPI_MOSI_PIN;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_Level_3;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+	GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF;
 	GPIO_Init(CONTROLLER_SPI_PORT, &GPIO_InitStructure);
 
 	/* Configure alternate function mode for SPI pins */
@@ -92,15 +92,15 @@ void glcd_init(void)
 	GPIO_PinAFConfig(GPIOA,CONTROLLER_SPI_MISO_PINSRC,GPIO_AF_0);
 
 	/* Initialise SPI */
-	SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
-	SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
-	SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
-	SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
-	SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
-	SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
-	SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_128; /* Set clock speed! */
-	SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
-	SPI_InitStructure.SPI_CRCPolynomial = 7;
+	SPI_InitStructure.SPI_Direction         = SPI_Direction_2Lines_FullDuplex;
+	SPI_InitStructure.SPI_Mode              = SPI_Mode_Master;
+	SPI_InitStructure.SPI_DataSize          = SPI_DataSize_8b;
+	SPI_InitStructure.SPI_CPOL              = SPI_CPOL_Low;
+	SPI_InitStructure.SPI_CPHA              = SPI_CPHA_2Edge;
+	SPI_InitStructure.SPI_NSS               = SPI_NSS_Soft;
+	SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_32; /* Set clock speed! */
+	SPI_InitStructure.SPI_FirstBit          = SPI_FirstBit_MSB;
+	SPI_InitStructure.SPI_CRCPolynomial     = 7;
 	SPI_Init(CONTROLLER_SPI_NUMBER, &SPI_InitStructure);
 
 	/* Enable SPI interupts */

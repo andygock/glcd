@@ -55,6 +55,14 @@
 	extern void delay_ms(uint32_t ms);
 	#define PROGMEM
 	#define _delay_ms(t) delay_ms(t)	
+
+#elif defined(GLCD_DEVICE_STM32F0XX)
+	#include <stm32f0xx.h>
+	#include <stm32f0xx_gpio.h>
+	#include "devices/inc/STM32F0xx.h"
+	extern void delay_ms(uint32_t ms);
+	#define _delay_ms(t) delay_ms(t)
+	#define PROGMEM
 	
 #else
 	#error "Device not supported"

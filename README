@@ -9,8 +9,9 @@ Works with:
 
 MCUs supported:
 - Atmel AVR 8-bit
-- NXP LPC111x ARM Cortex
-- NXP LPC11Uxx ARM Cortex
+- NXP LPC111x ARM Cortex-M0
+- NXP LPC11Uxx ARM Cortex-M0
+- ST STM32 F0 ARM Cortex-M0
 
 Development boards tested on:
 - NGX BlueBoard LPC11U37 (with NT75451 graphic LCD)
@@ -21,6 +22,7 @@ Pick microcontroller type (pick one only):
 GLCD_DEVICE_LPX111X
 GLCD_DEVICE_LPX11UXX
 GLCD_DEVICE_AVR8
+GLCD_DEVICE_STM32F0XX
 
 Pick LCD controller type (pick one only):
 GLCD_CONTROLLER_PCD8544

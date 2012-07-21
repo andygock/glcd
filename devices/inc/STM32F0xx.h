@@ -1,9 +1,8 @@
 /**
-   \file glcd_devices.h
-   \brief Functions specific to certain devices (microcontrollers).
-          These are functions are defined in devices/yourdevice.c
-   \author Andy Gock
- */ 
+	\file STM32F0xx.h
+	\author Andy Gock
+	\brief Functions specific to STM32 F0 ARM Cortex-M0 devices.
+ */
 
 /*
 	Copyright (c) 2012, Andy Gock
@@ -33,52 +32,34 @@
 	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef GLCD_DEVICES_H_
-#define GLCD_DEVICES_H_
+#ifndef STM32F0XX_H_
+#define STM32F0XX_H_
 
-#if defined(GLCD_DEVICE_AVR8)
-	#include <avr/io.h>
-#elif defined(GLCD_DEVICE_LPC111X)
-	#include "LPC11xx.h"
-#elif defined(GLCD_DEVICE_LPC11UXX)
-	#include "LPC11Uxx.h"
-#elif defined(GLCD_DEVICE_STM32F0XX)
-	#include "STM32F0xx.h"
-#else
-	#error "Device not supported"
-#endif
+#if defined(GLCD_DEVICE_STM32F0XX)
 
-/** \addtogroup Devices Devices
- *  Functions specific to certain devices (microcontrollers)
- *  \{
- */
+/** SPI port number e.g SPI1, SPI2 (not to be confused with GPIOA, GPIOB, etc) */
+#define CONTROLLER_SPI_NUMBER   SPI1
+#define CONTROLLER_SPI_PORT     GPIOA
+#define CONTROLLER_SPI_SCK_PIN  GPIO_Pin_5
+#define CONTROLLER_SPI_MISO_PIN GPIO_Pin_6
+#define CONTROLLER_SPI_MOSI_PIN GPIO_Pin_7
 
-/**
- * Initialise the LCD. This function is platform and controller specific.
- */
-void glcd_init(void);
+#define CONTROLLER_SPI_SS_PORT  GPIOA
+#define CONTROLLER_SPI_SS_PIN   GPIO_Pin_1
+#define CONTROLLER_SPI_DC_PORT  GPIOA
+#define CONTROLLER_SPI_DC_PIN   GPIO_Pin_2
+#define CONTROLLER_SPI_RST_PORT GPIOA
+#define CONTROLLER_SPI_RST_PIN  GPIO_Pin_3
 
-#if !defined(GLCD_USE_PARALLEL)
-
-	/**
-	 * Write a byte to the connected SPI slave.
-	 * \param c Byte to be written
-	 * \return Returned value from SPI (often not used)
-	 */
-	void glcd_spi_write(uint8_t c);
+#define GLCD_SELECT()     GPIO_ResetBits(CONTROLLER_SPI_SS_PORT,CONTROLLER_SPI_SS_PIN)
+#define GLCD_DESELECT()   GPIO_SetBits(CONTROLLER_SPI_SS_PORT,CONTROLLER_SPI_SS_PIN)
+#define GLCD_DC_LOW()     GPIO_ResetBits(CONTROLLER_SPI_DC_PORT,CONTROLLER_SPI_DC_PIN)
+#define GLCD_DC_HIGH()    GPIO_SetBits(CONTROLLER_SPI_DC_PORT,CONTROLLER_SPI_DC_PIN)
+#define GLCD_RESET_LOW()  GPIO_ResetBits(CONTROLLER_SPI_RST_PORT,CONTROLLER_SPI_RST_PIN)
+#define GLCD_RESET_HIGH() GPIO_SetBits(CONTROLLER_SPI_RST_PORT,CONTROLLER_SPI_RST_PIN)
 
 #else
-	/* must be GLCD_USE_SPI */
-	void glcd_parallel_write(uint8_t c);
-
+	#error "Controller not supported by STM32F0XX"
 #endif
 
-/**
- *  Reset the LCD.
- *  \note Not all LCD controllers support reset.
- */
-void glcd_reset(void);
-
-/** @}*/
-
-#endif /* GLCD_DEVICES_H_ */
+#endif

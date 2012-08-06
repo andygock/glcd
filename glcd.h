@@ -39,29 +39,32 @@
 	#include <avr/pgmspace.h>
 	#include <avr/io.h>
 	#include <avr/interrupt.h>
-	#include <util/delay.h>	
 	#include "devices/AVR8.h"
+	
+	#if !defined(GLCD_USE_AVR_DELAY)
+		extern void delay_ms(uint32_t ms);
+	#else
+		#include <util/delay.h>	
+		#define delay_ms(t) _delay_ms(t) 
+	#endif
 	
 #elif defined(GLCD_DEVICE_LPC111X)
 	#include <LPC11xx.h>
 	#include "devices/LPC111x.h"
 	extern void delay_ms(uint32_t ms);
 	#define PROGMEM
-	#define _delay_ms(t) delay_ms(t)
 	
 #elif defined(GLCD_DEVICE_LPC11UXX)
 	#include <LPC11Uxx.h>
 	#include "devices/LPC11Uxx.h"
 	extern void delay_ms(uint32_t ms);
 	#define PROGMEM
-	#define _delay_ms(t) delay_ms(t)	
 
 #elif defined(GLCD_DEVICE_STM32F0XX)
 	#include <stm32f0xx.h>
 	#include <stm32f0xx_gpio.h>
 	#include "devices/inc/STM32F0xx.h"
 	extern void delay_ms(uint32_t ms);
-	#define _delay_ms(t) delay_ms(t)
 	#define PROGMEM
 	
 #else

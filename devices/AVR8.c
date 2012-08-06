@@ -116,7 +116,7 @@ void glcd_init(void)
 	sbi(SPSR,SPI2X);
 		/* Enable interrupts */	sei();
 		
-	_delay_ms(20); // example in datasheet does this (20ms)
+	delay_ms(20); // example in datasheet does this (20ms)
 
 	glcd_command(0xa2); // 1/9 bias
 	glcd_command(0xa0); // ADC select, normal
@@ -132,7 +132,7 @@ void glcd_init(void)
 
 	glcd_all_on();
 	
-	_delay_ms(500);
+	delay_ms(500);
 	glcd_normal();
 
 	glcd_set_start_line(0);
@@ -161,7 +161,7 @@ void glcd_reset(void)
 	/* Toggle RST low to reset. Minimum pulse 100ns on datasheet. */
 	GLCD_SELECT();
 	GLCD_RESET_LOW();
-	_delay_ms(100);
+	delay_ms(100);
 	GLCD_RESET_HIGH();
 	GLCD_DESELECT();	
 }

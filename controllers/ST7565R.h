@@ -54,8 +54,8 @@
 /* These functions only available on ST7565 implementation (for now) */
 
 /* Private functions */
-static void glcd_set_column_upper(uint8_t addr);
-static void glcd_set_column_lower(uint8_t addr);
+void glcd_set_column_upper(uint8_t addr);
+void glcd_set_column_lower(uint8_t addr);
 
 /** All display points on (native) */
 void glcd_all_on(void);

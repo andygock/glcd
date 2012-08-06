@@ -148,13 +148,12 @@ void glcd_init(void)
 	
 }
 
-uint8_t glcd_spi_write(uint8_t c)
+void glcd_spi_write(uint8_t c)
 {
 	GLCD_SELECT();
 	SPDR = c;
 	while(!(SPSR & (1<<SPIF))); /* wait until transmission is complete */
 	GLCD_DESELECT();	
-	return SPDR;
 }
 
 void glcd_reset(void)

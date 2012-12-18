@@ -51,7 +51,7 @@ void glcd_data(uint8_t c)
 
 void glcd_set_contrast(uint8_t val) {
 	glcd_command(PCD8544_FUNCTION_SET | PCD8544_EXTENDED_INSTRUCTION);
-	glcd_command(PCD8544_SET_VOP | (val|0x7f));
+	glcd_command(PCD8544_SET_VOP | (val&0x7f));
 	glcd_command(PCD8544_FUNCTION_SET);
 	glcd_command(PCD8544_DISPLAY_CONTROL | PCD8544_DISPLAY_NORMAL);
 }

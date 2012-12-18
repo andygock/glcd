@@ -41,6 +41,12 @@
 void glcd_init(void)
 {
 	
+	/*
+	 * Note: AVR's SS pin must be set to output, regardless of whether we
+	 * actually use it. This is a requirement of SPI mster mode.
+	 */
+	sbi(DDR(AVR_SS_PORT),AVR_SS_PIN);
+	
 #if defined(GLCD_CONTROLLER_PCD8544)
 
 	/* Set pin directions */
@@ -77,7 +83,7 @@ void glcd_init(void)
 	glcd_command(PCD8544_SET_BIAS | 0x2);
 	
 	/* Set VOP */
-	glcd_command(PCD8544_SET_VOP | 50); // Experimentally determined
+	glcd_command(PCD8544_SET_VOP | 0x32); // Experimentally determined
 	
 	/* Back to standard instructions */
 	glcd_command(PCD8544_FUNCTION_SET); 
@@ -95,18 +101,25 @@ void glcd_init(void)
 
 	/* Set up GPIO directions */
 	
-	/*
-	 * Set up SPI for ATMEGA1280
-	 * Note: AVR's SS pin must be set to output, regardless of whether we
-	 * actually use it. This is a requirement of SPI mster mode.
-	 */
-	sbi(DDR(AVR_SS_PORT),AVR_SS_PIN);
-	
 	/* Set SCK and MOSI as output */
 	sbi(DDR(CONTROLLER_SCK_PORT),CONTROLLER_SCK_PIN);
 	sbi(DDR(CONTROLLER_MOSI_PORT),CONTROLLER_MOSI_PIN);
-		/*	 * Set MISO as input with pullup. This needs to be set for	 * SPI to work, even though we never use or read it.	 */	cbi(DDR(CONTROLLER_MISO_PORT),CONTROLLER_MISO_PIN); // B3 MISO as input	sbi(CONTROLLER_MISO_PORT,CONTROLLER_MISO_PIN);		/* Set pin to controller SS as output */	sbi(DDR(CONTROLLER_SS_PORT),CONTROLLER_SS_PIN); // A5	/* Set LCD A0 pin as output */
-	sbi(DDR(CONTROLLER_A0_PORT),CONTROLLER_A0_PIN); // A6			/* Init SS pin high (i.e LCD deselected) */	sbi(CONTROLLER_SS_PORT,CONTROLLER_SS_PIN);
+	
+	/*
+	 * Set MISO as input with pullup. This needs to be set for
+	 * SPI to work, even though we never use or read it.
+	 */
+	cbi(DDR(CONTROLLER_MISO_PORT),CONTROLLER_MISO_PIN); // B3 MISO as input
+	sbi(CONTROLLER_MISO_PORT,CONTROLLER_MISO_PIN);
+	
+	/* Set pin to controller SS as output */
+	sbi(DDR(CONTROLLER_SS_PORT),CONTROLLER_SS_PIN); // A5
+
+	/* Set LCD A0 pin as output */
+	sbi(DDR(CONTROLLER_A0_PORT),CONTROLLER_A0_PIN); // A6
+		
+	/* Init SS pin high (i.e LCD deselected) */
+	sbi(CONTROLLER_SS_PORT,CONTROLLER_SS_PIN);
 
 	/* Deselect LCD */
 	GLCD_DESELECT();
@@ -114,7 +127,9 @@ void glcd_init(void)
 	/* MSB first, double speed, SPI mode 0 */
 	SPCR = (1<<SPE) | (1<<MSTR) | (0<<CPOL) | (0<<CPHA);	
 	sbi(SPSR,SPI2X);
-		/* Enable interrupts */	sei();
+	
+	/* Enable interrupts */
+	sei();
 		
 	delay_ms(20); // example in datasheet does this (20ms)
 

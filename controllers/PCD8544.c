@@ -3,7 +3,7 @@
  * \brief Functions relating to PCD8544 LCD Controller (Nokia 5110 LCD).
  * \author Andy Gock
  * \see glcd.h
- */ 
+ */
 
 /*
 	Copyright (c) 2012, Andy Gock
@@ -40,13 +40,13 @@
 void glcd_command(uint8_t c)
 {
 	GLCD_DC_LOW();
-	glcd_spi_write(c);	
+	glcd_spi_write(c);
 }
 
 void glcd_data(uint8_t c)
 {
 	GLCD_DC_HIGH();
-	glcd_spi_write(c);	
+	glcd_spi_write(c);
 }
 
 void glcd_set_contrast(uint8_t val) {
@@ -60,7 +60,7 @@ void glcd_power_down(void)
 {
 	/* First, fill RAM with zeroes to ensure minimum specified current consumption */
 	glcd_clear();
-	
+
 	/* Power down */
 	glcd_command(PCD8544_FUNCTION_SET|PCD8544_POWER_DOWN);
 }
@@ -83,20 +83,20 @@ void glcd_set_x_address(uint8_t x)
 void glcd_write()
 {
 	uint8_t bank;
-	
+
 
 	for (bank = 0; bank < PCD8544_MAX_BANKS; bank++) {
 		/* Each bank is a single row 8 bits tall */
-		uint8_t column;		
-		
+		uint8_t column;
+
 		if (glcd_bbox_selected->y_min >= (bank+1)*8) {
 			continue; /* Skip the entire bank */
 		}
-		
+
 		if (glcd_bbox_selected->y_max < bank*8) {
 			break;    /* No more banks need updating */
 		}
-		
+
 		glcd_command(PCD8544_SET_Y_ADDRESS | bank);
 		glcd_command(PCD8544_SET_X_ADDRESS | glcd_bbox_selected->x_min);
 
@@ -107,7 +107,7 @@ void glcd_write()
 	}
 
 	glcd_reset_bbox();
-	
+
 }
 
 #endif

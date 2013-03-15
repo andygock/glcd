@@ -83,7 +83,7 @@ void glcd_init(void)
 	glcd_command(PCD8544_SET_BIAS | 0x2);
 	
 	/* Set VOP */
-	glcd_command(PCD8544_SET_VOP | 0x32); // Experimentally determined
+	glcd_command(PCD8544_SET_VOP | 50); // Experimentally determined
 	
 	/* Back to standard instructions */
 	glcd_command(PCD8544_FUNCTION_SET); 

@@ -80,7 +80,7 @@ void glcd_init(void)
 	/* Normal mode */
 	glcd_command(PCD8544_DISPLAY_CONTROL | PCD8544_DISPLAY_NORMAL);
 
-	glcd_select_screen((uint8_t *)&glcd_buffer,&glcd_bbox);
+	glcd_select_screen(glcd_buffer,&glcd_bbox);
 
 	glcd_clear();
 

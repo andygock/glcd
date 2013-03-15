@@ -86,7 +86,7 @@ void glcd_init(void)
 	glcd_command(PCD8544_DISPLAY_CONTROL | PCD8544_DISPLAY_NORMAL);
 
 	/* Select screen buffer */
-	glcd_select_screen((uint8_t *)&glcd_buffer,&glcd_bbox);
+	glcd_select_screen(glcd_buffer,&glcd_bbox);
 	
 	/* Clear screen, we are now ready to go */
 	glcd_clear();
@@ -138,7 +138,7 @@ void glcd_init(void)
 	glcd_set_start_line(0);
 	glcd_clear_now();
 			
-	glcd_select_screen((uint8_t *)&glcd_buffer,&glcd_bbox);
+	glcd_select_screen(glcd_buffer,&glcd_bbox);
 	
 	glcd_clear();	
 	

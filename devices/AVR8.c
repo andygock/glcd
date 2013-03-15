@@ -174,4 +174,4 @@ void glcd_reset(void)
 	GLCD_DESELECT();	
 }
 
-#endif
+#endif /* defined(GLCD_DEVICE_AVR8) */

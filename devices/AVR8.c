@@ -41,15 +41,16 @@
 void glcd_init(void)
 {
 	
+#if defined(GLCD_CONTROLLER_PCD8544)
+
+	/* Set pin directions */
+	
 	/*
+	 * Set up SPI for AVR8
 	 * Note: AVR's SS pin must be set to output, regardless of whether we
 	 * actually use it. This is a requirement of SPI mster mode.
 	 */
 	sbi(DDR(AVR_SS_PORT),AVR_SS_PIN);
-	
-#if defined(GLCD_CONTROLLER_PCD8544)
-
-	/* Set pin directions */
 	
 	/*
 	 *  Set MOSI, Master SS, SCK to output (otherwise SPI won't work)
@@ -101,25 +102,18 @@ void glcd_init(void)
 
 	/* Set up GPIO directions */
 	
+	/*
+	 * Set up SPI for AVR8
+	 * Note: AVR's SS pin must be set to output, regardless of whether we
+	 * actually use it. This is a requirement of SPI mster mode.
+	 */
+	sbi(DDR(AVR_SS_PORT),AVR_SS_PIN);
+	
 	/* Set SCK and MOSI as output */
 	sbi(DDR(CONTROLLER_SCK_PORT),CONTROLLER_SCK_PIN);
 	sbi(DDR(CONTROLLER_MOSI_PORT),CONTROLLER_MOSI_PIN);
-	
-	/*
-	 * Set MISO as input with pullup. This needs to be set for
-	 * SPI to work, even though we never use or read it.
-	 */
-	cbi(DDR(CONTROLLER_MISO_PORT),CONTROLLER_MISO_PIN); // B3 MISO as input
-	sbi(CONTROLLER_MISO_PORT,CONTROLLER_MISO_PIN);
-	
-	/* Set pin to controller SS as output */
-	sbi(DDR(CONTROLLER_SS_PORT),CONTROLLER_SS_PIN); // A5
-
-	/* Set LCD A0 pin as output */
-	sbi(DDR(CONTROLLER_A0_PORT),CONTROLLER_A0_PIN); // A6
-		
-	/* Init SS pin high (i.e LCD deselected) */
-	sbi(CONTROLLER_SS_PORT,CONTROLLER_SS_PIN);
+		/*	 * Set MISO as input with pullup. This needs to be set for	 * SPI to work, even though we never use or read it.	 */	cbi(DDR(CONTROLLER_MISO_PORT),CONTROLLER_MISO_PIN); // B3 MISO as input	sbi(CONTROLLER_MISO_PORT,CONTROLLER_MISO_PIN);		/* Set pin to controller SS as output */	sbi(DDR(CONTROLLER_SS_PORT),CONTROLLER_SS_PIN); // A5	/* Set LCD A0 pin as output */
+	sbi(DDR(CONTROLLER_A0_PORT),CONTROLLER_A0_PIN); // A6			/* Init SS pin high (i.e LCD deselected) */	sbi(CONTROLLER_SS_PORT,CONTROLLER_SS_PIN);
 
 	/* Deselect LCD */
 	GLCD_DESELECT();
@@ -127,12 +121,11 @@ void glcd_init(void)
 	/* MSB first, double speed, SPI mode 0 */
 	SPCR = (1<<SPE) | (1<<MSTR) | (0<<CPOL) | (0<<CPHA);	
 	sbi(SPSR,SPI2X);
-	
-	/* Enable interrupts */
-	sei();
+		/* Enable interrupts */	sei();
 		
-	delay_ms(20); // example in datasheet does this (20ms)
+	delay_ms(30); // example in datasheet does this (20ms)
 
+	glcd_command(ST7565R_RESET); // internal reset
 	glcd_command(0xa2); // 1/9 bias
 	glcd_command(0xa0); // ADC select, normal
 	glcd_command(0xc8); // com output reverse
@@ -144,7 +137,7 @@ void glcd_init(void)
 	glcd_command(45); // this works better
 	glcd_command(0x2f); // power controller set
 	glcd_command(0xaf); // display on
-
+	
 	glcd_all_on();
 	
 	delay_ms(500);

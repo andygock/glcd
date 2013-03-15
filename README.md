@@ -19,29 +19,37 @@ Development boards tested on:
 The following symbols need to be set for the compiler:
 
 Pick microcontroller type (pick one only):
-GLCD_DEVICE_LPX111X
-GLCD_DEVICE_LPX11UXX
-GLCD_DEVICE_AVR8
-GLCD_DEVICE_STM32F0XX
+
+	GLCD_DEVICE_LPX111X
+	GLCD_DEVICE_LPX11UXX
+	GLCD_DEVICE_AVR8
+	GLCD_DEVICE_STM32F0XX
 
 Pick LCD controller type (pick one only):
-GLCD_CONTROLLER_PCD8544
-GLCD_CONTROLLER_ST7565R
-GLCD_CONTROLLER_NT75451
+
+	GLCD_CONTROLLER_PCD8544
+	GLCD_CONTROLLER_ST7565R
+	GLCD_CONTROLLER_NT75451
 
 If using a parallel interface LCD (e.g NT75451 on NGX BlueBoard):
-GLCD_USE_PARALLEL
+
+	GLCD_USE_PARALLEL
 
 When using SPI controllers:
-GLCD_USE_SPI
+
+	GLCD_USE_SPI
 
 Note the SPI symbol isn't checked, and it is fine if it is not used.
 It is for forward compatibility only.
+
+To set a reset time, used by the glcd_reset() function, set GLCD_RESET_TIME to desired duration in milliseconds.
 
 These symbols need to be set in the configuration options of your IDE, usually
 in the "defined symbols" section, or they can be defined in a makefile
 as -D options.
 
-e.g "-DGLCD_DEVICE_LPC111X"
+Example:
+
+	-DGLCD_DEVICE_LPC111X
 
 Refer to Doxygen generated pages for detailed documentation.

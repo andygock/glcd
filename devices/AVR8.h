@@ -97,12 +97,12 @@
 	 * \name Other pins needed for serial LCD controller
 	 * @{
 	 */
-	#define CONTROLLER_A0_PORT   PORTA /**< Output port to GLCD A0 pin. */
-	#define CONTROLLER_A0_PIN    6     /**< Output pin number to GLCD A0 pin. */	
-	#define CONTROLLER_SS_PORT   PORTA
-	#define CONTROLLER_SS_PIN    5
-	#define CONTROLLER_RST_PORT  PORTB
-	#define CONTROLLER_RST_PIN   4
+	#define CONTROLLER_A0_PORT   PORTC /**< Output port to GLCD A0 pin. */
+	#define CONTROLLER_A0_PIN    0     /**< Output pin number to GLCD A0 pin. */	
+	#define CONTROLLER_SS_PORT   PORTG
+	#define CONTROLLER_SS_PIN    0
+	#define CONTROLLER_RST_PORT  PORTG
+	#define CONTROLLER_RST_PIN   1
 	/**@}*/
 #else
 	#error "Controller not supported by AVR8"

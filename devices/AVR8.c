@@ -46,6 +46,13 @@ void glcd_init(void)
 	/* Set pin directions */
 	
 	/*
+	 * Set up SPI for AVR8
+	 * Note: AVR's SS pin must be set to output, regardless of whether we
+	 * actually use it. This is a requirement of SPI mster mode.
+	 */
+	sbi(DDR(AVR_SS_PORT),AVR_SS_PIN);
+	
+	/*
 	 *  Set MOSI, Master SS, SCK to output (otherwise SPI won't work)
 	 *  Must be done even if native SS pin not used
 	 */
@@ -96,7 +103,7 @@ void glcd_init(void)
 	/* Set up GPIO directions */
 	
 	/*
-	 * Set up SPI for ATMEGA1280
+	 * Set up SPI for AVR8
 	 * Note: AVR's SS pin must be set to output, regardless of whether we
 	 * actually use it. This is a requirement of SPI mster mode.
 	 */
@@ -116,8 +123,9 @@ void glcd_init(void)
 	sbi(SPSR,SPI2X);
 		/* Enable interrupts */	sei();
 		
-	_delay_ms(20); // example in datasheet does this (20ms)
+	delay_ms(30); // example in datasheet does this (20ms)
 
+	glcd_command(ST7565R_RESET); // internal reset
 	glcd_command(0xa2); // 1/9 bias
 	glcd_command(0xa0); // ADC select, normal
 	glcd_command(0xc8); // com output reverse
@@ -129,10 +137,10 @@ void glcd_init(void)
 	glcd_command(45); // this works better
 	glcd_command(0x2f); // power controller set
 	glcd_command(0xaf); // display on
-
+	
 	glcd_all_on();
 	
-	_delay_ms(500);
+	delay_ms(500);
 	glcd_normal();
 
 	glcd_set_start_line(0);
@@ -148,13 +156,12 @@ void glcd_init(void)
 	
 }
 
-uint8_t glcd_spi_write(uint8_t c)
+void glcd_spi_write(uint8_t c)
 {
 	GLCD_SELECT();
 	SPDR = c;
 	while(!(SPSR & (1<<SPIF))); /* wait until transmission is complete */
 	GLCD_DESELECT();	
-	return SPDR;
 }
 
 void glcd_reset(void)
@@ -162,7 +169,7 @@ void glcd_reset(void)
 	/* Toggle RST low to reset. Minimum pulse 100ns on datasheet. */
 	GLCD_SELECT();
 	GLCD_RESET_LOW();
-	_delay_ms(100);
+	delay_ms(100);
 	GLCD_RESET_HIGH();
 	GLCD_DESELECT();	
 }

@@ -110,7 +110,7 @@ void glcd_scrolling_bar_graph_timing(uint8_t x, uint8_t y, uint8_t width, uint8_
 	}
 	
 	if (delay) {
-		_delay_ms(delay);
+		delay_ms(delay);
 	}
 }
 

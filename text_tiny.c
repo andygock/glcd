@@ -162,7 +162,7 @@ void glcd_tiny_draw_char_xy(uint8_t x, uint8_t y, char c)
 	
 	for ( i = 0; i < font_current.width; i++ ) {
 #if defined(GLCD_DEVICE_AVR8)			
-		pgm_read_byte( font_current.font_table + ((c - font_current.start_char) * (font_current.width)) + i );
+		dat = pgm_read_byte( font_current.font_table + ((c - font_current.start_char) * (font_current.width)) + i );
 #else
 		dat = *( font_current.font_table + ((c - font_current.start_char) * (font_current.width)) + i );
 #endif

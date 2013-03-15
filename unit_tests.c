@@ -82,14 +82,14 @@ void glcd_test_circles(void)
 		for (i=0; i<=radius; i++) {
 			glcd_fill_circle(x,y,i,BLACK);
 			glcd_write();
-			_delay_ms(2);
+			delay_ms(2);
 		}
 
 		// fill the same circle above but with white
 		for (i=0; i<=radius; i++) {
 			glcd_fill_circle(x,y,i,WHITE);
 			glcd_write();
-			_delay_ms(1);
+			delay_ms(1);
 		}
 		DEMO_RETURN();
 	}
@@ -145,7 +145,7 @@ void glcd_test_text_up_down(void)
 			glcd_clear_buffer();
 			glcd_draw_string_xy(0,y,"123");
 			glcd_write();
-			_delay_ms(80);
+			delay_ms(80);
 		}
 
 		// move bottom to top
@@ -154,7 +154,7 @@ void glcd_test_text_up_down(void)
 			glcd_clear_buffer();
 			glcd_draw_string_xy(0,y,"456");
 			glcd_write();
-			_delay_ms(80);
+			delay_ms(80);
 		}
 		
 	}
@@ -190,7 +190,7 @@ void glcd_test_tiny_text(void)
 		
 		DEMO_RETURN();
 		
-		_delay_ms(1000);
+		delay_ms(1000);
 	}
 
 }
@@ -212,7 +212,7 @@ void glcd_test_rectangles(void)
 	glcd_clear_buffer();
 	glcd_tiny_draw_string(0,0,"RECTANGLE DEMO");
 	glcd_write();
-	_delay_ms(1000);
+	delay_ms(1000);
 	
 	while(1) {
 		
@@ -220,7 +220,7 @@ void glcd_test_rectangles(void)
 		glcd_draw_rect(0,0,100,50,BLACK);
 		glcd_tiny_draw_string(0,GLCD_NUMBER_OF_BANKS-1,"glcd_draw_rect");
 		glcd_write();
-		_delay_ms(1000);
+		delay_ms(1000);
 		DEMO_RETURN();
 		
 		glcd_clear();
@@ -229,29 +229,29 @@ void glcd_test_rectangles(void)
 
 		glcd_draw_rect_thick(5,5,80,30,3,6,BLACK);
 		glcd_write();
-		_delay_ms(1000);
+		delay_ms(1000);
 		DEMO_RETURN();
 		
 		glcd_draw_rect_thick(0,0,20,20,2,2,BLACK);
 		glcd_write();
-		_delay_ms(1000);
+		delay_ms(1000);
 		DEMO_RETURN();
 		
 		glcd_draw_rect_thick(100,10,20,20,5,5,BLACK);
 		glcd_write();
-		_delay_ms(1000);
+		delay_ms(1000);
 		DEMO_RETURN();
 
 		glcd_clear();
 		glcd_tiny_draw_string(0,GLCD_NUMBER_OF_BANKS-1,"glcd_draw_rect_shadow");
 		glcd_draw_rect_shadow(0,0,45,30,BLACK);
 		glcd_write();
-		_delay_ms(1000);
+		delay_ms(1000);
 		DEMO_RETURN();
 		
 		glcd_draw_rect_shadow(95,5,30,30,BLACK);
 		glcd_write();
-		_delay_ms(1000);
+		delay_ms(1000);
 		DEMO_RETURN();
 		
 	}

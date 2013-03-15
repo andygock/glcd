@@ -151,7 +151,8 @@
 /**@}*/
 
 #if !defined(GLCD_RESET_TIME)
-	#define GLCD_RESET_TIME 1
+/** Reset duration by glcd_reset(), in milliseconds */
+#define GLCD_RESET_TIME 1
 #endif
 
 /**

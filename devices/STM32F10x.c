@@ -117,7 +117,11 @@ void glcd_spi_write(uint8_t c)
 
 void glcd_reset(void)
 {
-
+	GLCD_SELECT();
+	GLCD_RESET_LOW();
+	delay_ms(GLCD_RESET_TIME);
+	GLCD_RESET_HIGH();
+	GLCD_DESELECT();
 }
 
 #endif

@@ -150,6 +150,10 @@
 
 /**@}*/
 
+#if !defined(GLCD_RESET_TIME)
+	#define GLCD_RESET_TIME 1
+#endif
+
 /**
  * Bounding box for pixels that need to be updated
  */

@@ -44,8 +44,8 @@
 	#if !defined(GLCD_USE_AVR_DELAY)
 		extern void delay_ms(uint32_t ms);
 	#else
+		/* Use AVR __delay_ms() function */
 		#include <util/delay.h>	
-		#define delay_ms(t) _delay_ms(t) 
 	#endif
 	
 #elif defined(GLCD_DEVICE_LPC111X)

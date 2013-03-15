@@ -49,13 +49,16 @@
 #define ST7565R_COLUMN_ADDRESS_SET_UPPER 0x10 
 #define ST7565R_DISPLAY_NORMAL 0b10100100
 #define ST7565R_DISPLAY_ALL_ON 0b10100101
+#define ST7565R_NORMAL  0b10100000
+#define ST7565R_REVERSE 0b10100001
+#define ST7565R_RESET   0b11100010
 #define ST7565R_SET_START_LINE (1<<6)
 
 /* These functions only available on ST7565 implementation (for now) */
 
 /* Private functions */
-static void glcd_set_column_upper(uint8_t addr);
-static void glcd_set_column_lower(uint8_t addr);
+void glcd_set_column_upper(uint8_t addr);
+void glcd_set_column_lower(uint8_t addr);
 
 /** All display points on (native) */
 void glcd_all_on(void);

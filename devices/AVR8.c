@@ -169,11 +169,7 @@ void glcd_reset(void)
 	/* Toggle RST low to reset. Minimum pulse 100ns on datasheet. */
 	GLCD_SELECT();
 	GLCD_RESET_LOW();
-#if !defined(GLCD_USE_AVR_DELAY)
 	delay_ms(GLCD_RESET_TIME);
-#else
-	_delay_ms(GLCD_RESET_TIME);
-#endif
 	GLCD_RESET_HIGH();
 	GLCD_DESELECT();	
 }

@@ -162,7 +162,7 @@ void glcd_invert_area(uint8_t x, uint8_t y, uint8_t w, uint8_t h);
  * Not yet supported with AVR pgmspace.
  * \param data Pointer to bitmap data.
  */
-void glcd_draw_bitmap(unsigned char *data);
+void glcd_draw_bitmap(const unsigned char *data);
 
 /** @}*/
 

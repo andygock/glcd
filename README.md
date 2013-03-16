@@ -67,9 +67,10 @@ external function called delay_ms(t) where t is the delay required in millisecon
 this function elsewhere in your program.
 
 If you are using avr-gcc with Atmel devices, you can force the library to use the built-in _delay_ms() function
-by setting the compiler symbol:
+by setting the compiler symbols:
 
 	GLCD_USE_AVR_DELAY
+	__DELAY_BACKWARD_COMPATIBLE__
 	
 Documentation
 -------------

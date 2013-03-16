@@ -156,6 +156,14 @@ void glcd_fill_circle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color);
  */
 void glcd_invert_area(uint8_t x, uint8_t y, uint8_t w, uint8_t h);
 
+/**
+ * Draw bitmap to screen buffer.
+ * Note this will draw to the entire buffer, its not yet possible to draw partially to the LCD.
+ * Not yet supported with AVR pgmspace.
+ * \param data Pointer to bitmap data.
+ */
+void glcd_draw_bitmap(unsigned char *data);
+
 /** @}*/
 
 #endif /* GLCD_GRAPHICS_H_ */

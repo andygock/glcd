@@ -1,6 +1,10 @@
 glcd - Graphic LCD Library
+==========================
 
 by Andy Gock
+
+Supported Devices
+-----------------
 
 Works with:
 - PCD8544 based LCDs, e.g Nokia 3110 and 5110 LCDs
@@ -15,6 +19,9 @@ MCUs supported:
 
 Development boards tested on:
 - NGX BlueBoard LPC11U37 (with NT75451 graphic LCD)
+
+Setup of symbols for compiler
+-----------------------------
 
 The following symbols need to be set for the compiler:
 
@@ -52,4 +59,22 @@ Example:
 
 	-DGLCD_DEVICE_LPC111X
 
-Refer to Doxygen generated pages for detailed documentation.
+Delay Timing
+------------
+
+Some operations such as sending a reset pulse, requires the use of a delay timer. The library will refer to a
+external function called delay_ms(t) where t is the delay required in milliseconds. Please ensure you have
+this function elsewhere in your program.
+
+If you are using avr-gcc with Atmel devices, you can force the library to use the built-in _delay_ms() function
+by setting the compiler symbol:
+
+	GLCD_USE_AVR_DELAY
+	
+Documentation
+-------------
+
+Refer to Doxygen generated pages for detailed documentation. You'll need to generate the documentation yourself,
+simply install Doxygen and load the doxygen file in the root directory of the library and generate the documents
+in a file format of your choice (HTML, PDF, TEX etc).
+

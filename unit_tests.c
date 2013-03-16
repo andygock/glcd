@@ -64,7 +64,7 @@
 #if defined(GLCD_UNIT_TEST_BITMAP_ENABLE)
 /* Open Source logo -- Size: 128x64 */
 #if defined(GLCD_DEVICE_AVR8)
-unsigned char bmp_oslogo[] PROGMEM = {
+const unsigned char bmp_oslogo[] PROGMEM = {
 #else
 const unsigned char bmp_oslogo[] = {	
 #endif /* GLCD_DEVICE_AVR8 */

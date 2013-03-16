@@ -276,12 +276,7 @@ void glcd_invert_area(uint8_t x, uint8_t y, uint8_t w, uint8_t h)
 	}
 }
 
-/** \todo Need to implement to make it work with AVR pgmspace, ARM memory mapping is a bit more friendly :) */
-#if defined(GLCD_DEVICE_AVR8)
-void glcd_draw_bitmap(PGM_P data)
-#else
 void glcd_draw_bitmap(const unsigned char *data)
-#endif
 {
 
 #if 0

@@ -277,18 +277,22 @@ void glcd_invert_area(uint8_t x, uint8_t y, uint8_t w, uint8_t h)
 }
 
 /** \todo Need to implement to make it work with AVR pgmspace, ARM memory mapping is a bit more friendly :) */
+#if defined(GLCD_DEVICE_AVR8)
+void glcd_draw_bitmap(PGM_P data)
+#else
 void glcd_draw_bitmap(const unsigned char *data)
+#endif
 {
 
 #if 0
-	/* Testing purposes only: Writing to the LCD right away */
+	/* Testing purposes only: Writing to the LCD right away (not for AVR) */
 	/* Normally, we do not do this, we just write to the screen buffer */
 	uint8_t *original_buffer;
 
 	/* Save the location of original screen buffer */
 	original_buffer = glcd_buffer_selected;
 	
-	/* Use bitmap location as screen buffer */
+	/* Use bitmap location as screen buffer (this won't work when using AVR8 PGM_P) */
 	glcd_select_screen((uint8_t *)data, glcd_bbox_selected);
 	
 	/* Make sure we write the entre display */
@@ -300,6 +304,11 @@ void glcd_draw_bitmap(const unsigned char *data)
 #endif
 	
 	/* Copy bitmap data to the screen buffer */
+#if defined(GLCD_DEVICE_AVR8)
+	memcpy_P(glcd_buffer_selected, data, (GLCD_LCD_WIDTH * GLCD_LCD_HEIGHT / 8));
+#else
 	memcpy(glcd_buffer_selected, data, (GLCD_LCD_WIDTH * GLCD_LCD_HEIGHT / 8));
+#endif
+
 	glcd_bbox_refresh(); 
 }

@@ -90,6 +90,61 @@
 
 #elif defined (GLCD_CONTROLLER_KS0108)
 
+	/**
+	 * \name Ports and pins for KS0108
+	 * @{
+	 */
+	
+	/* This uses at least 10 pins, 8 data bits, EN and RW pin, the others can be
+	   tied high or low as required.
+	 */
+	
+	/* Set to 1 for write only, ignores R/W pin operation */
+	#define CONTROLLER_WRITE_ONLY 1
+	
+	/* 8 data bits */
+	#define CONTROLLER_DB0_PORT PORTC
+	#define CONTROLLER_DB0_PIN  1
+	#define CONTROLLER_DB1_PORT PORTC
+	#define CONTROLLER_DB1_PIN  1
+	#define CONTROLLER_DB2_PORT PORTC
+	#define CONTROLLER_DB2_PIN  1
+	#define CONTROLLER_DB3_PORT PORTC
+	#define CONTROLLER_DB3_PIN  1
+	#define CONTROLLER_DB4_PORT PORTC
+	#define CONTROLLER_DB4_PIN  1
+	#define CONTROLLER_DB5_PORT PORTC
+	#define CONTROLLER_DB5_PIN  1
+	#define CONTROLLER_DB6_PORT PORTC
+	#define CONTROLLER_DB6_PIN  1
+	#define CONTROLLER_DB7_PORT PORTC
+	#define CONTROLLER_DB7_PIN  1
+	
+	/* Chip select for left screen */
+	#define CONTROLLER_CSA_PORT PORTC
+	#define CONTROLLER_CSA_PIN  1
+
+	/* Chip select for right screen */
+	#define CONTROLLER_CSB_PORT PORTC
+	#define CONTROLLER_CSB_PIN  1
+
+	/* Reset pin */	         
+	#define CONTROLLER_RESET_PORT PORTC
+	#define CONTROLLER_RESET_PIN  1
+
+	/* Data / instruction pin */
+	#define CONTROLLER_RS_PORT PORTC
+	#define CONTROLLER_RS_PIN  1
+
+	/* Read / write pin */
+	#define CONTROLLER_RW_PORT PORTC
+	#define CONTROLLER_RW_PIN  1
+
+	/* Enable pin */
+	#define CONTROLLER_EN_PORT PORTC
+	#define CONTROLLER_EN_PIN  1
+	
+	/**@}*/
 
 	#define GLCD_SELECT()
 	#define GLCD_DESELECT()

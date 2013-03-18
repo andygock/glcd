@@ -117,11 +117,12 @@ void glcd_init(void)
 	DDR(CONTROLLER_EN_PORT) |= (1<<CONTROLLER_EN_PIN);
 	DDR(CONTROLLER_RS_PORT) |= (1<<CONTROLLER_RS_PIN);
 
-	/* Define optional pins */
-#if defined(CONTROLLER_USE_CS)
+	/* CS Pins */
 	DDR(CONTROLLER_CSA_PORT) |= (1<<CONTROLLER_CSA_PIN);
 	DDR(CONTROLLER_CSB_PORT) |= (1<<CONTROLLER_CSB_PIN);
-#endif
+
+
+	/* Define optional pins */
 
 #if defined(CONTROLLER_USE_RW)
 	DDR(CONTROLLER_RW_PORT) |= (1<<CONTROLLER_RW_PIN);

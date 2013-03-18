@@ -101,7 +101,6 @@
 	
 	/* Define for write only, ignores R/W pin operation. Comment out if not using the feature */
 	//#define CONTROLLER_USE_RW
-	#define CONTROLLER_USE_CS
 	#define CONTROLLER_USE_RESET
 	
 	/* 8 data bits - can be on different ports */

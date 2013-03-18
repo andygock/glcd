@@ -98,6 +98,12 @@ void glcd_init(void)
 	/* Clear screen, we are now ready to go */
 	glcd_clear();
 
+#elif defined(GLCD_CONTROLLER_KS0108)
+
+
+
+	/* End of defined(GLCD_CONTROLLER_KS0108) */
+
 #elif defined(GLCD_CONTROLLER_ST7565R)
 
 	/* Set up GPIO directions */
@@ -156,6 +162,9 @@ void glcd_init(void)
 	
 }
 
+#if defined(GLCD_CONTROLLER_PCD8544) || defined (GLCD_CONTROLLER_ST7565R)
+/* SPI controllers only */
+
 void glcd_spi_write(uint8_t c)
 {
 	GLCD_SELECT();
@@ -164,6 +173,13 @@ void glcd_spi_write(uint8_t c)
 	GLCD_DESELECT();	
 }
 
+#elif defined (GLCD_CONTROLLER_KS0108)
+/* Parallel written controllers */
+
+#endif
+
+/* These function common to all controllers */
+
 void glcd_reset(void)
 {
 	/* Toggle RST low to reset. Minimum pulse 100ns on datasheet. */
@@ -171,7 +187,7 @@ void glcd_reset(void)
 	GLCD_RESET_LOW();
 	delay_ms(GLCD_RESET_TIME);
 	GLCD_RESET_HIGH();
-	GLCD_DESELECT();	
+	GLCD_DESELECT();
 }
 
 #endif /* defined(GLCD_DEVICE_AVR8) */

@@ -75,6 +75,9 @@
 
 #if defined(GLCD_CONTROLLER_PCD8544)
 	#include "controllers/PCD8544.h"
+
+#elif defined(GLCD_CONTROLLER_KS0108)
+	#include "controllers/KS0108.h"
 	
 #elif defined(GLCD_CONTROLLER_ST7565R)
 	#include "controllers/ST7565R.h"	

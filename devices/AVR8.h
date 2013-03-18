@@ -99,10 +99,12 @@
 	   tied high or low as required.
 	 */
 	
-	/* Set to 1 for write only, ignores R/W pin operation */
-	#define CONTROLLER_WRITE_ONLY 1
+	/* Define for write only, ignores R/W pin operation. Comment out if not using the feature */
+	//#define CONTROLLER_USE_RW
+	#define CONTROLLER_USE_CS
+	#define CONTROLLER_USE_RESET
 	
-	/* 8 data bits */
+	/* 8 data bits - can be on different ports */
 	#define CONTROLLER_DB0_PORT PORTC
 	#define CONTROLLER_DB0_PIN  1
 	#define CONTROLLER_DB1_PORT PORTC

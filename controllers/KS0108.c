@@ -33,22 +33,58 @@
 
 void glcd_command(uint8_t c)
 {
-
+	/* Set up RS and RW */
+	GLCD_RS_LOW();
+	GLCD_RW_LOW();
+	
+	/* Put the data on the bus */
+	glcd_parallel_write(c);
 }
 
 void glcd_data(uint8_t c)
 {
-
-}
-
-void glcd_set_y_address(uint8_t y)
-{
+	/* Set up RS and RW */
+	GLCD_RS_HIGH();
+	GLCD_RW_LOW();
 	
+	/* Put the data on the bus */
+	glcd_parallel_write(c);
+
 }
 
 void glcd_set_x_address(uint8_t x)
 {
+	/* x must be between from 0 to 127 */
+	/* Datasheet calls this "y", but we call x for HORIZONTAL
+	   direction */
+
+	if (x < 64) {
+		/* Page 1 - set CS2 high */
+		
+		GLCD_PAGE_1();
+		glcd_command( 0b01000000 | (0b00111111 & x) );
+		
+	} else if ((x >= 64) && (x < 127)) {
+		/* Page 2 - set CS1 high */
+		
+		GLCD_PAGE_2();
+		glcd_command( 0b01000000 | (0b00111111 & (x-64)) );
+		
+	} else {
+		/* Page exceeds allowed limit, do nothing */
+	}
 	
+}
+
+void glcd_set_y_address(uint8_t y)
+{
+	/* Set "page" (also known as a "bank"), this is not a pixel offset! */
+	/* Datasheet calls this "x", but we call y for VERTICAL
+	   direction */
+	/* y must be from 0 to 7 */
+	
+	glcd_command( 0b10111000 | (0b111 & y) );
+
 }
 
 

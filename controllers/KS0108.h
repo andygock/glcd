@@ -28,7 +28,7 @@
 #ifndef KS0108_H_
 #define KS0108_H_
 
-
-
+/* Defined in DEVICE.c */
+void glcd_parallel_write(uint8_t c);
 
 #endif /* KS0108_H_ */

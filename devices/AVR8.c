@@ -208,7 +208,29 @@ void glcd_spi_write(uint8_t c)
 }
 
 #elif defined (GLCD_CONTROLLER_KS0108)
-/* Parallel written controllers */
+/* Parallel controllers */
+
+static inline void glcd_write_pin(uint8_t byte, uint8_t bit, volatile uint8_t *port, uint8_t pin)
+{
+	/* Set the pin state, on the selected pin, to the matching bit position in 'byte' */
+	if ((1<<bit) & byte) {
+		*port |= (1<<pin);
+	} else {
+		*port &= ~(1<<pin);
+	}		
+}
+
+void glcd_parallel_write(uint8_t c)
+{
+	glcd_write_pin(c,0,&CONTROLLER_DB0_PORT,CONTROLLER_DB0_PIN);
+	glcd_write_pin(c,1,&CONTROLLER_DB1_PORT,CONTROLLER_DB1_PIN);
+	glcd_write_pin(c,2,&CONTROLLER_DB2_PORT,CONTROLLER_DB2_PIN);
+	glcd_write_pin(c,3,&CONTROLLER_DB3_PORT,CONTROLLER_DB3_PIN);
+	glcd_write_pin(c,4,&CONTROLLER_DB4_PORT,CONTROLLER_DB4_PIN);
+	glcd_write_pin(c,5,&CONTROLLER_DB5_PORT,CONTROLLER_DB5_PIN);
+	glcd_write_pin(c,6,&CONTROLLER_DB6_PORT,CONTROLLER_DB6_PIN);
+	glcd_write_pin(c,7,&CONTROLLER_DB7_PORT,CONTROLLER_DB7_PIN);
+}
 
 #endif
 

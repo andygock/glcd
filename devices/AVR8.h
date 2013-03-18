@@ -153,6 +153,15 @@
 	#define GLCD_RESET_LOW()
 	#define GLCD_RESET_HIGH()
 
+	#define GLCD_PAGE_1()
+	#define GLCD_PAGE_2()
+	
+	#define GLCD_RS_LOW()
+	#define GLCD_RS_HIGH()
+	#define GLCD_RW_LOW()
+	#define GLCD_RW_HIGH()
+	
+	
 #elif defined (GLCD_CONTROLLER_ST7565R)
 	/**
 	 * \name SPI port and pins

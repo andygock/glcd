@@ -100,10 +100,23 @@ void glcd_update_bbox(uint8_t xmin, uint8_t ymin, uint8_t xmax, uint8_t ymax)
 
 void glcd_reset_bbox()
 {
+	/* Used after physically writing to the LCD */
 	glcd_bbox_selected->x_min = GLCD_LCD_WIDTH - 1;
 	glcd_bbox_selected->x_max = 0;
 	glcd_bbox_selected->y_min = GLCD_LCD_HEIGHT -1;
 	glcd_bbox_selected->y_max = 0;	
+}
+
+void glcd_bbox_reset() {
+	glcd_reset_bbox();
+}
+
+void glcd_bbox_refresh() {
+	/* Marks bounding box as entire screen, so on next glcd_write(), it writes the entire buffer to the LCD */
+	glcd_bbox_selected->x_min = 0;
+	glcd_bbox_selected->x_max = GLCD_LCD_WIDTH - 1;
+	glcd_bbox_selected->y_min = 0;
+	glcd_bbox_selected->y_max = GLCD_LCD_HEIGHT -1;		
 }
 
 void glcd_clear(void) {

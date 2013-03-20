@@ -44,8 +44,9 @@
 	#if !defined(GLCD_USE_AVR_DELAY)
 		extern void delay_ms(uint32_t ms);
 	#else
-		#include <util/delay.h>	
-		#define delay_ms(t) _delay_ms(t) 
+		/* Use AVR __delay_ms() function */
+		#include <util/delay.h>
+		#define delay_ms(t) _delay_ms(t)
 	#endif
 	
 #elif defined(GLCD_DEVICE_LPC111X)
@@ -150,6 +151,11 @@
 
 /**@}*/
 
+#if !defined(GLCD_RESET_TIME)
+/** Reset duration by glcd_reset(), in milliseconds */
+#define GLCD_RESET_TIME 1
+#endif
+
 /**
  * Bounding box for pixels that need to be updated
  */
@@ -194,6 +200,16 @@ void glcd_update_bbox(uint8_t xmin, uint8_t ymin, uint8_t xmax, uint8_t ymax);
  */
 void glcd_reset_bbox(void);
 
+/**
+ * Same as glcd_reset_bbox()
+ */
+void glcd_bbox_reset(void);
+
+/**
+ * Marks the entire display for re-writing.
+ */
+void glcd_bbox_refresh(void);
+	
 /**
  * Clear the display. This will clear the buffer and physically write and commit it to the LCD
  */

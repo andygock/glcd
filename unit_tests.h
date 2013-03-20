@@ -35,6 +35,8 @@
 #ifndef _UNIT_TESTS_H
 #define _UNIT_TESTS_H
 
+#define GLCD_UNIT_TEST_BITMAP_ENABLE
+
 /** Make random "exploding circles" */
 void glcd_test_circles(void);
 
@@ -54,5 +56,8 @@ void glcd_test_rectangles(void);
 
 /** Demonstrate scrolling bar graph */
 void glcd_test_scrolling_graph(void);
+
+/** Demonstrate bitmap display */
+void glcd_test_bitmap_128x64(void);
 
 #endif

@@ -93,7 +93,7 @@ void glcd_init(void)
 	glcd_command(PCD8544_DISPLAY_CONTROL | PCD8544_DISPLAY_NORMAL);
 
 	/* Select screen buffer */
-	glcd_select_screen((uint8_t *)&glcd_buffer,&glcd_bbox);
+	glcd_select_screen(glcd_buffer,&glcd_bbox);
 	
 	/* Clear screen, we are now ready to go */
 	glcd_clear();
@@ -146,7 +146,7 @@ void glcd_init(void)
 	glcd_set_start_line(0);
 	glcd_clear_now();
 			
-	glcd_select_screen((uint8_t *)&glcd_buffer,&glcd_bbox);
+	glcd_select_screen(glcd_buffer,&glcd_bbox);
 	
 	glcd_clear();	
 	
@@ -169,9 +169,9 @@ void glcd_reset(void)
 	/* Toggle RST low to reset. Minimum pulse 100ns on datasheet. */
 	GLCD_SELECT();
 	GLCD_RESET_LOW();
-	delay_ms(100);
+	delay_ms(GLCD_RESET_TIME);
 	GLCD_RESET_HIGH();
 	GLCD_DESELECT();	
 }
 
-#endif
+#endif /* defined(GLCD_DEVICE_AVR8) */

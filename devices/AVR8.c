@@ -216,7 +216,7 @@ static inline void glcd_write_pin(uint8_t byte, uint8_t bit, volatile uint8_t *p
 	if ((1<<bit) & byte) {
 		*port |= (1<<pin);
 	} else {
-		*port &= ~(1<<pin);
+		*port &= (unsigned char) ~(1<<pin);
 	}		
 }
 

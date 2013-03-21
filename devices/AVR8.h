@@ -42,8 +42,8 @@
 
 #ifndef _BITHELPERS_
 #define _BITHELPERS_
-#define sbi(var, mask)   ((var) |= _BV(mask))
-#define cbi(var, mask)   ((var) &= ~(_BV(mask)))
+#define sbi(var, mask)   ((var) |= (unsigned char)_BV(mask))
+#define cbi(var, mask)   ((var) &= (unsigned char)~(_BV(mask)))
 #define DDR(x) (*(&x - 1))
 #define PIN(x) (*(&x - 2)) 
 #endif

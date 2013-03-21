@@ -193,7 +193,7 @@ void glcd_draw_circle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color)
 	int8_t f = 1 - r;
 	int8_t ddF_x = 1;
 	int8_t ddF_y = -2 * r;
-	int8_t x = 0;
+	int8_t x;
 	int8_t y = r;
 	
 	glcd_update_bbox(x0-r, y0-r, x0+r, y0+r);
@@ -232,7 +232,7 @@ void glcd_fill_circle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color)
 	int8_t f = 1 - r;
 	int8_t ddF_x = 1;
 	int8_t ddF_y = -2 * r;
-	int8_t x = 0;
+	int8_t x;
 	int8_t y = r;
 	
 	int16_t i;

@@ -73,10 +73,12 @@ void glcd_set_start_line(uint8_t addr)
 /** Clear the display immediately, does not buffer */
 void glcd_clear_now(void)
 {
-	for (uint8_t page = 0; page < GLCD_NUMBER_OF_BANKS; page++) {
+	uint8_t page;
+	for (page = 0; page < GLCD_NUMBER_OF_BANKS; page++) {
 		glcd_set_y_address(page);
 		glcd_set_x_address(0);
-		for (uint8_t col = 0; col < GLCD_NUMBER_OF_COLS; col++) {
+		uint8_t col;
+		for (col = 0; col < GLCD_NUMBER_OF_COLS; col++) {
 			glcd_data(0);
 		}			
 	}
@@ -84,10 +86,12 @@ void glcd_clear_now(void)
 
 void glcd_pattern(void)
 {
-	for (uint8_t page = 0; page < GLCD_NUMBER_OF_BANKS; page++) {
+	uint8_t page;
+	for (page = 0; page < GLCD_NUMBER_OF_BANKS; page++) {
 		glcd_set_y_address(page);
 		glcd_set_x_address(0);
-		for (uint8_t col = 0; col < GLCD_NUMBER_OF_COLS; col++) {
+		uint8_t col;
+		for (col = 0; col < GLCD_NUMBER_OF_COLS; col++) {
 			glcd_data( (col / 8 + 2) % 2 == 1 ? 0xff : 0x00 );
 		}			
 	}

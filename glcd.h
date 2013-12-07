@@ -67,7 +67,13 @@
 	#include "devices/inc/STM32F0xx.h"
 	extern void delay_ms(uint32_t ms);
 	#define PROGMEM
-	
+
+#elif defined(GLCD_DEVICE_RASPBERRYPI)
+	#include <bcm2835.h>
+	#include "devices/inc/RASPBERRYPI.h"
+	#define delay_ms(t) bcm2835_delay(t)
+	#define PROGMEM
+
 #else
 	#error "Device not supported"
 	

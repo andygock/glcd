@@ -10,64 +10,61 @@
 
 void glcd_command(uint8_t c)
 {
-	GLCD_A0_LOW();
-	glcd_spi_write(c);	
+    glcd_rs_cmd();
+    glcd_spi_write(c);
 }
 
 void glcd_data(uint8_t c)
 {
-	GLCD_A0_HIGH();
-	glcd_spi_write(c);	
+    glcd_rs_data();
+    glcd_spi_write(c);
 }
 
 void glcd_set_contrast(uint8_t val) {
-	asm("break");
 }
 
 void glcd_power_down(void)
 {
-	asm("break");
 }
 
 void glcd_power_up(void)
 {
-	asm("break");
 }
 
 void glcd_set_y_address(uint8_t y)
 {
-	glcd_command(ST7565R_PAGE_ADDRESS_SET | (0b00001111 & y));	
+    glcd_command(ST7565R_PAGE_ADDRESS_SET | (0b00001111 & y));	
 }
 
 void glcd_set_x_address(uint8_t x)
 {
-	glcd_set_column_upper(x);
-	glcd_set_column_lower(x);	
+    glcd_set_column_upper(x);
+    glcd_set_column_lower(x);
 }
 
 void glcd_all_on(void)
 {
-	glcd_command(ST7565R_DISPLAY_ALL_ON);
+    glcd_command(ST7565R_DISPLAY_ALL_ON);
 }
 
 void glcd_normal(void)
 {
-	glcd_command(ST7565R_DISPLAY_NORMAL);
+    glcd_command(ST7565R_DISPLAY_NORMAL);
 }
 
 void glcd_set_column_upper(uint8_t addr)
 {
-	glcd_command(ST7565R_COLUMN_ADDRESS_SET_UPPER | (addr >> 4));
+    glcd_command(ST7565R_COLUMN_ADDRESS_SET_UPPER | (addr >> 4));
 }
 
 void glcd_set_column_lower(uint8_t addr)
 {
-	glcd_command(ST7565R_COLUMN_ADDRESS_SET_LOWER | (0x0f & addr));
+    glcd_command(ST7565R_COLUMN_ADDRESS_SET_LOWER | (0x0f & addr));
 }
 
 void glcd_set_start_line(uint8_t addr)
 {
-	glcd_command( ST7565R_SET_START_LINE | (0b00111111 & addr));
+    glcd_command( ST7565R_SET_START_LINE | (0b00111111 & addr));
 }
 
 /** Clear the display immediately, does not buffer */

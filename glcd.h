@@ -67,7 +67,13 @@
 	#include "devices/inc/STM32F0xx.h"
 	extern void delay_ms(uint32_t ms);
 	#define PROGMEM
-	
+
+#elif defined(GLCD_DEVICE_RASPBERRYPI)
+	#include <bcm2835.h>
+	#include "devices/inc/RASPBERRYPI.h"
+	#define delay_ms(t) bcm2835_delay(t)
+	#define PROGMEM
+
 #else
 	#error "Device not supported"
 	
@@ -134,8 +140,8 @@
 		#define GLCD_LCD_WIDTH 84
 		#define GLCD_LCD_HEIGHT 48
 	#elif defined(GLCD_CONTROLLER_ST7565R) || defined(GLCD_CONTROLLER_NT75451)
-		#define GLCD_LCD_WIDTH 128
-		#define GLCD_LCD_HEIGHT 64
+		#define GLCD_LCD_WIDTH 132
+		#define GLCD_LCD_HEIGHT 65
 	#else
 		#define GLCD_LCD_WIDTH 128
 		#define GLCD_LCD_HEIGHT 64

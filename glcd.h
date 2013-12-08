@@ -140,8 +140,8 @@
 		#define GLCD_LCD_WIDTH 84
 		#define GLCD_LCD_HEIGHT 48
 	#elif defined(GLCD_CONTROLLER_ST7565R) || defined(GLCD_CONTROLLER_NT75451)
-		#define GLCD_LCD_WIDTH 128
-		#define GLCD_LCD_HEIGHT 64
+		#define GLCD_LCD_WIDTH 132
+		#define GLCD_LCD_HEIGHT 65
 	#else
 		#define GLCD_LCD_WIDTH 128
 		#define GLCD_LCD_HEIGHT 64

@@ -48,7 +48,7 @@ int glcd_init(void)
     bcm2835_spi_begin();
     bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);      // The default
     bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);                   // The default
-    bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_65536); // The default
+    bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_8); // The default
 
 #else
     #error 'Parallel not supported'
@@ -61,14 +61,14 @@ int glcd_init(void)
     bcm2835_gpio_fsel(CONTROLLER_GPIO_LEDA_PIN, BCM2835_GPIO_FSEL_OUTP);
     bcm2835_gpio_write(CONTROLLER_GPIO_LEDA_PIN, HIGH);
     bcm2835_gpio_write(CONTROLLER_GPIO_RESET_PIN, LOW);
-    delay_ms(50);
+    delay_ms(5);
     bcm2835_gpio_write(CONTROLLER_GPIO_RESET_PIN, HIGH);
-    delay_ms(50);
+    delay_ms(5);
     glcd_rs_cmd();
     glcd_spi_write(ST7563R_POWER_SET_1);
     glcd_spi_write(ST7563R_POWER_SET_2);
     glcd_spi_write(ST7563R_POWER_SET_3);
-    glcd_spi_write(ST7563R_RESISTOR_RATIO_BASE & 0b00000001);
+    glcd_spi_write(ST7563R_RESISTOR_RATIO_BASE | 0b00000101);
     glcd_spi_write(ST7563R_BIAS_SET_0);
     glcd_spi_write(ST7563R_SER_COM_D);
     glcd_spi_write(ST7565R_REVERSE);
@@ -82,8 +82,8 @@ int glcd_init(void)
 
 void glcd_spi_write(uint8_t c)
 {
-    bcm2835_spi_chipSelect(CONTROLLER_SPI_CS);                      // The default
-    bcm2835_spi_setChipSelectPolarity(CONTROLLER_SPI_CS, LOW);      // the default
+    bcm2835_spi_chipSelect(CONTROLLER_SPI_CS);
+    bcm2835_spi_setChipSelectPolarity(CONTROLLER_SPI_CS, LOW);
     bcm2835_spi_transfer(c);
     bcm2835_spi_chipSelect(BCM2835_SPI_CS_NONE);
 }

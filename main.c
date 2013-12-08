@@ -1,8 +1,11 @@
 #include <stdio.h>
-#include <bcm2835.h>
 #include <string.h>
 #include <sched.h>
+#include <stdlib.h>
 #include <sys/mman.h>
+
+#include <bcm2835.h>
+
 #include "glcd.h"
 #include "fonts/font5x7.h"
 
@@ -16,24 +19,33 @@ int main(int argc, char* const argv[])
     sched_setscheduler(0, SCHED_FIFO, &sp);
     mlockall(MCL_CURRENT | MCL_FUTURE);
 
-    if (glcd_init() > 0){
-        printf("glcd_init error!");
-    }
     glcd_tiny_set_font(Font5x7, 5, 7, 32, 127);
-    fflush(stdout);
-    glcd_all_on();
-    bcm2835_delay(1000 * 1);
+    glcd_select_screen((uint8_t *)&glcd_buffer, &glcd_bbox);
+
+    if (glcd_init() > 0) {
+        printf("glcd_init error!");
+        fflush(stdout);
+        exit(EXIT_FAILURE);
+    }
     glcd_normal();
-    bcm2835_delay(1000 * 5);
-    glcd_pattern();
-    bcm2835_delay(1000 * 5);
-    glcd_select_screen(&glcd_buffer, &glcd_bbox);
     glcd_clear_buffer();
-    glcd_tiny_draw_string(10,10,"Hello World!");
+    glcd_tiny_draw_string(4, 2, " #/***/#");
+    glcd_tiny_draw_string(4, 3, " #|^_^|# Hello World!");
+    glcd_tiny_draw_string(4, 4, " #/---/#  By HanChen");
     glcd_write();
-    bcm2835_delay(1000 * 10);
+    bcm2835_delay(1000 * 30);
+
+    // Relative positioning
+    glcd_clear_buffer();
+    glcd_fill_rect(4, 0, 127, 63, 1);
+    glcd_fill_rect(4, 0, 1, 1, 0);
+    glcd_fill_rect(131, 0, 1, 1, 1);
+    glcd_fill_rect(4, 63, 1, 1, 1);
+    glcd_fill_rect(131,63, 1, 1, 1);
+    glcd_write();
+    bcm2835_delay(1000 * 1);
     glcd_close();
-    return 0;
+    exit(EXIT_SUCCESS);
 }
 
 

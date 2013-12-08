@@ -58,7 +58,7 @@
 /**
  * Initialise the LCD. This function is platform and controller specific.
  */
-void glcd_init(void);
+int glcd_init(void);
 
 void glcd_rs_data(void);
 

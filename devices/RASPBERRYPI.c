@@ -45,19 +45,21 @@ int glcd_init(void)
     if (!bcm2835_init()) return 1;
 
 #if !defined(GLCD_USE_PARALLEL)
-    if (!bcm2835_spi_begin()) return 2;
+    bcm2835_spi_begin();
     bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);      // The default
     bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);                   // The default
     bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_65536); // The default
 
 #else
     #error 'Parallel not supported'
+
 #endif
 
 #if defined(GLCD_CONTROLLER_ST7565R)
     bcm2835_gpio_fsel(CONTROLLER_GPIO_RESET_PIN, BCM2835_GPIO_FSEL_OUTP);
     bcm2835_gpio_fsel(CONTROLLER_GPIO_RS_PIN, BCM2835_GPIO_FSEL_OUTP);
     bcm2835_gpio_fsel(CONTROLLER_GPIO_LEDA_PIN, BCM2835_GPIO_FSEL_OUTP);
+    bcm2835_gpio_write(CONTROLLER_GPIO_LEDA_PIN, HIGH);
     bcm2835_gpio_write(CONTROLLER_GPIO_RESET_PIN, LOW);
     delay_ms(50);
     bcm2835_gpio_write(CONTROLLER_GPIO_RESET_PIN, HIGH);
@@ -66,10 +68,10 @@ int glcd_init(void)
     glcd_spi_write(ST7563R_POWER_SET_1);
     glcd_spi_write(ST7563R_POWER_SET_2);
     glcd_spi_write(ST7563R_POWER_SET_3);
-    glcd_spi_write(ST7563R_RESISTOR_RATIO_BASE & 0b00000011);
+    glcd_spi_write(ST7563R_RESISTOR_RATIO_BASE & 0b00000001);
     glcd_spi_write(ST7563R_BIAS_SET_0);
     glcd_spi_write(ST7563R_SER_COM_D);
-    glcd_spi_write(ST7565R_NORMAL);
+    glcd_spi_write(ST7565R_REVERSE);
     glcd_spi_write(ST7565R_DISPLAY_ON);
 #else
 	#error "Controller not supported by RASPBERRY"
@@ -83,7 +85,7 @@ void glcd_spi_write(uint8_t c)
     bcm2835_spi_chipSelect(CONTROLLER_SPI_CS);                      // The default
     bcm2835_spi_setChipSelectPolarity(CONTROLLER_SPI_CS, LOW);      // the default
     bcm2835_spi_transfer(c);
-    bcm2835_spi_shipSelect(BCM2835_SPI_CS_NONE);
+    bcm2835_spi_chipSelect(BCM2835_SPI_CS_NONE);
 }
 
 void glcd_reset(void)
@@ -108,7 +110,11 @@ void glcd_rs_cmd(void)
 
 void glcd_close(void)
 {
-    bcm2835_spi_shipSelect(BCM2835_SPI_CS_NONE);
+
+    glcd_rs_cmd();
+    glcd_spi_write(ST7565R_DISPLAY_OFF);
+    bcm2835_gpio_write(CONTROLLER_GPIO_LEDA_PIN, LOW);
+    bcm2835_spi_chipSelect(BCM2835_SPI_CS_NONE);
     bcm2835_spi_end();
     bcm2835_close();
 

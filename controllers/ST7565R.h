@@ -52,7 +52,7 @@
 #define ST7563R_BIAS_SET_0 0b10100010
 #define ST7563R_BIAS_SET_1 0b10100010
 
-#define ST7563R_SER_COM_D 0b11001000  //Common output mode select
+#define ST7563R_SER_COM_D  0b11000000  //Common output mode select
 
 #define ST7565R_NORMAL  0b10100000
 #define ST7565R_REVERSE   0b10100001

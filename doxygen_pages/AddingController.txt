@@ -1,0 +1,25 @@
+/**
+
+\page AddingController Adding a new chipset
+
+\page AddingController 
+
+Code for new controllers are stored in `devices/`. Use a descriptive name for the corresponding `.c` and `.h` file.
+
+The best way to see how to do this is to view the files already in there.
+
+The code in here define routines which are specific for the chipset. This does not include the Required Functions used in the deive specific code.
+
+\see \ref AddingDevice
+
+Code in these files must only call functions which are:
+
+- those *required* functions in the `devices/*.h` files
+- within the same file as itself
+- functions declared by glcd.h
+
+\see \ref DeviceRequiredFunctions
+
+If you *must* do something that is compiler specfic, seperate the code using preprocessor commands that isolate the compiler in question. But try and avoid this if possible.
+
+*/

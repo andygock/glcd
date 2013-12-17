@@ -1,6 +1,10 @@
 /**
 
-\page AddingDevice
+\page AddingDevice Adding a new device
+
+\section AddingDevice Adding a new device
+
+Before you add a device, you should make sure you have set up your controller code.
 
 To add a custom device (microcontroller) implementation, you may wish to check out the source code of the existing devices for some guidance. Note that references to "device" refers to a microcontroller, not the graphics controller.
 
@@ -8,17 +12,25 @@ The device specific code is stored under:
 
     devices/
 	
-For example, files relating to NXP LPC111x are:
-    - devices/LPC111x.c
-	- devices/LPC111x.h
-	
+For example, files relating to NXP LPC111x are `devices/LPC111x.c` and `devices/LPC111x.h`
+
+\subsection DeviceRequiredFunctions Required functions
+
 These files define behaviour which are specific to that device. Behaviour specific to a type of device should be <b>not</b> placed in any other directory other than this.
 
-These files should have functions for all those required by glcd_devices.h
+These files should have functions for all those declared in by `glcd_devices.h`.
 
-\see FunctionsDevices
+This currently only includes, in the case of SPI operation:
 
-The corresponding devices/mydevice.h should be used as well to store all required constants. Try and avoid using "magic numbers" in the code. This header file should also be used to store port and pin information for the implementation.
+	glcd_init(void)
+	glcd_reset(void)
+	glcd_spi_write(uint8_t c)
+
+In the case of parallel chipset operation `glcd_parallel_write(uint8_t c)` is used instead of ` glcd_spi_write(uint8_t c)`.
+
+For chipsets that may not need ay of the functions above, you'll still need to define the function in your code, even if you just leave it blank.
+
+The corresponding `devices/mydevice.h` should be used as well to store all required constants. Try and avoid using "magic numbers" in the code. This header file should also be used to store port and pin information for the implementation.
 
 Example:
 
@@ -48,5 +60,10 @@ If certain code is specific to a controller and is not universal, use ifdef stat
 	#error "Controller not supported for LPC111x"
 #endif
 \endcode
+
+## Overriding configurations
+
+Coming soon.
+
 
 */

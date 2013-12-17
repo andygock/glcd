@@ -23,7 +23,7 @@ Development boards tested on:
 Setup of symbols for compiler
 -----------------------------
 
-The following symbols need to be set for the compiler:
+The following symbols need to be defined for the compiler:
 
 Pick microcontroller type (pick one only):
 
@@ -46,14 +46,15 @@ When using SPI controllers:
 
 	GLCD_USE_SPI
 
-Note the SPI symbol isn't checked, and it is fine if it is not used.
-It is for forward compatibility only.
+Note the SPI symbol isn't actually checked by the source at the moment, and it is fine if it is not used. It is for forward compatibility only. One day I may decide to check for it.
 
-To set a reset time, used by the glcd_reset() function, set GLCD_RESET_TIME to desired duration in milliseconds.
+Not all combinations of microcontroller platform and LCD controllers are supported out of the box. However you can edit the files `devices/` and `controllers/` and add your desired combination. More information on how to do this can be read in the doxygen documentation.
+
+To set a reset time, used by the `glcd_reset()` function, set `GLCD_RESET_TIME` to desired duration in milliseconds.
 
 These symbols need to be set in the configuration options of your IDE, usually
 in the "defined symbols" section, or they can be defined in a makefile
-as -D options.
+as `-D` options.
 
 Example:
 
@@ -63,10 +64,10 @@ Delay Timing
 ------------
 
 Some operations such as sending a reset pulse, requires the use of a delay timer. The library will refer to a
-external function called delay_ms(t) where t is the delay required in milliseconds. Please ensure you have
+external function called `delay_ms(t)` where t is the delay required in milliseconds. Please ensure you have
 this function elsewhere in your program.
 
-If you are using avr-gcc with Atmel devices, you can force the library to use the built-in _delay_ms() function
+If you are using avr-gcc with Atmel devices, you can force the library to use the built-in `_delay_ms()` function
 by setting the compiler symbols:
 
 	GLCD_USE_AVR_DELAY

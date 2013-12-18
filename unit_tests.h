@@ -37,6 +37,8 @@
 
 #define GLCD_UNIT_TEST_BITMAP_ENABLE
 
+extern volatile uint8_t unit_test_return;
+
 /** Make random "exploding circles" */
 void glcd_test_circles(void);
 

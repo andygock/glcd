@@ -3,22 +3,56 @@ glcd - Graphic LCD Library
 
 by Andy Gock
 
-Supported Devices
------------------
+Up to date documentation
+------------------------
+
+For up to date documentation, please see the doxygen pages under the `doxygen_pages` directory.
+
+A online version can also be seen at:
+
+http://s.agock.com/glcd-documentation
+
+However this site may not always be kept up to date.
+
+Introduction
+============
+
+Welcome to GLCD, an open source graphic LCD library written by Andy Gock.
+
+Author's web site: http://agock.com/
+
+GitHub repository: https://github.com/andygock/glcd
+
+This library has been written cleanly, to allow easy modification for use with different microcontroller devices and controller chipsets. Logic relating to devices and controllers are palced in seperate files and specific implementations can be chosen by the use of special defined symbols.
+
+It is suitable for monochrome (black and white) LCDs with page by page data and command write style data transfer protocol. It is not suitable for color graphic LCDs.
+
+Supported controllers and chipsets
+----------------------------------
 
 Works with:
+
 - PCD8544 based LCDs, e.g Nokia 3110 and 5110 LCDs
 - ST7565R serial interface (used in Newhaven Display NHD-C12864WC-FSW-FBW-3V3-M)
 - NT75451 parallel interface (used on NGX BlueBoards)
 
+Supported microcontrollers
+--------------------------
+
 MCUs supported:
+
 - Atmel AVR 8-bit
 - NXP LPC111x ARM Cortex-M0
 - NXP LPC11Uxx ARM Cortex-M0
 - ST STM32 F0 ARM Cortex-M0
 
 Development boards tested on:
+
 - NGX BlueBoard LPC11U37 (with NT75451 graphic LCD)
+
+### Special note
+
+Not all combinations of microcontroller platform and LCD controllers are supported out of the box. However you can edit the files `devices/` and `controllers/` and add your desired combination. More information on how to do this can be read in the doxygen documentation.
 
 Setup of symbols for compiler
 -----------------------------
@@ -48,8 +82,6 @@ When using SPI controllers:
 
 Note the SPI symbol isn't actually checked by the source at the moment, and it is fine if it is not used. It is for forward compatibility only. One day I may decide to check for it.
 
-Not all combinations of microcontroller platform and LCD controllers are supported out of the box. However you can edit the files `devices/` and `controllers/` and add your desired combination. More information on how to do this can be read in the doxygen documentation.
-
 To set a reset time, used by the `glcd_reset()` function, set `GLCD_RESET_TIME` to desired duration in milliseconds.
 
 These symbols need to be set in the configuration options of your IDE, usually
@@ -76,7 +108,8 @@ by setting the compiler symbols:
 Documentation
 -------------
 
-Refer to Doxygen generated pages for detailed documentation. You'll need to generate the documentation yourself,
+Refer to Doxygen generated pages for detailed documentation. You'll can generate the documentation yourself,
 simply install Doxygen and load the doxygen file in the root directory of the library and generate the documents
 in a file format of your choice (HTML, PDF, TEX etc).
 
+There is also a online version (link at top of this document)

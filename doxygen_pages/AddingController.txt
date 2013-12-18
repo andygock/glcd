@@ -22,4 +22,8 @@ Code in these files must only call functions which are:
 
 If you *must* do something that is compiler specfic, seperate the code using preprocessor commands that isolate the compiler in question. But try and avoid this if possible.
 
+## Updating glcd.h
+
+After adding your device and controller, you'll also need to edit glcd.h, and make any additions as needed. Take a look at the existing code to see what needs to be done. Devices specific such as preprocessor macros, compiler specific include statements can be added here.
+
 */

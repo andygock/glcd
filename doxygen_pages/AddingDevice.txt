@@ -61,6 +61,10 @@ If certain code is specific to a controller and is not universal, use ifdef stat
 #endif
 \endcode
 
+## Updating glcd.h
+
+After adding your device and controller, you'll also need to edit glcd.h, and make any additions as needed. Take a look at the existing code to see what needs to be done. Devices specific such as preprocessor macros, compiler specific include statements can be added here.
+
 ## Overriding configurations
 
 Coming soon.

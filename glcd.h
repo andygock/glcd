@@ -70,7 +70,7 @@
 	
 #else
 	#error "Device not supported"
-	
+
 #endif
 
 #if defined(GLCD_CONTROLLER_PCD8544)

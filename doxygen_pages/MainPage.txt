@@ -30,6 +30,7 @@ Current supported devices / microcontrollers:
 - NXP LPC111x ARM Cortex
 - NXP LPC11Uxx ARM Cortex
 - ST STM32F0XX Arm Cortex
+- Microchip PIC24H
 
 \section CompilerSetup Compiler Setup
 
@@ -41,6 +42,7 @@ Pick microcontroller type (pick one only):
 	GLCD_DEVICE_LPX11UXX
 	GLCD_DEVICE_AVR8
 	GLCD_DEVICE_STM32F0XX
+	GLCD_DEVICE_PIC24H
 
 Pick LCD controller type (pick one only):
 

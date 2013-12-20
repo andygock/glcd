@@ -83,6 +83,8 @@ void glcd_init(void)
 	SPI1CON1bits.SMP = 0;    /* Input data is sampled at the middle of data */
 	SPI1CON1bits.CKE = 0;    /* Serial output data changes on transition */
 	SPI1CON1bits.CKP = 0;    /* Idle state for clock is a low level */
+	SPI1CON1bits.PPRE = 0b11;  /* Primary prescale = 1:1 */
+	SPI1CON1bits.SPRE = 0b001; /* Secondary prescale = 4:1 */
 	SPI1CON1bits.MSTEN = 1;  /* Master mode Enabled */
 	SPI1STATbits.SPIEN = 1;  /* Enable SPI module */
 

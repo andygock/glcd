@@ -67,9 +67,18 @@
 	#include "devices/inc/STM32F0xx.h"
 	extern void delay_ms(uint32_t ms);
 	#define PROGMEM
-	
+
+#elif defined(GLCD_DEVICE_PIC24H)
+	#define FCY (FOSC/2)
+	#include <stdint.h>
+	#include <xc.h>
+	#include <libpic30.h>
+	#include "devices/PIC24H.h"
+	#define PROGMEM
+	#define delay_ms(t) __delay_ms(t)
+
 #else
-	#error "Device not supported"
+	#error "Device not supported or defined"
 
 #endif
 
@@ -83,7 +92,7 @@
 	#include "controllers/NT75451.h"
 		
 #else
-	#error "Controller not supported"
+	#error "Controller not supported or defined"
 	
 #endif
 

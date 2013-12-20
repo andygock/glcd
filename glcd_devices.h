@@ -44,8 +44,12 @@
 	#include "LPC11Uxx.h"
 #elif defined(GLCD_DEVICE_STM32F0XX)
 	#include "STM32F0xx.h"
+#elif defined(GLCD_DEVICE_PIC24H)
+	#include <stdint.h>
+	#include <xc.h>
+	#include <libpic30.h>
 #else
-	#error "Device not supported"
+	#error "Device not supported or defined"
 #endif
 
 /** \addtogroup Devices Devices

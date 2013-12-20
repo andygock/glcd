@@ -84,7 +84,6 @@ void glcd_write()
 {
 	uint8_t bank;
 
-
 	for (bank = 0; bank < PCD8544_MAX_BANKS; bank++) {
 		/* Each bank is a single row 8 bits tall */
 		uint8_t column;

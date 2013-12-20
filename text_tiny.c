@@ -105,7 +105,7 @@ void glcd_tiny_draw_string_P(uint8_t x, uint8_t line, const char *str)
 		return;
 	}
 	while (1) {
-#if defined(GLCD_DEVICE_AVR8)				
+#if defined(GLCD_DEVICE_AVR8)
 		char c = pgm_read_byte(str++);
 #else
 		char c = *(str++);

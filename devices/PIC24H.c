@@ -1,7 +1,7 @@
 /**
    \file PIC24H.c
    \brief Functions relating to Microchip PIC24H (16-bit).
-          For use with xc16 compiler
+          For use with xc16 compiler.
    \author Andy Gock
  */ 
 
@@ -32,14 +32,14 @@
 	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-
 #include "../glcd.h"
-#include "PIC24H.h"
 
 #if defined(GLCD_DEVICE_USER)
 	#include "glcd_user_config.h"
 	#include "glcd_user_config.c"
 #else
+
+#include "PIC24H.h"
 
 #if defined(GLCD_DEVICE_PIC24H)
 
@@ -59,7 +59,7 @@ void glcd_init(void)
 	CONTROLLER_SCK_TRIS = 0;
 
 	/* If the pins is also an ADC port, set these as digital mode */
-	// Do we really need to do this, or will setting RPxR deal with this */
+	// Do we really need to do this, or will setting RPxR deal with this
 	//_PCFG9 = 1;
 	//_PCFG10 = 1;
 

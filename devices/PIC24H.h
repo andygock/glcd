@@ -1,7 +1,7 @@
 /**
    \file PIC24H.c
    \brief Functions relating to Microchip PIC24H (16-bit).
-          For use with xc16 compiler
+          For use with xc16 compiler.
    \author Andy Gock
  */
 /*
@@ -78,7 +78,7 @@
 	#define CONTROLLER_RST_PIN   _LATA2
 	/**@}*/
 
-#elif defined (GLCD_CONTROLLER_ST7565R)
+#elif defined(GLCD_CONTROLLER_ST7565R)
 
 	#error "ST7565R not supported on PIC24H"
 

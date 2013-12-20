@@ -45,10 +45,15 @@ MCUs supported:
 - NXP LPC111x ARM Cortex-M0
 - NXP LPC11Uxx ARM Cortex-M0
 - ST STM32 F0 ARM Cortex-M0
+- Microchip PIC24H (and probably other 16-bit MCUs)
 
-Development boards tested on:
+Development boards tested on (with onboard LCD):
 
 - NGX BlueBoard LPC11U37 (with NT75451 graphic LCD)
+
+Development boards tested on (without onboard LCD):
+
+- Microstick II with PIC24H and Nokia 3310/5110 LCD
 
 ### Special note
 

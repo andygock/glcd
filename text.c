@@ -134,6 +134,12 @@ uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
 			}				
 		}
 		return var_width;	
+	
+	} else if (font_current.table_type == GLCD_UTILS) {
+		// font table format of glcd-utils
+		// a complete row is written first (not completed columns)
+		// not yet supported
+		return 0;
 		
 	} else {
 		// don't recognise the font table

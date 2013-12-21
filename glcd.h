@@ -257,7 +257,7 @@ void glcd_scroll_line(void);
 
 /** @}*/
 
-enum font_table_type { STANG, MIKRO };
+enum font_table_type { STANG, MIKRO, GLCD_UTILS };
 
 typedef struct {
 	const char *font_table;

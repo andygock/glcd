@@ -156,6 +156,26 @@ uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
 		   - A complete row is written first (not completed columns)
 		   - Width not stored, but we can search and determine it
 		   - Not yet supported */
+		
+		uint8_t i;
+		uint8_t var_width;
+		
+		uint8_t bytes_high = font_current.height / 8 + 1;
+		uint8_t bytes_per_char = font_current.width * bytes_high;
+		
+		const char *p;
+		
+		/* Point to chars first byte */
+		p = font_current.font_table + (c - font_current.start_char) * bytes_per_char;
+
+	
+		/* Determine the width of the character */
+		var_width = 0;
+		
+		
+		/* For glcd-utils format, we write one complete row at a time */
+		
+		
 		return 0;
 		
 	} else {

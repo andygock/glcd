@@ -124,6 +124,10 @@ uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
 					if (x+i >= GLCD_LCD_WIDTH || y+j*8+bit >= GLCD_LCD_HEIGHT) {
 						return 0;
 					}					
+					/* We should not write if the y bit exceeds font height */
+					if ((j*8 + bit) >= font_current.height) {
+						continue;
+					}
 					
 					if (dat & (1<<bit)) {
 						glcd_set_pixel(x+i,y+j*8+bit,BLACK);

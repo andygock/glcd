@@ -157,26 +157,85 @@ uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
 		   - Width not stored, but we can search and determine it
 		   - Not yet supported */
 		
-		uint8_t i;
-		uint8_t var_width;
-		
-		uint8_t bytes_high = font_current.height / 8 + 1;
-		uint8_t bytes_per_char = font_current.width * bytes_high;
-		
+		uint8_t i, var_width, n;
+		uint8_t bytes_high, bytes_per_char;
 		const char *p;
+
+		bytes_high = font_current.height / 8 + 1;
+		bytes_per_char = font_current.width * bytes_high;
 		
 		/* Point to chars first byte */
 		p = font_current.font_table + (c - font_current.start_char) * bytes_per_char;
 
-	
 		/* Determine the width of the character */
-		var_width = 0;
+		var_width = font_current.width;
+		
+		n = 0; /* How many columns back from the end */
+		
+		while (1) {
+			uint8_t max_byte = 0;
+			uint8_t row = 0;
+			
+			for (row = 0; row < bytes_high; row++) {
+				uint8_t offset;
+				offset = (font_current.width - 1 - n) * row;
+				max_byte = *(p + offset);
+			}
+			if (max_byte == 0) {
+				// column is empty for all rows, go left and test again
+				// reduce variable width by 1
+				var_width--;
+				if (var_width == 0) {
+					break;
+				}
+			} else {
+				break; // part of a character was found
+			}
+			n++;
+		}
 		
 		
 		/* For glcd-utils format, we write one complete row at a time */
+		uint8_t j;
+		for ( j = 0; j < bytes_high; j++ ) {
+			// loop one row at a time
 		
+			uint8_t i;
+			for ( i = 0; i < var_width; i++ ) {
+				// column
+				
+				uint8_t dat, bit;
+				
+				// this below is wrong, need to fix!
+#if defined(GLCD_DEVICE_AVR8)				
+				dat = pgm_read_byte( p + i*bytes_high + j );
+#else
+				dat = *( p + i*bytes_high + j );
+#endif
+				
+				for (bit = 0; bit < 8; bit++) {
+					
+					if (x+i >= GLCD_LCD_WIDTH || y+j*8+bit >= GLCD_LCD_HEIGHT) {
+						/* Don't write past the dimensions of the LCD, skip the entire char */
+						return 0;
+					}
+					
+					/* We should not write if the y bit exceeds font height */
+					if ((j*8 + bit) >= font_current.height) {
+						/* Skip the bit */
+						continue;
+					}
+					
+					if (dat & (1<<bit)) {
+						glcd_set_pixel(x+i,y+j*8+bit,BLACK);
+					} else {
+						glcd_set_pixel(x+i,y+j*8+bit,WHITE);
+					}
+				}									
+			} // i
+		} // j
 		
-		return 0;
+		return var_width;
 		
 	} else {
 		/* Don't recognise the font table */

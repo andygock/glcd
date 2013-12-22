@@ -44,7 +44,7 @@
  *  Functions relating to using text fonts of all sizes.
  *  @{
  */
-#if defined(GLCD_DEVICE_AVR8)
+ 
 /** Set GLCD font to predefined font table. Only suitable for MikroElektronika font storage format.
  *
  *  \param font_table pointer to font table to be used
@@ -56,20 +56,30 @@
  *        glcd_tiny_set_font()
  *  \see glcd_tiny_set_font()
  */
+#if defined(GLCD_DEVICE_AVR8)
 void glcd_set_font(PGM_P font_table, uint8_t width, uint8_t height, char start_char, char end_char);
 #else
-/** Set GLCD font to predefined font table
- *
- *  Note it is very important the arguments are set accurately, otherwise it will not work properly.
+void glcd_set_font(const char * font_table, uint8_t width, uint8_t height, char start_char, char end_char);
+#endif
+
+/** Set GLCD font to predefined font table. Suitable for different different types of font tables.
  *
  *  \param font_table pointer to font table to be used
  *  \param width width of each character
  *  \param height height of each character
  *  \param start_char first character of font table
  *  \param end_char last character of font table
+ *	\param type font table type
+ *  \note Only suitable for MikroElektronika font storage format. For Stang format, use 
+ *        glcd_tiny_set_font()
+ *  \see glcd_tiny_set_font()
  */
-void glcd_set_font(const char * font_table, uint8_t width, uint8_t height, char start_char, char end_char);
+#if defined(GLCD_DEVICE_AVR8)
+void glcd_font(PGM_P font_table, uint8_t width, uint8_t height, char start_char, char end_char, font_table_type_t type);
+#else
+void glcd_font(const char * font_table, uint8_t width, uint8_t height, char start_char, char end_char, font_table_type_t type);
 #endif
+
 /** Draw a char at specified location.
  *  \param x x location to place top-left of character frame
  *  \param y y location to place top-left of character frame

@@ -127,19 +127,20 @@ void glcd_test_counter_and_graph(void)
 
 }
 
-/* Test glcd-utils font table type */
+/* Test glcd-utils font table type, increments and display a 16-bit number over and over */
 #include "fonts/Earthbound_12x19_48to57.h"
 void glcd_test_glcdutils(void)
 {
-	uint8_t count = 0;
+	uint16_t count = 0;
 	char string[8] = "";
 	while(1) {
 		glcd_clear_buffer();
 
+		/* Set the font */
 		glcd_font(font_Earthbound_12x19_48to57,12,19,48,57,GLCD_UTILS);
 
 		sprintf(string,"%d",count);
-		glcd_draw_string_xy(10,10,string);
+		glcd_draw_string_xy(0,0,string);
 		glcd_write();
 		
 		count += 1;

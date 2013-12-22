@@ -198,19 +198,20 @@ uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
 				max_byte = *(p + offset);
 			}
 			if (max_byte == 0) {
-				// column is empty for all rows, go left and test again
-				// reduce variable width by 1
+				/* column is empty for all rows, go left and test again */
+				/* reduce variable width by 1 */
 				var_width--;
 				if (var_width == 0) {
 					break;
 				}
 			} else {
-				break; // part of a character was found
+				break; /* Part of a character was found */
 			}
 			n++;
 		}
 		
-		var_width = font_current.width; // bypass auto width detection, treat as fixed width
+		/* Uncomment line below, to force fixed width, for debugging only */
+		//var_width = font_current.width; // bypass auto width detection, treat as fixed width
 				
 		/* For glcd-utils format, we write one complete row at a time */
 		uint8_t j; /* loop as rows, 1st row, j=0 */
@@ -224,9 +225,9 @@ uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
 				uint8_t dat, bit;
 				
 #if defined(GLCD_DEVICE_AVR8)
-				dat = pgm_read_byte( p + j*var_width + i );
+				dat = pgm_read_byte( p + j*font_current.width + i );
 #else
-				dat = *( p + j*var_width + i );
+				dat = *( p + j*font_current.width + i );
 #endif
 				
 				for (bit = 0; bit < 8; bit++) {
@@ -248,10 +249,10 @@ uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
 						glcd_set_pixel(x+i,y+j*8+bit,WHITE);
 					}
 				}									
-			} // i
-		} // j
+			} /* i */
+		} /* j */
 		
-		return var_width;
+		return var_width; /* Number of columns written to display */
 		
 	} else {
 		/* Don't recognise the font table */
@@ -273,10 +274,6 @@ void glcd_draw_string_xy(uint8_t x, uint8_t y, char *c)
 	while (*c) {
 		width = glcd_draw_char_xy(x,y,*c);
 		x += (width + 1);
-		// ignore section - up to user to make sure text does not overflow display width
-		//if (x+width >= GLCD_LCD_WIDTH) {
-		//	return;
-		//}
 		c++;
 	}		
 }
@@ -286,7 +283,7 @@ void glcd_draw_string_xy_P(uint8_t x, uint8_t y, const char *str)
 	uint8_t width;
 
 	if (y > (GLCD_LCD_HEIGHT - font_current.height - 1)) {
-		// character won't fit
+		/* Character won't fit */
 		return;
 	}
 
@@ -301,10 +298,6 @@ void glcd_draw_string_xy_P(uint8_t x, uint8_t y, const char *str)
 					
 		width = glcd_draw_char_xy(x,y,c);
 		x += (width + 1);
-		// ignore section - up to user to make sure text does not overflow display width
-		//if (x+width >= GLCD_LCD_WIDTH) {
-		//	return;
-		//}		
 		c++;
 	}		
 }

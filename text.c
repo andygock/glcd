@@ -1,3 +1,4 @@
+
 /**
    \file text.c
    \brief Functions relating to using text fonts of all sizes.
@@ -172,7 +173,7 @@ uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
 		   - Width not stored, but we can search and determine it
 		   - Not yet supported */
 		
-		uint8_t i, var_width, n;
+		uint8_t var_width, n;
 		uint8_t bytes_high, bytes_per_char;
 		const char *p;
 
@@ -209,28 +210,28 @@ uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
 			n++;
 		}
 		
-		
+		var_width = font_current.width; // bypass auto width detection, treat as fixed width
+				
 		/* For glcd-utils format, we write one complete row at a time */
-		uint8_t j;
+		uint8_t j; /* loop as rows, 1st row, j=0 */
 		for ( j = 0; j < bytes_high; j++ ) {
-			// loop one row at a time
+			/* Loop one row at a time */
 		
 			uint8_t i;
 			for ( i = 0; i < var_width; i++ ) {
-				// column
+				/* Loop one column at a time */
 				
 				uint8_t dat, bit;
 				
-				// this below is wrong, need to fix!
-#if defined(GLCD_DEVICE_AVR8)				
-				dat = pgm_read_byte( p + i*bytes_high + j );
+#if defined(GLCD_DEVICE_AVR8)
+				dat = pgm_read_byte( p + j*var_width + i );
 #else
-				dat = *( p + i*bytes_high + j );
+				dat = *( p + j*var_width + i );
 #endif
 				
 				for (bit = 0; bit < 8; bit++) {
 					
-					if (x+i >= GLCD_LCD_WIDTH || y+j*8+bit >= GLCD_LCD_HEIGHT) {
+					if ((x+i) >= GLCD_LCD_WIDTH || (y+j*8+bit) >= GLCD_LCD_HEIGHT) {
 						/* Don't write past the dimensions of the LCD, skip the entire char */
 						return 0;
 					}

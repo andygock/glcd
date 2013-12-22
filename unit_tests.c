@@ -127,6 +127,27 @@ void glcd_test_counter_and_graph(void)
 
 }
 
+/* Test glcd-utils font table type */
+#include "fonts/Earthbound_12x19_48to57.h"
+void glcd_test_glcdutils(void)
+{
+	uint8_t count = 0;
+	char string[8] = "";
+	while(1) {
+		glcd_clear_buffer();
+
+		glcd_font(font_Earthbound_12x19_48to57,12,19,48,57,GLCD_UTILS);
+
+		sprintf(string,"%d",count);
+		glcd_draw_string_xy(10,10,string);
+		glcd_write();
+		
+		count += 1;
+
+		DEMO_RETURN();
+	}
+}
+
 void glcd_test_text_up_down(void)
 {
 	// moves some text up and down the display

@@ -44,6 +44,8 @@ void glcd_test_circles(void);
 
 void glcd_test_counter_and_graph(void);
 
+void glcd_test_glcdutils(void);
+
 /** Scroll some text up and down the screen */
 void glcd_test_text_up_down(void);
 

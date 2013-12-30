@@ -118,7 +118,8 @@ void glcd_init(void)
 	glcd_clear();
 
 #elif defined(GLCD_CONTROLLER_ST7565R)
-	//#error "ST7565R not supported on PIC24H yet"
+
+	/* Code tested with Newhaven Display NHD-C12832A1Z-FSW-FBW-3V3 */
 
 	/* Set up remappable outputs for PIC24H, SPI: DO and SCK */
 	OSCCONbits.IOLOCK = 0;
@@ -155,46 +156,28 @@ void glcd_init(void)
 	SPI1CON1bits.MSTEN = 1;  /* Master mode Enabled */
 	SPI1STATbits.SPIEN = 1;  /* Enable SPI module */
 
-	/* Set up GPIO directions */
-	//delay_ms(30); // example in datasheet does this (20ms)
-
-	//glcd_command(ST7565R_RESET); // internal reset
-
-	/*
-	glcd_command(0xa2); // 1/9 bias
-	glcd_command(0xa0); // ADC select, normal
-	glcd_command(0xc8); // com output reverse
-	glcd_command(0xa4); // display all points normal
-	glcd_command(0x40); // display start line set
-	glcd_command(0x25); // internal resistor ratio
-	glcd_command(0x81); // electronic volume mode set
-	//glcd_command(0x10); // electronic volume - datasheet's contrast example doesn't work
-	glcd_command(45); // this works better
-	glcd_command(0x2f); // power controller set
-	glcd_command(0xaf); // display on
-	*/
+	//glcd_command(ST7565R_RESET); // internal reset -- don't really need this
 
 	/* Send reset pulse to LCD */
 	glcd_reset();
-	delay_ms(100);
+	delay_ms(1);
 
 	/* Init sequence based on datasheet code for NHD-C12832A1Z-FSW-FBW-3V3 */
 	/* Datasheet says max SCK frequency 20MHz, scope measurement shows around 3-4 MHz */
+	/* We use "reverse direction" for common output mode, as opposed to datasheet specifying "normal direction" */
 
 	glcd_command(0xa0); /* ADC select in normal mode */
 	glcd_command(0xae); /* Display OFF */
-	glcd_command(0xc0); /* Common output mode select: normal direction (last 3 bits are ignored) */
+	glcd_command(0xc8); /* Common output mode select: reverse direction (last 3 bits are ignored) */
 	glcd_command(0xa2); /* LCD bias set at 1/9 */
 	glcd_command(0x2f); /* Power control set to operating mode: 7 */
-	glcd_command(0x21); /* Internal resistor radio, set to: 1 */
+	glcd_command(0x21); /* Internal resistor ratio, set to: 1 */
 
 #if 0 /* Don't use datasheet's contrast default value, it is too high */
 	glcd_command(0x81); /* Electronic volume mode set */
 	glcd_command(0x3f); /* Electronic volume register set (contrast), datasheets value (63, which is max value) */
 #endif
 
-	/* End of sample code's init sequence, everything below us our own doing */
-	
 	/* Set contrast, value experimentally determined */
 	glcd_set_contrast(40); /* Can set to 6-bit value, 0 to 63)*/
 	

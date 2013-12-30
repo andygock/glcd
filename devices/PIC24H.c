@@ -156,9 +156,9 @@ void glcd_init(void)
 	SPI1STATbits.SPIEN = 1;  /* Enable SPI module */
 
 	/* Set up GPIO directions */
-	delay_ms(30); // example in datasheet does this (20ms)
+	//delay_ms(30); // example in datasheet does this (20ms)
 
-	glcd_command(ST7565R_RESET); // internal reset
+	//glcd_command(ST7565R_RESET); // internal reset
 
 	/*
 	glcd_command(0xa2); // 1/9 bias
@@ -174,6 +174,10 @@ void glcd_init(void)
 	glcd_command(0xaf); // display on
 	*/
 
+	/* Send reset pulse to LCD */
+	glcd_reset();
+	delay_ms(100);
+
 	/* Init sequence based on datasheet code for NHD-C12832A1Z-FSW-FBW-3V3 */
 	/* Datasheet says max SCK frequency 20MHz, scope measurement shows around 3-4 MHz */
 
@@ -183,12 +187,16 @@ void glcd_init(void)
 	glcd_command(0xa2); /* LCD bias set at 1/9 */
 	glcd_command(0x2f); /* Power control set to operating mode: 7 */
 	glcd_command(0x21); /* Internal resistor radio, set to: 1 */
+
+#if 0 /* Don't use datasheet's contrast default value, it is too high */
 	glcd_command(0x81); /* Electronic volume mode set */
-	//glcd_command(0x10); // electronic volume - datasheet's contrast example doesn't work
-	glcd_command(0x3f); /* Electronic volume register set (contrast?) */
-	//glcd_command(0x1f); // testing a different volume register
+	glcd_command(0x3f); /* Electronic volume register set (contrast), datasheets value (63, which is max value) */
+#endif
+
+	/* End of sample code's init sequence, everything below us our own doing */
 	
-	/* End of sample code's init sequence */
+	/* Set contrast, value experimentally determined */
+	glcd_set_contrast(40); /* Can set to 6-bit value, 0 to 63)*/
 	
 	glcd_command(0xaf); /* Display on */
 

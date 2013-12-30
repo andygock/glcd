@@ -118,47 +118,44 @@ void glcd_init(void)
 	glcd_clear();
 
 #elif defined(GLCD_CONTROLLER_ST7565R)
-	#error "ST7565R not supported on PIC24H yet"
+	//#error "ST7565R not supported on PIC24H yet"
 
-	/* Set up GPIO directions */
-	
-	/*
-	 * Set up SPI for AVR8
-	 * Note: AVR's SS pin must be set to output, regardless of whether we
-	 * actually use it. This is a requirement of SPI mster mode.
-	 */
-	sbi(DDR(AVR_SS_PORT),AVR_SS_PIN);
-	
-	/* Set SCK and MOSI as output */
-	sbi(DDR(CONTROLLER_SCK_PORT),CONTROLLER_SCK_PIN);
-	sbi(DDR(CONTROLLER_MOSI_PORT),CONTROLLER_MOSI_PIN);
-	
-	/*
-	 * Set MISO as input with pullup. This needs to be set for
-	 * SPI to work, even though we never use or read it.
-	 */
-	cbi(DDR(CONTROLLER_MISO_PORT),CONTROLLER_MISO_PIN); // B3 MISO as input
-	sbi(CONTROLLER_MISO_PORT,CONTROLLER_MISO_PIN);
-	
-	/* Set pin to controller SS as output */
-	sbi(DDR(CONTROLLER_SS_PORT),CONTROLLER_SS_PIN); // A5
+	/* Set up remappable outputs for PIC24H, SPI: DO and SCK */
+	OSCCONbits.IOLOCK = 0;
+	REGISTER_MAP_SPI_DO = 0b00111; /* Set as SPI DO */
+	REGISTER_MAP_SPI_SCK = 0b01000; /* Set as SCK */
+	OSCCONbits.IOLOCK = 1;
 
-	/* Set LCD A0 pin as output */
-	sbi(DDR(CONTROLLER_A0_PORT),CONTROLLER_A0_PIN); // A6
-		
-	/* Init SS pin high (i.e LCD deselected) */
-	sbi(CONTROLLER_SS_PORT,CONTROLLER_SS_PIN);
+	/* Set DO and SCK pins as output */
+	CONTROLLER_MOSI_TRIS = 0;
+	CONTROLLER_SCK_TRIS = 0;
 
+	/* Set SS, DC and A0 pins as output */
+	CONTROLLER_SS_TRIS = 0;
+	CONTROLLER_A0_TRIS = 0;
+	CONTROLLER_RST_TRIS = 0;
+	
 	/* Deselect LCD */
 	GLCD_DESELECT();
 
-	/* MSB first, double speed, SPI mode 0 */
-	SPCR = (1<<SPE) | (1<<MSTR) | (0<<CPOL) | (0<<CPHA);	
-	sbi(SPSR,SPI2X);
-	
-	/* Enable interrupts */
-	sei();
-		
+	/* SPI setup based on sample code from datasheet */
+	/* The following code shows the SPI register configuration for Master mode */
+	IFS0bits.SPI1IF = 0; /* Clear the Interrupt Flag */
+	IEC0bits.SPI1IE = 0; /* Disable the Interrupt */
+
+	/* SPI1CON1 Register Settings */
+	SPI1CON1bits.DISSCK = 0; /* Internal Serial Clock is Enabled */
+	SPI1CON1bits.DISSDO = 0; /* SDOx pin is controlled by the module */
+	SPI1CON1bits.MODE16 = 0; /* Communication is word-wide (16 bits) */
+	SPI1CON1bits.SMP = 0;    /* Input data is sampled at the middle of data */
+	SPI1CON1bits.CKE = 0;    /* Serial output data changes on transition */
+	SPI1CON1bits.CKP = 0;    /* Idle state for clock is a low level */
+	SPI1CON1bits.PPRE = 0b11;  /* Primary prescale = 1:1 */
+	SPI1CON1bits.SPRE = 0b001; /* Secondary prescale = 4:1 */
+	SPI1CON1bits.MSTEN = 1;  /* Master mode Enabled */
+	SPI1STATbits.SPIEN = 1;  /* Enable SPI module */
+
+	/* Set up GPIO directions */
 	delay_ms(30); // example in datasheet does this (20ms)
 
 	glcd_command(ST7565R_RESET); // internal reset

@@ -120,36 +120,45 @@
  * @{
  */
 
-/* Set to custom value, or leave at 0 for automatic assignment. */ 
-
-/**
- * User specified GLCD width in pixels
- * Set to 0 for automatic assignment based on controller
- */
-#define GLCD_LCD_WIDTH  0
-
-/**
- * User specified GLCD height in pixels
- * Set to 0 for automatic assignment based on controller
+/* 
+ * Set to custom value, or leave at 0 for automatic assignment.
+ * For custom dimensions, users can define this in their compiler options.
  */
 
-#define GLCD_LCD_HEIGHT 0
+#if !defined(GLCD_LCD_WIDTH) || !defined(GLCD_LCD_HEIGHT)
 
-/* Automatic assignment of width and height, if required. */
-#if !GLCD_LCD_WIDTH && !GLCD_LCD_HEIGHT
-	#undef GLCD_LCD_WIDTH
-	#undef GLCD_LCD_HEIGHT
-	#if defined(GLCD_CONTROLLER_PCD8544)
-		#define GLCD_LCD_WIDTH 84
-		#define GLCD_LCD_HEIGHT 48
-	#elif defined(GLCD_CONTROLLER_ST7565R) || defined(GLCD_CONTROLLER_NT75451)
-		#define GLCD_LCD_WIDTH 128
-		#define GLCD_LCD_HEIGHT 64
-	#else
-		#define GLCD_LCD_WIDTH 128
-		#define GLCD_LCD_HEIGHT 64
+	/**
+	 * User specified GLCD width in pixels
+	 * Set to 0 for automatic assignment based on controller.
+	 */
+	#define GLCD_LCD_WIDTH  0
+
+	/**
+	 * User specified GLCD height in pixels
+	 * Set to 0 for automatic assignment based on controller.
+	 */
+
+	#define GLCD_LCD_HEIGHT 0
+
+	/* Automatic assignment of width and height, if required. */
+	#if !GLCD_LCD_WIDTH && !GLCD_LCD_HEIGHT
+		#undef GLCD_LCD_WIDTH
+		#undef GLCD_LCD_HEIGHT
+		#if defined(GLCD_CONTROLLER_PCD8544)
+			/* 84x48 is standard for the popular Nokia LCD */
+			#define GLCD_LCD_WIDTH 84
+			#define GLCD_LCD_HEIGHT 48
+		#elif defined(GLCD_CONTROLLER_ST7565R) || defined(GLCD_CONTROLLER_NT75451)
+			/* 128x64 is the most popular for this, so we'll use that as default */
+			#define GLCD_LCD_WIDTH 128
+			#define GLCD_LCD_HEIGHT 64
+		#else
+			#define GLCD_LCD_WIDTH 128
+			#define GLCD_LCD_HEIGHT 64
+		#endif
 	#endif
-#endif
+
+#endif /* !defined(GLCD_LCD_WIDTH) || !defined(GLCD_LCD_HEIGHT) */
 
 /*
  * GLCD_NUMBER_OF_BANKS is typically GLCD_LCD_HEIGHT/8
@@ -161,8 +170,8 @@
 /**@}*/
 
 #if !defined(GLCD_RESET_TIME)
-/** Reset duration by glcd_reset(), in milliseconds */
-#define GLCD_RESET_TIME 1
+	/** Reset duration by glcd_reset(), in milliseconds */
+	#define GLCD_RESET_TIME 1
 #endif
 
 /**

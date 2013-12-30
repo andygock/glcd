@@ -80,33 +80,36 @@
 
 #elif defined(GLCD_CONTROLLER_ST7565R)
 
-	#error "ST7565R not supported on PIC24H"
+	//#error "ST7565R not supported on PIC24H"
 
 	/**
-	 * \name SPI port and pins
+	 * \name SPI port and pins. SPI1 port is used in \file PIC24H.c. Define
+	 * the TRIS and PIN registers.
 	 * @{
 	 */
-	#define AVR_SS_PORT          PORTB
-	#define AVR_SS_PIN           0	
-	#define CONTROLLER_MOSI_PORT PORTB
-	#define CONTROLLER_MOSI_PIN  2
-	#define CONTROLLER_MISO_PORT PORTB
-	#define CONTROLLER_MISO_PIN  3
-	#define CONTROLLER_SCK_PORT  PORTB
-	#define CONTROLLER_SCK_PIN   1
+	#define CONTROLLER_MOSI_TRIS  _TRISB14
+	#define CONTROLLER_MOSI_PIN   _LATB14
+	#define CONTROLLER_SCK_TRIS   _TRISB15
+	#define CONTROLLER_SCK_PIN    _LATAB15
+
+	/* Output mapping for SPI1 (should be the same as above pins) */
+	#define REGISTER_MAP_SPI_DO  _RP14R
+	#define REGISTER_MAP_SPI_SCK _RP15R
+
 	/**@}*/
 
 	/**
 	 * \name Other pins needed for serial LCD controller
 	 * @{
 	 */
-	#define CONTROLLER_A0_PORT   PORTC /**< Output port to GLCD A0 pin. */
-	#define CONTROLLER_A0_PIN    0     /**< Output pin number to GLCD A0 pin. */	
-	#define CONTROLLER_SS_PORT   PORTG
-	#define CONTROLLER_SS_PIN    0
-	#define CONTROLLER_RST_PORT  PORTG
-	#define CONTROLLER_RST_PIN   1
+	#define CONTROLLER_SS_TRIS   _TRISB2
+	#define CONTROLLER_SS_PIN    _LATB2
+	#define CONTROLLER_A0_TRIS   _TRISB3
+	#define CONTROLLER_A0_PIN    _LATB3
+	#define CONTROLLER_RST_TRIS  _TRISA2
+	#define CONTROLLER_RST_PIN   _LATA2
 	/**@}*/
+
 #else
 	#error "Controller not supported or defined in PIC24H module"
 #endif

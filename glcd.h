@@ -96,7 +96,30 @@
 	
 #endif
 
+/* Macros */
+
 #define swap(a, b) { uint8_t t = a; a = b; b = t; }
+
+/* Defining new types */
+
+/**
+ * Font table type
+ */
+typedef enum {
+	STANG,
+	MIKRO,
+	GLCD_UTILS
+} font_table_type_t;
+
+/**
+ * Bounding box for pixels that need to be updated
+ */
+typedef struct {
+	uint8_t x_min;
+	uint8_t y_min;
+	uint8_t x_max;
+	uint8_t y_max;
+} glcd_BoundingBox_t;
 
 #include <stdint.h>
 #include "glcd_devices.h"
@@ -173,16 +196,6 @@
 	/** Reset duration by glcd_reset(), in milliseconds */
 	#define GLCD_RESET_TIME 1
 #endif
-
-/**
- * Bounding box for pixels that need to be updated
- */
-typedef struct {
-	uint8_t x_min;
-	uint8_t y_min;
-	uint8_t x_max;
-	uint8_t y_max;
-} glcd_BoundingBox_t;
 
 /* Global variables used for GLCD library */
 extern uint8_t glcd_buffer[GLCD_LCD_WIDTH * GLCD_LCD_HEIGHT / 8];
@@ -266,15 +279,13 @@ void glcd_scroll_line(void);
 
 /** @}*/
 
-enum font_table_type { STANG, MIKRO };
-
 typedef struct {
 	const char *font_table;
 	uint8_t width;
 	uint8_t height;
 	char start_char;
 	char end_char;
-	enum font_table_type table_type;
+	font_table_type_t table_type;
 } glcd_FontConfig_t;
 
 extern uint8_t *glcd_buffer_selected;

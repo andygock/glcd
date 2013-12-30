@@ -125,8 +125,8 @@
 #define GLCD_RESET_LOW()  CONTROLLER_RST_PIN = 0
 #define GLCD_RESET_HIGH() CONTROLLER_RST_PIN = 1
 
-#define GLCD_A0_LOW()     CONTROLLER_A0_PIN = 0
-#define GLCD_A0_HIGH()    CONTROLLER_A0_PIN = 1
+#define GLCD_A0_LOW()     CONTROLLER_A0_PIN = 0 /* Command write */
+#define GLCD_A0_HIGH()    CONTROLLER_A0_PIN = 1 /* Write to display RAM */
 
 /**@}*/
 

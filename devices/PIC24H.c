@@ -159,6 +159,8 @@ void glcd_init(void)
 	delay_ms(30); // example in datasheet does this (20ms)
 
 	glcd_command(ST7565R_RESET); // internal reset
+
+	/*
 	glcd_command(0xa2); // 1/9 bias
 	glcd_command(0xa0); // ADC select, normal
 	glcd_command(0xc8); // com output reverse
@@ -170,7 +172,26 @@ void glcd_init(void)
 	glcd_command(45); // this works better
 	glcd_command(0x2f); // power controller set
 	glcd_command(0xaf); // display on
+	*/
+
+	/* Init sequence based on datasheet code for NHD-C12832A1Z-FSW-FBW-3V3 */
+	/* Datasheet says max SCK frequency 20MHz, scope measurement shows around 3-4 MHz */
+
+	glcd_command(0xa0); /* ADC select in normal mode */
+	glcd_command(0xae); /* Display OFF */
+	glcd_command(0xc0); /* Common output mode select: normal direction (last 3 bits are ignored) */
+	glcd_command(0xa2); /* LCD bias set at 1/9 */
+	glcd_command(0x2f); /* Power control set to operating mode: 7 */
+	glcd_command(0x21); /* Internal resistor radio, set to: 1 */
+	glcd_command(0x81); /* Electronic volume mode set */
+	//glcd_command(0x10); // electronic volume - datasheet's contrast example doesn't work
+	glcd_command(0x3f); /* Electronic volume register set (contrast?) */
+	//glcd_command(0x1f); // testing a different volume register
 	
+	/* End of sample code's init sequence */
+	
+	glcd_command(0xaf); /* Display on */
+
 	glcd_all_on();
 	
 	delay_ms(500);
@@ -193,12 +214,12 @@ void glcd_spi_write(uint8_t c)
 {
 	GLCD_SELECT();
 	
-    while (SPI1STATbits.SPITBF); /* loop until TX buffer is empty */
+    while (SPI1STATbits.SPITBF); /* Loop until TX buffer is empty */
 	SPI1BUF = (c & 0x00FF); /* Write data to be transmitted */
 	while(!SPI1STATbits.SPIRBF); /* Wait until TX finished */
 
 	uint8_t read;
-	read = SPI1BUF; /* throw away the data (not sure if this is neccesary, to force reading of SPI1BUF) */
+	read = SPI1BUF; /* Throw away the data (not sure if this is neccesary, to force reading of SPI1BUF) */
 
 	GLCD_DESELECT();
 }

@@ -90,7 +90,7 @@
 	#define CONTROLLER_MOSI_TRIS  _TRISB14
 	#define CONTROLLER_MOSI_PIN   _LATB14
 	#define CONTROLLER_SCK_TRIS   _TRISB15
-	#define CONTROLLER_SCK_PIN    _LATAB15
+	#define CONTROLLER_SCK_PIN    _LATB15
 
 	/* Output mapping for SPI1 (should be the same as above pins) */
 	#define REGISTER_MAP_SPI_DO  _RP14R

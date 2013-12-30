@@ -237,7 +237,7 @@ void glcd_test_rectangles(void)
 	glcd_clear_buffer();
 	glcd_tiny_draw_string(0,0,"RECTANGLE DEMO");
 	glcd_write();
-	delay_ms(1000);
+	delay_ms(200);
 	
 	while(1) {
 		
@@ -245,7 +245,7 @@ void glcd_test_rectangles(void)
 		glcd_draw_rect(0,0,100,50,BLACK);
 		glcd_tiny_draw_string(0,GLCD_NUMBER_OF_BANKS-1,"glcd_draw_rect");
 		glcd_write();
-		delay_ms(1000);
+		delay_ms(500);
 		DEMO_RETURN();
 		
 		glcd_clear();
@@ -254,29 +254,29 @@ void glcd_test_rectangles(void)
 
 		glcd_draw_rect_thick(5,5,80,30,3,6,BLACK);
 		glcd_write();
-		delay_ms(1000);
+		delay_ms(500);
 		DEMO_RETURN();
 		
 		glcd_draw_rect_thick(0,0,20,20,2,2,BLACK);
 		glcd_write();
-		delay_ms(1000);
+		delay_ms(500);
 		DEMO_RETURN();
 		
 		glcd_draw_rect_thick(100,10,20,20,5,5,BLACK);
 		glcd_write();
-		delay_ms(1000);
+		delay_ms(500);
 		DEMO_RETURN();
 
 		glcd_clear();
 		glcd_tiny_draw_string(0,GLCD_NUMBER_OF_BANKS-1,"glcd_draw_rect_shadow");
 		glcd_draw_rect_shadow(0,0,45,30,BLACK);
 		glcd_write();
-		delay_ms(1000);
+		delay_ms(500);
 		DEMO_RETURN();
 		
 		glcd_draw_rect_shadow(95,5,30,30,BLACK);
 		glcd_write();
-		delay_ms(1000);
+		delay_ms(500);
 		DEMO_RETURN();
 		
 	}

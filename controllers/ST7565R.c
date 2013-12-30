@@ -21,9 +21,18 @@ void glcd_data(uint8_t c)
 }
 
 void glcd_set_contrast(uint8_t val) {
-	/* Not applicable */
+	/* Can set a 6-bit value (0 to 63)  */
+
+	/* Must send this command byte before setting the contrast */
+	glcd_command(0x81);
+	
+	/* Set the contrat value ("electronic volumne register") */
+	if (val > 63) {
+		glcd_command(63);
+	} else {
+		glcd_command(val);
+	}
 	return;
-	//asm("break");
 }
 
 void glcd_power_down(void)

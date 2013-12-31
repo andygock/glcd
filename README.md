@@ -33,8 +33,14 @@ Supported controllers and chipsets
 Works with:
 
 - PCD8544 based LCDs, e.g Nokia 3110 and 5110 LCDs
-- ST7565R serial interface (used in Newhaven Display NHD-C12864WC-FSW-FBW-3V3-M)
+- ST7565R / ST7565P serial interface
 - NT75451 parallel interface (used on NGX BlueBoards)
+
+The following Newhaven displays have been physically tested with and confirmed working:
+
+- NHD-C12864WC-FSW-FBW-3V3-M
+- NHD-C12864A1Z-FSW-FBW-HTT
+- NHD-C12832A1Z-FSW-FBW-3V3
 
 Supported microcontrollers
 --------------------------
@@ -47,13 +53,13 @@ MCUs supported:
 - ST STM32 F0 ARM Cortex-M0
 - Microchip PIC24H (and probably other 16-bit MCUs)
 
-Development boards tested on (with onboard LCD):
+Development boards tested on (with on-board LCD):
 
-- NGX BlueBoard LPC11U37 (with NT75451 graphic LCD)
+- NGX BlueBoard LPC11U37 (with on-board NT75451 graphic LCD)
 
-Development boards tested on (without onboard LCD):
+Development boards tested on (without on-board LCD):
 
-- Microstick II with PIC24H and Nokia 3310/5110 LCD
+- Microstick II with PIC24H and Nokia 3310/5110 LCD, ST7565R and ST7565P
 
 ### Special note
 
@@ -70,12 +76,15 @@ Pick microcontroller type (pick one only):
 	GLCD_DEVICE_LPX11UXX
 	GLCD_DEVICE_AVR8
 	GLCD_DEVICE_STM32F0XX
+	GLCD_DEVICE_PIC24H
 
 Pick LCD controller type (pick one only):
 
 	GLCD_CONTROLLER_PCD8544
 	GLCD_CONTROLLER_ST7565R
 	GLCD_CONTROLLER_NT75451
+
+For ST7565P controllers, treat as ST7565R. For most if not all parts here, they behave the same way.
 
 If using a parallel interface LCD (e.g NT75451 on NGX BlueBoard):
 
@@ -86,6 +95,18 @@ When using SPI controllers:
 	GLCD_USE_SPI
 
 Note the SPI symbol isn't actually checked by the source at the moment, and it is fine if it is not used. It is for forward compatibility only. One day I may decide to check for it.
+
+For the Newhaven displays using ST7565 based controllers listed above which have been tested as working, there
+are certain initialisation sequences which should be followed, and this may vary
+from display to display. To force a certain (and tested) initialisation
+sequence, define one of the following:
+
+	GLCD_INIT_NHD_C12832A1Z_FSW_FBW_3V3
+	GLCD_INIT_NHD_C12864A1Z_FSW_FBW_HTT
+	GLCD_INIT_NHD_C12864WC_FSW_FBW_3V3_M
+
+If you don't specify a NHD model, ST7565 controller selection will default to `GLCD_INIT_NHD_C12864WC_FSW_FBW_3V3_M` sequence.
+This however may change in the future.
 
 To set a reset time, used by the `glcd_reset()` function, set `GLCD_RESET_TIME` to desired duration in milliseconds.
 

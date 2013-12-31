@@ -62,23 +62,7 @@ void glcd_init(void)
 	/* Deselect LCD */
 	GLCD_DESELECT();
 
-	/* Reset the display */
-	glcd_reset();
-
-	/* Get into the EXTENDED mode! */
-	glcd_command(PCD8544_FUNCTION_SET | PCD8544_EXTENDED_INSTRUCTION);
-
-	/* LCD bias select (4 is optimal?) */
-	glcd_command(PCD8544_SET_BIAS | 0x2);
-
-	/* Set VOP */
-	glcd_command(PCD8544_SET_VOP | 50); // Experimentally determined
-
-	/* Back to standard instructions */
-	glcd_command(PCD8544_FUNCTION_SET);
-
-	/* Normal mode */
-	glcd_command(PCD8544_DISPLAY_CONTROL | PCD8544_DISPLAY_NORMAL);
+	glcd_PCD8544_init();
 
 	glcd_select_screen(glcd_buffer,&glcd_bbox);
 
@@ -102,22 +86,7 @@ void glcd_init(void)
 	#error "Support of parallel data pins on different ports not supported."
 #endif
 
-	/* Initialise sequence - code by NGX Technologies */
-	glcd_command(0xE2);  /*	S/W RESWT               */
-	glcd_command(0xA0);  /*	ADC select              */
-	glcd_command(0xC8);  /*	SHL Normal              */
-	glcd_command(0xA3);  /*	LCD bias                */
-	glcd_command(0x2F);  /*	Power control           */
-	glcd_command(0x22);  /*	reg resistor select     */
-	glcd_command(0x40);  /*	Initial display line 40 */
-	glcd_command(0xA4);  /*	Normal display          */
-	glcd_command(0xA6);  /*	Reverce display a7      */
-	glcd_command(0x81);  /*	Ref vg select mode      */
-	glcd_command(0x3f);  /*	Ref vg reg select       */
-	glcd_command(0xB0);  /*	Set page address        */
-	glcd_command(0x10);  /*	Set coloumn addr MSB    */
-	glcd_command(0x00);  /*	Set coloumn addr LSB    */
-	glcd_command(0xAF);  /*	Display ON              */
+	glcd_NT75451_init();
 
 	/* Select default screen buffer */
 	glcd_select_screen(glcd_buffer,&glcd_bbox);
@@ -190,7 +159,7 @@ void glcd_reset(void)
 	GLCD_DESELECT();
 	
 #elif defined(GLCD_CONTROLLER_NT75451)
-	/* No physical reset possible with our test board (BlueBoard) */
+	/* No firmware reset possible with our test board (BlueBoard) */
 	
 #endif /* GLCD_CONTROLLER_PCD8544 */	
 }

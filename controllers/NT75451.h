@@ -36,6 +36,10 @@
 
 #include "../glcd.h"
 
+/** Parallel write to NT75451 */
 void glcd_parallel_write(uint8_t c);
+
+/** Initialise NT75451 based display */
+void glcd_NT75451_init(void);
 
 #endif

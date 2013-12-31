@@ -75,4 +75,7 @@ void glcd_clear_now(void);
 /** Show a black and white line pattern on the display */
 void glcd_pattern(void);
 
+/** Init ST7565R controller / display */
+void glcd_ST7565R_init(void);
+
 #endif /* ST7565R_H_ */

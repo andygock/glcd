@@ -75,22 +75,7 @@ void glcd_init(void)
 	SPCR = (1<<SPE)|(1<<MSTR);
 	SPSR = 0;
 	
-	glcd_reset();
-	
-	/* Get into the EXTENDED mode! */
-	glcd_command(PCD8544_FUNCTION_SET | PCD8544_EXTENDED_INSTRUCTION);
-
-	/* LCD bias select (4 is optimal?) */
-	glcd_command(PCD8544_SET_BIAS | 0x2);
-	
-	/* Set VOP */
-	glcd_command(PCD8544_SET_VOP | 50); // Experimentally determined
-	
-	/* Back to standard instructions */
-	glcd_command(PCD8544_FUNCTION_SET); 
-	
-	/* Normal mode */
-	glcd_command(PCD8544_DISPLAY_CONTROL | PCD8544_DISPLAY_NORMAL);
+	glcd_PCD8544_init();
 
 	/* Select screen buffer */
 	glcd_select_screen(glcd_buffer,&glcd_bbox);
@@ -112,8 +97,22 @@ void glcd_init(void)
 	/* Set SCK and MOSI as output */
 	sbi(DDR(CONTROLLER_SCK_PORT),CONTROLLER_SCK_PIN);
 	sbi(DDR(CONTROLLER_MOSI_PORT),CONTROLLER_MOSI_PIN);
-		/*	 * Set MISO as input with pullup. This needs to be set for	 * SPI to work, even though we never use or read it.	 */	cbi(DDR(CONTROLLER_MISO_PORT),CONTROLLER_MISO_PIN); // B3 MISO as input	sbi(CONTROLLER_MISO_PORT,CONTROLLER_MISO_PIN);		/* Set pin to controller SS as output */	sbi(DDR(CONTROLLER_SS_PORT),CONTROLLER_SS_PIN); // A5	/* Set LCD A0 pin as output */
-	sbi(DDR(CONTROLLER_A0_PORT),CONTROLLER_A0_PIN); // A6			/* Init SS pin high (i.e LCD deselected) */	sbi(CONTROLLER_SS_PORT,CONTROLLER_SS_PIN);
+	
+	/*
+	 * Set MISO as input with pullup. This needs to be set for
+	 * SPI to work, even though we never use or read it.
+	 */
+	cbi(DDR(CONTROLLER_MISO_PORT),CONTROLLER_MISO_PIN); // B3 MISO as input
+	sbi(CONTROLLER_MISO_PORT,CONTROLLER_MISO_PIN);
+	
+	/* Set pin to controller SS as output */
+	sbi(DDR(CONTROLLER_SS_PORT),CONTROLLER_SS_PIN); // A5
+
+	/* Set LCD A0 pin as output */
+	sbi(DDR(CONTROLLER_A0_PORT),CONTROLLER_A0_PIN); // A6
+		
+	/* Init SS pin high (i.e LCD deselected) */
+	sbi(CONTROLLER_SS_PORT,CONTROLLER_SS_PIN);
 
 	/* Deselect LCD */
 	GLCD_DESELECT();
@@ -121,23 +120,14 @@ void glcd_init(void)
 	/* MSB first, double speed, SPI mode 0 */
 	SPCR = (1<<SPE) | (1<<MSTR) | (0<<CPOL) | (0<<CPHA);	
 	sbi(SPSR,SPI2X);
-		/* Enable interrupts */	sei();
-		
-	delay_ms(30); // example in datasheet does this (20ms)
-
-	glcd_command(ST7565R_RESET); // internal reset
-	glcd_command(0xa2); // 1/9 bias
-	glcd_command(0xa0); // ADC select, normal
-	glcd_command(0xc8); // com output reverse
-	glcd_command(0xa4); // display all points normal
-	glcd_command(0x40); // display start line set
-	glcd_command(0x25); // internal resistor ratio
-	glcd_command(0x81); // electronic volume mode set
-	//glcd_command(0x10); // electronic volume - datasheet's contrast example doesn't work
-	glcd_command(45); // this works better
-	glcd_command(0x2f); // power controller set
-	glcd_command(0xaf); // display on
 	
+	/* Enable interrupts */
+	sei();
+		
+	delay_ms(30); /* Example in datasheet does this (20ms) */
+
+	glcd_ST7565R_init();
+
 	glcd_all_on();
 	
 	delay_ms(500);
@@ -152,7 +142,7 @@ void glcd_init(void)
 	
 #else
 	#error "Controller not supported"
-#endif /* GLCD_CONTROLLER_PCD8544 */
+#endif /* GLCD_CONTROLLER_* */
 	
 }
 

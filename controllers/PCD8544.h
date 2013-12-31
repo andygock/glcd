@@ -78,4 +78,7 @@
 #define PCD8544_MAX_BANKS 6
 #define PCD8544_MAX_COLS  84
 
+/** Init PCD8544 controller / display */
+void glcd_PCD8544_init(void);
+
 #endif /* PCD8544_H_ */

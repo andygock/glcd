@@ -204,7 +204,7 @@ void glcd_init(void)
 	glcd_set_contrast(20); /* Set contrast, value experimentally determined */
 	glcd_command(0xaf); /* Display on */
 
-#elif defined(GLCD_NHD_C12864WC_FSW_FBW_3V3_M)
+#elif defined(GLCD_INIT_NHD_C12864WC_FSW_FBW_3V3_M)
 
 	/* Init sequence for NHD-C12864WC-FSW-FBW-3V3-M */
 

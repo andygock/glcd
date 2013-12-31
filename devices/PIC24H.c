@@ -55,7 +55,7 @@ void glcd_init(void)
 	OSCCONbits.IOLOCK = 1;
 
 	/* Set DO and SCK pins as output */
-	CONTROLLER_MISO_TRIS = 0;
+	CONTROLLER_MOSI_TRIS = 0;
 	CONTROLLER_SCK_TRIS = 0;
 
 	/* If the pins is also an ADC port, set these as digital mode */

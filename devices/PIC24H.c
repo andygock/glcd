@@ -151,19 +151,33 @@ void glcd_init(void)
 	SPI1CON1bits.SMP = 0;    /* Input data is sampled at the middle of data */
 	SPI1CON1bits.CKE = 0;    /* Serial output data changes on transition */
 	SPI1CON1bits.CKP = 0;    /* Idle state for clock is a low level */
-	SPI1CON1bits.PPRE = 0b11;  /* Primary prescale = 1:1 */
-	SPI1CON1bits.SPRE = 0b001; /* Secondary prescale = 4:1 */
+
+	/* Set SPI prescale, this is important make sure SPI click is below datasheets specified max clock speed */
+
+#if defined(GLCD_INIT_NHD_C12832A1Z_FSW_FBW_3V3)
+	/* Total prescale = 1x7 = 7 */
+	/* This LCD can handle fairly high clocks, but you'll need to check your FCY and adjust as required */
+	SPI1CON1bits.PPRE = 0b11;
+	SPI1CON1bits.SPRE = 0b001;
+#else
+	/* Total prescale = 4x3 = 12 */
+	SPI1CON1bits.PPRE = 0b10;  /* Primary prescale 0b11=1:1, 0b10=4:1, 0b01=16:1, 0b00=64:1 */
+	SPI1CON1bits.SPRE = 0b101; /* Secondary prescale 0b111=1:1 0b110=2:1 ... 0b001=7:1, 0b000=8:1 */
+#endif
+
 	SPI1CON1bits.MSTEN = 1;  /* Master mode Enabled */
 	SPI1STATbits.SPIEN = 1;  /* Enable SPI module */
-
-	//glcd_command(ST7565R_RESET); // internal reset -- don't really need this
 
 	/* Send reset pulse to LCD */
 	glcd_reset();
 	delay_ms(1);
 
-	/* Init sequence based on datasheet code for NHD-C12832A1Z-FSW-FBW-3V3 */
-	/* Datasheet says max SCK frequency 20MHz, scope measurement shows around 3-4 MHz */
+	/* Begin sending data for initialisation sequence */
+
+#if defined(GLCD_INIT_NHD_C12832A1Z_FSW_FBW_3V3)
+
+	/* Init sequence based on datasheet example code for NHD-C12832A1Z-FSW-FBW-3V3 */
+	/* Datasheet says max SCK frequency 20MHz for this LCD */
 	/* We use "reverse direction" for common output mode, as opposed to datasheet specifying "normal direction" */
 
 	glcd_command(0xa0); /* ADC select in normal mode */
@@ -172,19 +186,58 @@ void glcd_init(void)
 	glcd_command(0xa2); /* LCD bias set at 1/9 */
 	glcd_command(0x2f); /* Power control set to operating mode: 7 */
 	glcd_command(0x21); /* Internal resistor ratio, set to: 1 */
-
-#if 0 /* Don't use datasheet's contrast default value, it is too high */
-	glcd_command(0x81); /* Electronic volume mode set */
-	glcd_command(0x3f); /* Electronic volume register set (contrast), datasheets value (63, which is max value) */
-#endif
-
-	/* Set contrast, value experimentally determined */
-	glcd_set_contrast(40); /* Can set to 6-bit value, 0 to 63)*/
-	
+	glcd_set_contrast(40); /* Set contrast, value experimentally determined, can set to 6-bit value, 0 to 63 */
 	glcd_command(0xaf); /* Display on */
 
-	glcd_all_on();
+#elif defined(GLCD_INIT_NHD_C12864A1Z_FSW_FBW_HTT)
+
+	/* Init sequence based on datasheet example code for NHD-C12864A1Z-FSW-FBW-HTT */
+	/* Datasheet says max SCK frequency 2.5MHz for this LCD */
+	/* We use "reverse direction" for common output mode, as opposed to datasheet specifying "normal direction" */
+
+	glcd_command(0xa0); /* ADC select in normal mode */
+	glcd_command(0xae); /* Display OFF */
+	glcd_command(0xc8); /* Common output mode select: reverse direction (last 3 bits are ignored) */
+	glcd_command(0xa2); /* LCD bias set at 1/9 */
+	glcd_command(0x2f); /* Power control set to operating mode: 7 */
+	glcd_command(0x26); /* Internal resistor ratio, set to: 6 */
+	glcd_set_contrast(20); /* Set contrast, value experimentally determined */
+	glcd_command(0xaf); /* Display on */
+
+#elif defined(GLCD_NHD_C12864WC_FSW_FBW_3V3_M)
+
+	/* Init sequence for NHD-C12864WC-FSW-FBW-3V3-M */
+
+	glcd_command(ST7565R_RESET); /* Internal reset */
+	glcd_command(0xa2); /* 1/9 bias */
+	glcd_command(0xa0); /* ADC select, normal */
+	glcd_command(0xc8); /* Com output reverse */
+	glcd_command(0xa4); /* Display all points normal */
+	glcd_command(0x40); /* Display start line set */
+	glcd_command(0x25); /* Internal resistor ratio */
+	glcd_command(0x81); /* Electronic volume mode set */
+	glcd_command(45); /* This works better */
+	glcd_command(0x2f); /* Power controller set */
+	glcd_command(0xaf); /* Display on */
 	
+#else
+
+	/* Default init sequence */
+	/* Currently just set the same as GLCD_INIT_NHD_C12864A1Z_FSW_FBW_HTT */
+
+	glcd_command(0xa0); /* ADC select in normal mode */
+	glcd_command(0xae); /* Display OFF */
+	glcd_command(0xc8); /* Common output mode select: reverse direction (last 3 bits are ignored) */
+	glcd_command(0xa2); /* LCD bias set at 1/9 */
+	glcd_command(0x2f); /* Power control set to operating mode: 7 */
+	glcd_command(0x26); /* Internal resistor ratio, set to: 6 */
+	glcd_set_contrast(20); /* Set contrast, value experimentally determined */
+	glcd_command(0xaf); /* Display on */
+	
+#endif
+
+	/* Set all dots black and hold for 0.5s, then clear it, we do this so we can visually check init sequence is working */
+	glcd_all_on();
 	delay_ms(500);
 	glcd_normal();
 
@@ -197,7 +250,7 @@ void glcd_init(void)
 	
 #else
 	#error "Controller not supported"
-#endif /* GLCD_CONTROLLER_PCD8544 */
+#endif /* GLCD_CONTROLLER_* */
 	
 }
 

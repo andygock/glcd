@@ -48,6 +48,7 @@
 	#include <stdint.h>
 	#include <xc.h>
 	#include <libpic30.h>
+#elif defined(GLCD_DEVICE_PIC32)
 #else
 	#error "Device not supported or defined"
 #endif

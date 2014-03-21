@@ -76,7 +76,10 @@
 	#include "devices/PIC24H.h"
 	#define PROGMEM
 	#define delay_ms(t) __delay_ms(t)
-
+#elif defined(GLCD_DEVICE_PIC32)
+        #include "devices/PIC32.h"
+        #define PROGMEM
+        extern void delay_ms(unsigned int ms);
 #else
 	#error "Device not supported or defined"
 

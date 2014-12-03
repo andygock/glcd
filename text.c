@@ -114,8 +114,14 @@ uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
 		
 		uint8_t i;
 		uint8_t var_width;
+		uint8_t bytes_high;
 		
-		uint8_t bytes_high = font_current.height / 8 + 1;
+		if ((font_current.height % 8) > 0){
+			bytes_high = (font_current.height / 8) + 1;
+		}
+		else{
+			bytes_high = (font_current.height / 8);
+		}
 		uint8_t bytes_per_char = font_current.width * bytes_high + 1; /* The +1 is the width byte at the start */
 		
 		const char *p;

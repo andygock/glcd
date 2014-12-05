@@ -196,6 +196,8 @@ void glcd_ST7565R_init(void) {
 	glcd_command(0x2f); /* Power controller set */
 	glcd_command(0xaf); /* Display on */
 #elif defined(GLCD_INIT_ZOLEN_12864_FFSSWE_NAA)
+	/* Init sequence for Zolen 128x64 module with
+	 * size 40x35mm. Chip ST7567 */
 
 	glcd_command(0xa0); /* ADC select in normal mode */
 	glcd_command(0xae); /* Display OFF */

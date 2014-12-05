@@ -44,6 +44,7 @@
 #define SPIx                           SPI3
 #define SPIx_CLK                       RCC_APB1Periph_SPI3
 #define SPIx_CLK_INIT                  RCC_APB1PeriphClockCmd
+#define SPIx_PRESCALLER				   SPI_BaudRatePrescaler_8
 
 #define SPIx_SCK_PIN                   GPIO_Pin_3
 #define SPIx_SCK_GPIO_PORT             GPIOB

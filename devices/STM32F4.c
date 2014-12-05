@@ -115,7 +115,8 @@ void glcd_init(void)
 	SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
 	SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
 	SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
-	SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_128;
+	/* Clock set to 8MHz */
+	SPI_InitStructure.SPI_BaudRatePrescaler = SPIx_PRESCALLER;
 	SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
 	SPI_Init(SPIx, &SPI_InitStructure);
 	/* Enable the SPI peripheral */

@@ -106,6 +106,15 @@
 #define GLCD_RESET_LOW()  GPIO_ResetBits(CONTROLLER_SPI_RST_PORT,CONTROLLER_SPI_RST_PIN)
 #define GLCD_RESET_HIGH() GPIO_SetBits(CONTROLLER_SPI_RST_PORT,CONTROLLER_SPI_RST_PIN)
 
+/* RTOS delay function
+ * Enable the following define to use a RTOS.
+ * Update the call to the millisecond delay with the one of
+ * your RTOS and add the includes in STM32F4.c  */
+#define GLCD_USE_RTOS
+
+#ifdef GLCD_USE_RTOS
+  #define GLCD_RTOS_DELAY_FCN 		DelayTask(ms);
+#endif
 /* Function prototypes: */
 void glcd_enable_backlight(FunctionalState state);
 #ifdef USE_TIMER_PWM

@@ -41,6 +41,11 @@
 /* Includes from GLCD */
 #include "glcd.h"
 
+/* Includes for RTOS */
+#ifdef GLCD_USE_RTOS
+  #include "BRTOS.h"
+#endif
+
 void delay_ms(uint32_t ms);
 
 //#define BACKLIGHT_INVERT	// Uncomment if LED backlight turn on with low value
@@ -272,21 +277,16 @@ void glcd_reset(void)
 	GLCD_SELECT();
 	GLCD_RESET_LOW();
 
-	uint32_t count = 0;
-	const uint32_t utime = 120000;
-	do
-	{
-		count++;
-	}
-	while (count < utime);
 
-	//delay_ms(GLCD_RESET_TIME);
+	delay_ms(GLCD_RESET_TIME);
 	//DelayTask(GLCD_RESET_TIME);
 	GLCD_RESET_HIGH();
 	GLCD_DESELECT();
 }
 
 void delay_ms(uint32_t ms){
+
+#ifndef GLCD_USE_RTOS
 	uint32_t count = 0;
 	uint32_t ms_counter = 0;
 	do{
@@ -298,6 +298,9 @@ void delay_ms(uint32_t ms){
 		while (count < utime);
 		ms_counter++;
 	}while(ms_counter < ms);
+#else
+	GLCD_RTOS_DELAY_FCN // Call the delay function defined in the header file.
+#endif
 }
 
 

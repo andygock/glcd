@@ -1,7 +1,7 @@
 /**
-	\file STM32F0xx.c
-	\author Andy Gock
-	\brief Functions specific to STM32 F0 ARM Cortex-M0 devices.
+	\file STM32F4.h
+	\author Andy Gock (modified for STM32F4xx by Moreto)
+	\brief Functions specific to STM32 F4 ARM Cortex-M4 devices.
  */
 
 /*

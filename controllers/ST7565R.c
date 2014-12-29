@@ -37,16 +37,23 @@ void glcd_set_contrast(uint8_t val) {
 
 void glcd_power_down(void)
 {
-	/* Not applicable */
-	return;
-	//asm("break");
+	/* Command sequence as in ST7565 datasheet */
+	glcd_command(0xac);	// Static indicator off
+	glcd_command(0x00);	// Static indicator register, not blinking
+	glcd_command(0xae); // Display OFF
+	glcd_command(0xa5); // Display all points ON
+
+	/* Display is now in sleep mode */
 }
 
 void glcd_power_up(void)
 {
-	/* Not applicable */
+	glcd_command(0xa4); // Display all points OFF
+	glcd_command(0xad);	// Static indicator ON
+	glcd_command(0x00);	// Static indicator register, not Blinking
+	glcd_command(0xaf);
+
 	return;
-	//asm("break");
 }
 
 void glcd_set_y_address(uint8_t y)
@@ -187,6 +194,18 @@ void glcd_ST7565R_init(void) {
 	glcd_command(0x25); /* Internal resistor ratio */
 	glcd_set_contrast(45); /* Set contrast value, experimentally determined, value 0 to 63 */
 	glcd_command(0x2f); /* Power controller set */
+	glcd_command(0xaf); /* Display on */
+#elif defined(GLCD_INIT_ZOLEN_12864_FFSSWE_NAA)
+	/* Init sequence for Zolen 128x64 module with
+	 * size 40x35mm. Chip ST7567 */
+
+	glcd_command(0xa0); /* ADC select in normal mode */
+	glcd_command(0xae); /* Display OFF */
+	glcd_command(0xc8); /* Common output mode select: reverse direction (last 3 bits are ignored) */
+	glcd_command(0xa3); /* LCD bias set at 1/9 */
+	glcd_command(0x2f); /* Power control set to operating mode: 7 */
+	glcd_command(0x24); /* Internal resistor ratio, set to: 6 */
+	glcd_set_contrast(20); /* Set contrast, value experimentally determined, value 0 to 63 */
 	glcd_command(0xaf); /* Display on */
 
 #else

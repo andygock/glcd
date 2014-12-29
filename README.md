@@ -41,6 +41,7 @@ The following Newhaven displays have been physically tested with and confirmed w
 - NHD-C12864WC-FSW-FBW-3V3-M
 - NHD-C12864A1Z-FSW-FBW-HTT
 - NHD-C12832A1Z-FSW-FBW-3V3
+- ZOLEN-12864-FFSSWE-NAA
 
 Supported microcontrollers
 --------------------------
@@ -51,6 +52,7 @@ MCUs supported:
 - NXP LPC111x ARM Cortex-M0
 - NXP LPC11Uxx ARM Cortex-M0
 - ST STM32 F0 ARM Cortex-M0
+- ST STM32 F4 ARM Cortex-M4
 - Microchip PIC24H (and probably other 16-bit MCUs)
 
 Development boards tested on (with on-board LCD):
@@ -60,6 +62,7 @@ Development boards tested on (with on-board LCD):
 Development boards tested on (without on-board LCD):
 
 - Microstick II with PIC24H and Nokia 3310/5110 LCD, ST7565R and ST7565P
+- ST Nucleo F401RE.
 
 ### Special note
 
@@ -76,6 +79,7 @@ Pick microcontroller type (pick one only):
 	GLCD_DEVICE_LPX11UXX
 	GLCD_DEVICE_AVR8
 	GLCD_DEVICE_STM32F0XX
+	GLCD_DEVICE_STM32F4XX
 	GLCD_DEVICE_PIC24H
 
 Pick LCD controller type (pick one only):
@@ -104,6 +108,7 @@ sequence, define one of the following:
 	GLCD_INIT_NHD_C12832A1Z_FSW_FBW_3V3
 	GLCD_INIT_NHD_C12864A1Z_FSW_FBW_HTT
 	GLCD_INIT_NHD_C12864WC_FSW_FBW_3V3_M
+	GLCD_INIT_ZOLEN_12864_FFSSWE_NAA
 
 If you don't specify a NHD model, ST7565 controller selection will default to `GLCD_INIT_NHD_C12864WC_FSW_FBW_3V3_M` sequence.
 This however may change in the future.

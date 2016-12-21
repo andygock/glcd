@@ -120,8 +120,13 @@ void glcd_PCD8544_init(void) {
 	glcd_command(PCD8544_SET_BIAS | 0x2);
 
 	/* Set VOP (affects contrast) */
-	glcd_command(PCD8544_SET_VOP | 80); /* Experimentally determined, play with this figure until contrast looks nice */
-
+	/* Experimentally determined, play with this figure until contrast looks nice */
+#if defined(PCD8544_CONTRAST)
+	glcd_command(PCD8544_SET_VOP | PCD8544_CONTRAST); 
+#else
+	glcd_command(PCD8544_SET_VOP | 80);
+#endif
+	
 	/* Back to standard instructions */
 	glcd_command(PCD8544_FUNCTION_SET);
 

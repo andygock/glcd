@@ -115,6 +115,8 @@ uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
 		uint8_t i;
 		uint8_t var_width;
 		uint8_t bytes_high;
+		uint8_t bytes_per_char;
+		const char *p;
 		
 		if ((font_current.height % 8) > 0){
 			bytes_high = (font_current.height / 8) + 1;
@@ -122,9 +124,8 @@ uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
 		else{
 			bytes_high = (font_current.height / 8);
 		}
-		uint8_t bytes_per_char = font_current.width * bytes_high + 1; /* The +1 is the width byte at the start */
-		
-		const char *p;
+		bytes_per_char = font_current.width * bytes_high + 1; /* The +1 is the width byte at the start */
+				
 		p = font_current.font_table + (c - font_current.start_char) * bytes_per_char;
 
 		/* The first byte per character is always the width of the character */
@@ -182,7 +183,8 @@ uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
 		uint8_t var_width, n;
 		uint8_t bytes_high, bytes_per_char;
 		const char *p;
-
+		uint8_t j;
+		
 		bytes_high = font_current.height / 8 + 1;
 		bytes_per_char = font_current.width * bytes_high;
 		
@@ -220,7 +222,7 @@ uint8_t glcd_draw_char_xy(uint8_t x, uint8_t y, char c)
 		//var_width = font_current.width; // bypass auto width detection, treat as fixed width
 				
 		/* For glcd-utils format, we write one complete row at a time */
-		uint8_t j; /* loop as rows, 1st row, j=0 */
+		 /* loop as rows, 1st row, j=0 */
 		for ( j = 0; j < bytes_high; j++ ) {
 			/* Loop one row at a time */
 		

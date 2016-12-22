@@ -22,7 +22,7 @@ GitHub repository: <https://github.com/andygock/glcd>
 
 This library has been written cleanly, to allow easy modification for use with different microcontroller devices and controller chipsets. Logic relating to devices and controllers are palced in seperate files and specific implementations can be chosen by the use of special defined symbols.
 
-It is suitable for monochrome (black and white) LCDs with page by page data and command write style data transfer protocol. It is not compatible for color graphic LCDs.
+It is suitable for monochrome (black and white) LCDs with page by page data and command write style data transfer protocol. It is not compatible with color graphic LCDs.
 
 # Supported devices
 
@@ -144,6 +144,20 @@ If you are using avr-gcc with Atmel devices, you can force the library to use th
 	__DELAY_BACKWARD_COMPATIBLE__
 
 `F_CPU` must be set to your clock frequency for the above [AVR built-in delay](http://www.nongnu.org/avr-libc/user-manual/group__util__delay.html) routine to work.
+
+# Sample applications
+
+- STM32F0 Discovery with PCD8544 Nokia 5110 LCD - [Download](https://andygock.github.io/glcd-samples/GLCD_STM32F0_PCD8544.zip) Keil MDK project
+- Custom PCB with Atmel ATMEGA2560 and ST7565R Newhaven 128×64 display - [Download](https://andygock.github.io/glcd-samples/as6_mega2560_st7565r.zip) Atmel Studio 6 project
+- Atmel AT90USBKEY board with PCD8544 Nokia 5110 LCD - [Download](https://andygock.github.io/glcd-samples/glcd-example-at90usbkey-avrstudio.zip) Atmel Studio 5 project
+- ZERO Z111xP Cortex-M0 LPC1114 board with PCD8544 Nokia 5110 LCD - [Download](https://andygock.github.io/glcd-samples/glcd-example-LPC1114-CooCox.zip) CooCox CoIDE project or watch [video](http://www.youtube.com/watch?v=mWsTbLW5Hm4)
+- NGX LPC11U37 BlueBoard with built in NT75451 parallel chipset LCD - [Download](https://andygock.github.io/glcd-samples/glcd-example-LPC11U37-BlueBoard-Keil.zip) Keil MDK project
+- Microstick II development board, with PIC24H and Newhaven ST7565R display NHD-C12864A1Z-FSW-FBW-HTT - [Download](https://andygock.github.io/glcd-samples/demo-microstick_PIC24HJ128_ST7565R.zip) MPLAB X project or watch [video](http://www.youtube.com/watch?v=1ocUWbEOs5Y)
+- Microstick II development board, with PIC24H and Newhaven ST7565P display NHD-C12832A1Z-FSW-FBW-3V3 - [Download](https://andygock.github.io/glcd-samples/demo-microstick_PIC24HJ128_ST7565P.zip) MPLAB X project or watch [video](http://www.youtube.com/watch?v=j7bQ-8SIgYc)
+- Microstick II development board, with PIC24H and PCD8544 Nokia 5110 display - [Download](https://andygock.github.io/glcd-samples/demo-microstick_PIC24HJ128_PCD8544.zip) MPLAB X project
+- Pinguino development board, with PIC32MX440F256H and PCD8544 Nokia 5110 display - [Download](https://andygock.github.io/glcd-samples/PIC32_PINGUINO_OTG_AND_NOKIA_5110.X.zip) MPLAB X project (Thanks to [Joris Putcuyps](https://github.com/jputcu))
+
+The code samples above will have the glcd library code already inside it, however I haven’t made any attempt to keep the glcd library updated in the examples so I advise that if you are using the example code, to replace the glcd directory (usually in `library/glcd` or `lib/glcd`) with the latest updated code.
 
 # Documentation
 

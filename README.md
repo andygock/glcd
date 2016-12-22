@@ -4,11 +4,11 @@ by Andy Gock
 
 ## Up to date documentation
 
-For up to date documentation, please see the doxygen pages under the `doxygen_pages` directory.
+For up to date documentation, please see the [doxygen](http://www.stack.nl/~dimitri/doxygen/) pages under the `doxygen_pages` directory and within the source code.
 
 A online version can also be seen at:
 
-http://s.agock.com/glcd-documentation
+<https://andygock.github.io/glcd-documentation/>
 
 However this site may not always be kept up to date.
 
@@ -16,13 +16,13 @@ However this site may not always be kept up to date.
 
 Welcome to GLCD, an open source graphic LCD library written by Andy Gock.
 
-Author's web site: http://agock.com/
+Author's web site: <https://agock.com/>
 
-GitHub repository: https://github.com/andygock/glcd
+GitHub repository: <https://github.com/andygock/glcd>
 
 This library has been written cleanly, to allow easy modification for use with different microcontroller devices and controller chipsets. Logic relating to devices and controllers are palced in seperate files and specific implementations can be chosen by the use of special defined symbols.
 
-It is suitable for monochrome (black and white) LCDs with page by page data and command write style data transfer protocol. It is not suitable for color graphic LCDs.
+It is suitable for monochrome (black and white) LCDs with page by page data and command write style data transfer protocol. It is not compatible for color graphic LCDs.
 
 # Supported devices
 
@@ -30,9 +30,9 @@ It is suitable for monochrome (black and white) LCDs with page by page data and 
 
 Works with:
 
-- PCD8544 based LCDs, e.g Nokia 3110 and 5110 LCDs
-- ST7565R / ST7565P serial interface
-- NT75451 parallel interface (used on NGX BlueBoards)
+- [PCD8544](https://andygock.github.io/datasheets/philips_pcd8544.pdf) based LCDs, e.g Nokia 3110 and 5110 LCDs
+- [ST7565R](https://andygock.github.io/datasheets/sitronix_st7565r.pdf) / ST7565P serial interface
+- [NT75451](https://www.crystalfontz.com/controllers/Novatek/NT75451) parallel interface (used on NGX BlueBoards)
 
 The following Newhaven displays have been physically tested with and confirmed working:
 
@@ -143,10 +143,10 @@ If you are using avr-gcc with Atmel devices, you can force the library to use th
 	GLCD_USE_AVR_DELAY
 	__DELAY_BACKWARD_COMPATIBLE__
 
-`F_CPU` must be set to your clock frequency for the above AVR built-in delay routine to work.
+`F_CPU` must be set to your clock frequency for the above [AVR built-in delay](http://www.nongnu.org/avr-libc/user-manual/group__util__delay.html) routine to work.
 
 # Documentation
 
 Refer to Doxygen generated pages for detailed documentation. You'll can generate the documentation yourself, simply install Doxygen and load the doxygen file in the root directory of the library and generate the documents in a file format of your choice (HTML, PDF, TEX etc).
 
-There is also a online version (link at top of this document)
+There is also a [online version](https://andygock.github.io/glcd-documentation/).

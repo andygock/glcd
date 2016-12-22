@@ -34,7 +34,7 @@ Works with:
 - [ST7565R](https://andygock.github.io/datasheets/sitronix_st7565r.pdf) / ST7565P serial interface
 - [NT75451](https://www.crystalfontz.com/controllers/Novatek/NT75451) parallel interface (used on NGX BlueBoards)
 
-The following Newhaven displays have been physically tested with and confirmed working:
+The following graphic displays have been physically tested with and confirmed working:
 
 - NHD-C12864WC-FSW-FBW-3V3-M
 - NHD-C12864A1Z-FSW-FBW-HTT

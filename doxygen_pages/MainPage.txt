@@ -6,13 +6,13 @@
 
 Welcome to GLCD, an open source graphic LCD library written by Andy Gock.
 
-Author's web site: http://agock.com/
+Author's web site: https://agock.com/
 
 GitHub repository: https://github.com/andygock/glcd
 
 This library has been written cleanly, to allow easy modification for use with different microcontroller devices and controller chipsets. Logic relating to devices and controllers are palced in seperate files and specific implementations can be chosen by the use of special defined symbols.
 
-It is suitable for monochrome (black and white) LCDs with page by page data and command write style data transfer protocol. It is not suitable for color graphic LCDs.
+It is suitable for monochrome (black and white) LCDs with page by page data and command write style data transfer protocol. It is not cmopatible with color graphic LCDs.
 
 \section SupportedLCDChipsets Supported LCD Chipsets
 
@@ -22,21 +22,24 @@ Current supported LCD controllers / chipsets:
 - ST7565R serial interface (used in Newhaven Display NHD-C12864WC-FSW-FBW-3V3-M)
 - NT75451 parallel interface (used on NGX BlueBoards)
 
-The following Newhaven displays have been physically tested with and confirmed working:
+The following graphic displays have been physically tested with and confirmed working:
 
 - NHD-C12864WC-FSW-FBW-3V3-M
 - NHD-C12864A1Z-FSW-FBW-HTT
 - NHD-C12832A1Z-FSW-FBW-3V3
+- ZOLEN-12864-FFSSWE-NAA
 
 \section SupportedMicrocontrollers Supported Microcontrollers
 
 Current supported devices / microcontrollers:
 
+
 - Atmel AVR 8-bit
-- NXP LPC111x ARM Cortex
-- NXP LPC11Uxx ARM Cortex
-- ST STM32F0XX Arm Cortex
-- Microchip PIC24H
+- NXP LPC111x ARM Cortex-M0
+- NXP LPC11Uxx ARM Cortex-M0
+- ST STM32 F0 ARM Cortex-M0
+- ST STM32 F4 ARM Cortex-M4
+- Microchip PIC24H (and probably other 16-bit MCUs)
 
 \section CompilerSetup Compiler Setup
 
@@ -48,6 +51,7 @@ Pick microcontroller type (pick one only):
 	GLCD_DEVICE_LPX11UXX
 	GLCD_DEVICE_AVR8
 	GLCD_DEVICE_STM32F0XX
+	GLCD_DEVICE_STM32F4XX
 	GLCD_DEVICE_PIC24H
 
 Pick LCD controller type (pick one only):
@@ -78,6 +82,20 @@ sequence, define one of the following:
 
 If you don't specify a NHD model, ST7565 controller selection will default to `GLCD_INIT_NHD_C12864WC_FSW_FBW_3V3_M` sequence.
 This however may change in the future.
+
+\section ResetTime Reset time
+
+To set a reset time, used by the glcd_reset() function, set GLCD_RESET_TIME to desired duration in milliseconds.
+
+\section Contrast Contrast
+
+When using PCD8544 controllers, define a PCD8544_CONTRAST symbol with a 8-bit unsigned integer for the contast value. If this is not defined, a default value will be used.
+
+\section LcdDimensions LCD Dimensions
+
+Set GLCD_LCD_WIDTH and GLCD_LCD_HEIGHT to define custom LCD dimensions. If these are not user defined, then a default width and height is used. The default dimensions are 128x64 except for PCD8544 controllers which is 84x48.
+
+\section CompilerSetup Compiler setup
 
 These symbols above need to be set in the configuration options of your IDE, usually
 in the "defined symbols" section, or they can be defined in a makefile

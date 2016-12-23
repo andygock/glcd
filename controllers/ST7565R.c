@@ -195,6 +195,7 @@ void glcd_ST7565R_init(void) {
 	glcd_set_contrast(45); /* Set contrast value, experimentally determined, value 0 to 63 */
 	glcd_command(0x2f); /* Power controller set */
 	glcd_command(0xaf); /* Display on */
+	
 #elif defined(GLCD_INIT_ZOLEN_12864_FFSSWE_NAA)
 	/* Init sequence for Zolen 128x64 module with
 	 * size 40x35mm. Chip ST7567 */
@@ -223,6 +224,6 @@ void glcd_ST7565R_init(void) {
 	glcd_command(0xaf); /* Display on */
 
 #endif
-	
+
 }
-#endif
+#endif /* defined(GLCD_CONTROLLER_ST7565R) */

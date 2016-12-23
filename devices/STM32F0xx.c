@@ -48,13 +48,10 @@
 void glcd_init(void)
 {
 
-#if defined(GLCD_CONTROLLER_PCD8544)
-	/* Initialisation for PCD8544 controller */
-
 	/* Declare GPIO and SPI init structures */
 	GPIO_InitTypeDef GPIO_InitStructure;
 	SPI_InitTypeDef  SPI_InitStructure;
-  //NVIC_InitTypeDef NVIC_InitStructure;
+	/* NVIC_InitTypeDef NVIC_InitStructure; */
 	
 	/* Initialise structures (which we will overide later) */
 	GPIO_StructInit(&GPIO_InitStructure);
@@ -115,34 +112,16 @@ void glcd_init(void)
 	/* Enable SPI */
 	SPI_Cmd(CONTROLLER_SPI_NUMBER, ENABLE);
 
-	/* Initialisation sequence of controller */
-	glcd_reset();
-
-	/* Get into the EXTENDED mode! */
-	glcd_command(PCD8544_FUNCTION_SET | PCD8544_EXTENDED_INSTRUCTION);
-
-	/* LCD bias select (4 is optimal?) */
-	glcd_command(PCD8544_SET_BIAS | 0x2);
-
-	/* Set VOP */
-	glcd_command(PCD8544_SET_VOP | 50); // Experimentally determined
-
-	/* Back to standard instructions */
-	glcd_command(PCD8544_FUNCTION_SET);
-
-	/* Normal mode */
-	glcd_command(PCD8544_DISPLAY_CONTROL | PCD8544_DISPLAY_NORMAL);
-
-	glcd_select_screen((uint8_t *)&glcd_buffer,&glcd_bbox);
-
-	glcd_set_contrast(50);
-
-	glcd_clear();
-
+#if defined(GLCD_CONTROLLER_PCD8544)
+	/* Initialisation for PCD8544 controller */
+	glcd_PCD8544_init();
 
 #else
 	#error "Controller not supported by STM32F0xx"
 #endif
+
+	glcd_select_screen((uint8_t *)&glcd_buffer,&glcd_bbox);
+	glcd_clear();
 
 }
 

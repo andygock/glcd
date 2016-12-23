@@ -97,8 +97,10 @@ void glcd_init(void)
 	/* Initialisation sequence of controller */
 	/** \todo Need to initialise controller */
 
+#elif defined(GLCD_CONTROLLER_ST7565R)
+
 #else
-	#error "Controller not supported by STM32F100x"
+	#error "Controller not supported by STM32F10x"
 #endif
 
 }
@@ -107,7 +109,7 @@ void glcd_spi_write(uint8_t c)
 {
 
 	GLCD_SELECT();
-	SPI_I2S_SendData(CONTROLLER_SPI_NUMBER, (uint16_t) data);
+	SPI_I2S_SendData(CONTROLLER_SPI_NUMBER, (uint16_t) c);
 
 	/* Wait until entire byte has been read (which we discard anyway) */
 	while( SPI_I2S_GetFlagStatus(CONTROLLER_SPI_NUMBER,SPI_I2S_FLAG_RXNE) != SET );

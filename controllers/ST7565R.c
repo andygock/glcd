@@ -97,9 +97,9 @@ void glcd_clear_now(void)
 {
 	uint8_t page;
 	for (page = 0; page < GLCD_NUMBER_OF_BANKS; page++) {
+		uint8_t col;
 		glcd_set_y_address(page);
 		glcd_set_x_address(0);
-		uint8_t col;
 		for (col = 0; col < GLCD_NUMBER_OF_COLS; col++) {
 			glcd_data(0);
 		}			
@@ -110,9 +110,9 @@ void glcd_pattern(void)
 {
 	uint8_t page;
 	for (page = 0; page < GLCD_NUMBER_OF_BANKS; page++) {
+		uint8_t col;
 		glcd_set_y_address(page);
 		glcd_set_x_address(0);
-		uint8_t col;
 		for (col = 0; col < GLCD_NUMBER_OF_COLS; col++) {
 			glcd_data( (col / 8 + 2) % 2 == 1 ? 0xff : 0x00 );
 		}			

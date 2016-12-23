@@ -58,7 +58,7 @@ void glcd_power_up(void)
 
 void glcd_set_y_address(uint8_t y)
 {
-	glcd_command(ST7565R_PAGE_ADDRESS_SET | (0b00001111 & y));	
+	glcd_command(ST7565R_PAGE_ADDRESS_SET | (0x0F & y)); /* 0x0F = 0b00001111 */
 }
 
 void glcd_set_x_address(uint8_t x)
@@ -89,7 +89,7 @@ void glcd_set_column_lower(uint8_t addr)
 
 void glcd_set_start_line(uint8_t addr)
 {
-	glcd_command( ST7565R_SET_START_LINE | (0b00111111 & addr));
+	glcd_command( ST7565R_SET_START_LINE | (0x3F & addr)); /* 0x3F == 0b00111111 */
 }
 
 /** Clear the display immediately, does not buffer */

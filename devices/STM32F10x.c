@@ -35,19 +35,25 @@
 */
 #if defined(GLCD_DEVICE_STM32F10X)
 
-#include "STM32F10x.h"
+/* Includes from CMSIS and Peripheral Library */
+#include "stm32f10x.h"
+
+/* Includes from GLCD */
+#include "../glcd.h"
+#include "inc/STM32F10x.h"
 
 void glcd_init(void)
 {
 
-#if defined(GLCD_CONTROLLER_PCD8544)
-	/* Initialisation for PCD8544 controller */
+	/* Initialisation of GPIO and SPI */
 
-	/* Need to make start up the correct peripheral clocks */
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_SPI1, ENABLE);
+	GPIO_InitTypeDef GPIO_InitStructure;
+	SPI_InitTypeDef SPI_InitStructure;
 
 	/* Set up GPIO pins */
-	GPIO_InitTypeDef GPIO_InitStructure;
+	
+	/* Need to make start up the correct peripheral clocks */
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_SPI1, ENABLE);
 
 	/* SS pin */
 	GPIO_InitStructure.GPIO_Pin = CONTROLLER_SPI_SS_PIN;
@@ -77,7 +83,6 @@ void glcd_init(void)
 	GPIO_Init(CONTROLLER_SPI_PORT, &GPIO_InitStructure);
 
 	/* Initialise SPI */
-	SPI_InitTypeDef SPI_InitStructure;
 	SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
 	SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
 	SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
@@ -89,19 +94,38 @@ void glcd_init(void)
 	SPI_InitStructure.SPI_CRCPolynomial = 7;
 	SPI_Init(CONTROLLER_SPI_NUMBER, &SPI_InitStructure);
 
+	/*
 	SPI_I2S_ITConfig(CONTROLLER_SPI_NUMBER, SPI_I2S_IT_RXNE, ENABLE);
+	*/
 
 	/* Enable SPI */
 	SPI_Cmd(CONTROLLER_SPI_NUMBER, ENABLE);
 
-	/* Initialisation sequence of controller */
-	/** \todo Need to initialise controller */
+	/* Send reset pulse to LCD */
+	glcd_reset();
+	delay_ms(1);
+
+#if defined(GLCD_CONTROLLER_PCD8544)
+	glcd_PCD8544_init();
 
 #elif defined(GLCD_CONTROLLER_ST7565R)
+	glcd_ST7565R_init();
+	
+	/* Set all dots black and hold for 0.5s, then clear it, we do this so we can visually check init sequence is working */
+	glcd_all_on();
+	delay_ms(500);
+	glcd_normal();
+
+	glcd_set_start_line(0);
+	glcd_clear_now();	
 
 #else
 	#error "Controller not supported by STM32F10x"
+
 #endif
+			
+	glcd_select_screen(glcd_buffer,&glcd_bbox);
+	glcd_clear();	
 
 }
 

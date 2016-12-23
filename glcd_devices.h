@@ -44,6 +44,8 @@
 	#include "LPC11Uxx.h"
 #elif defined(GLCD_DEVICE_STM32F0XX)
 	#include "STM32F0xx.h"
+#elif defined(GLCD_DEVICE_STM32F10X)
+	#include "STM32F10x.h"
 #elif defined(GLCD_DEVICE_STM32F4XX)
 	#include "stm32f4xx.h"
 	#include "devices/STM32F4.h"

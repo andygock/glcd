@@ -68,6 +68,13 @@
 	extern void delay_ms(uint32_t ms);
 	#define PROGMEM
 
+#elif defined(GLCD_DEVICE_STM32F10X)
+	#include <stm32f10x.h>
+	#include <stm32f10x_gpio.h>
+	#include "devices/inc/STM32F10x.h"
+	extern void delay_ms(uint32_t ms);
+	#define PROGMEM
+
 #elif defined(GLCD_DEVICE_STM32F4XX)
 	#include <stm32f4xx.h>
 	#include "devices/STM32F4.h"

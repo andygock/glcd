@@ -159,6 +159,12 @@ If you are using avr-gcc with Atmel devices, you can force the library to use th
 
 The code samples above will have the glcd library code already inside it, however I haven’t made any attempt to keep the glcd library updated in the examples so I advise that if you are using the example code, to replace the glcd directory (usually in `library/glcd` or `lib/glcd`) with the latest updated code.
 
+# Display bitmap images
+
+Bitmap images can be converted into a byte array using [LCD Assistant](http://en.radzio.dxp.pl/bitmap_converter/)
+
+When using this software, we need to set 8 pixels per byte with vertical byte orientation. Do not include size.
+
 # Documentation
 
 Refer to Doxygen generated pages for detailed documentation. You'll can generate the documentation yourself, simply install Doxygen and load the doxygen file in the root directory of the library and generate the documents in a file format of your choice (HTML, PDF, TEX etc).

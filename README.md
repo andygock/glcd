@@ -24,6 +24,17 @@ This library has been written cleanly, to allow easy modification for use with d
 
 It is suitable for monochrome (black and white) LCDs with page by page data and command write style data transfer protocol. It is not compatible with color graphic LCDs.
 
+# Features
+
+* Draw text, of different sizes, from small 5x7 pixel fonts to large custom characters. Custom fonts can be generated using free MikroElektronika Font Creator software.
+* Can write text from SRAM and Flash memory.
+* Scrolling text.
+* Draw vertical or horizontal bar graphs, with or without borders.
+* Draw circles, lines, rectangles - filled or unfilled.
+* Draw individual pixels in any color (black or white).
+* Display is fully buffered, for a Nokia 5110 display of 84x48 dots, you'll need at least 504 bytes of SRAM to store the frame buffer.
+* It only writes the part of the frame buffer which has changed. It does not re-write the entire buffer to the LCD every frame update.
+
 # Supported devices
 
 ## Controllers and chipsets
@@ -169,4 +180,4 @@ When using this software, we need to set 8 pixels per byte with vertical byte or
 
 Refer to Doxygen generated pages for detailed documentation. You'll can generate the documentation yourself, simply install Doxygen and load the doxygen file in the root directory of the library and generate the documents in a file format of your choice (HTML, PDF, TEX etc).
 
-There is also a [online version](https://andygock.github.io/glcd-documentation/).
+There is also an [online version](https://andygock.github.io/glcd-documentation/).

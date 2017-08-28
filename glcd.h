@@ -35,6 +35,13 @@
 #ifndef _GLCD_H
 #define _GLCD_H
 
+/* For Arduino IDE */
+#if defined(ARDUINO_ARCH_AVR)
+	#ifndef GLCD_DEVICE_AVR8
+		#define GLCD_DEVICE_AVR8
+	#endif
+#endif
+
 #if defined(GLCD_DEVICE_AVR8)
 	#include <avr/pgmspace.h>
 	#include <avr/io.h>

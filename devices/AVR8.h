@@ -50,7 +50,15 @@
 
 #define swap(a, b) { uint8_t t = a; a = b; b = t; }
 
-#if defined(GLCD_CONTROLLER_PCD8544)
+#if defined(GLCD_USE_PIN_FILE)
+	/* user defined pin definitions in "pins.h" */
+	#ifndef GLCD_CUSTOM_PINS
+		#define GLCD_CUSTOM_PINS
+	#endif
+	#include "pins.h"
+#endif
+
+#if defined(GLCD_CONTROLLER_PCD8544) && !defined(GLCD_CUSTOM_PINS)
 	
 	/**
 	 * \name SPI port and pins
@@ -78,7 +86,7 @@
 	#define CONTROLLER_RST_PIN   4
 	/**@}*/
 
-#elif defined (GLCD_CONTROLLER_ST7565R)
+#elif defined (GLCD_CONTROLLER_ST7565R) && !defined(GLCD_CUSTOM_PINS)
 	/**
 	 * \name SPI port and pins
 	 * @{
@@ -104,6 +112,10 @@
 	#define CONTROLLER_RST_PORT  PORTG
 	#define CONTROLLER_RST_PIN   1
 	/**@}*/
+
+#elif defined(GLCD_CUSTOM_PINS)
+	/* User has defined port and pins elsewhere */
+
 #else
 	#error "Controller not supported by AVR8"
 #endif

@@ -1,6 +1,7 @@
 fonts/HelveticaNeueLT_Com_57_Cn23x35_Numbers.h
 fonts/HelveticaNeueLT_Com_95_Blk18x19.h
 devices/glcd_user_config.h
+devices/pins.h
 glcd-*.zip
 *.o
 *.map

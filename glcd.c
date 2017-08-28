@@ -136,6 +136,7 @@ void glcd_select_screen(uint8_t *buffer, glcd_BoundingBox_t *bbox)
 	glcd_bbox_selected = bbox;
 }
 
+#if 0
 void glcd_scroll(int8_t x, int8_t y)
 {
 	/** \todo Skeleton */
@@ -149,6 +150,7 @@ void glcd_scroll(int8_t x, int8_t y)
 		}
 	}
 }
+#endif
 
 void glcd_scroll_line(void)
 {

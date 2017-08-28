@@ -48,7 +48,7 @@ void glcd_init(void)
 	/*
 	 * Set up SPI for AVR8
 	 * Note: AVR's SS pin must be set to output, regardless of whether we
-	 * actually use it. This is a requirement of SPI mster mode.
+	 * actually use it. This is a requirement of SPI master mode.
 	 */
 	sbi(DDR(AVR_SS_PORT),AVR_SS_PIN);
 	

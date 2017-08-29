@@ -39,14 +39,14 @@
 void glcd_command(uint8_t c)
 {
 	GLCD_RS_LOW();
-	glcd_parallel_write(c);
+	glcd_parallel_write(c); /* defined in devices/XXX.c */
 	GLCD_RS_HIGH();	
 }
 
 void glcd_data(uint8_t c)
 {
 	GLCD_RS_HIGH();
-	glcd_parallel_write(c);
+	glcd_parallel_write(c); /* defined in devices/XXX.c */
 	GLCD_RS_LOW();
 }
 
@@ -108,25 +108,6 @@ void glcd_write()
 	/* Display updated, we can reset the bounding box */
 	glcd_reset_bbox();
 	
-}
-
-void glcd_NT75451_init(void) {
-	/* Initialise sequence - code by NGX Technologies */
-	glcd_command(0xE2);  /*	S/W RESWT               */
-	glcd_command(0xA0);  /*	ADC select              */
-	glcd_command(0xC8);  /*	SHL Normal              */
-	glcd_command(0xA3);  /*	LCD bias                */
-	glcd_command(0x2F);  /*	Power control           */
-	glcd_command(0x22);  /*	reg resistor select     */
-	glcd_command(0x40);  /*	Initial display line 40 */
-	glcd_command(0xA4);  /*	Normal display          */
-	glcd_command(0xA6);  /*	Reverce display a7      */
-	glcd_command(0x81);  /*	Ref vg select mode      */
-	glcd_command(0x3f);  /*	Ref vg reg select       */
-	glcd_command(0xB0);  /*	Set page address        */
-	glcd_command(0x10);  /*	Set coloumn addr MSB    */
-	glcd_command(0x00);  /*	Set coloumn addr LSB    */
-	glcd_command(0xAF);  /*	Display ON              */
 }
 
 #endif

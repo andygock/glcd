@@ -36,6 +36,7 @@
 #if defined(GLCD_CONTROLLER_PCD8544)
 
 #include "../glcd.h"
+#include "PCD8544.h"
 
 void glcd_command(uint8_t c)
 {
@@ -107,31 +108,6 @@ void glcd_write()
 
 	glcd_reset_bbox();
 
-}
-
-void glcd_PCD8544_init(void) {
-
-	glcd_reset();
-	
-	/* Get into the EXTENDED mode! */
-	glcd_command(PCD8544_FUNCTION_SET | PCD8544_EXTENDED_INSTRUCTION);
-
-	/* LCD bias select (4 is optimal?) */
-	glcd_command(PCD8544_SET_BIAS | 0x2);
-
-	/* Set VOP (affects contrast) */
-	/* Experimentally determined, play with this figure until contrast looks nice */
-#if defined(PCD8544_CONTRAST)
-	glcd_command(PCD8544_SET_VOP | PCD8544_CONTRAST); 
-#else
-	glcd_command(PCD8544_SET_VOP | 80);
-#endif
-	
-	/* Back to standard instructions */
-	glcd_command(PCD8544_FUNCTION_SET);
-
-	/* Normal mode */
-	glcd_command(PCD8544_DISPLAY_CONTROL | PCD8544_DISPLAY_NORMAL);
 }
 
 #endif

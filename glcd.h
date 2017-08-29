@@ -37,9 +37,14 @@
 
 /* For Arduino IDE */
 #if defined(ARDUINO_ARCH_AVR)
-	#ifndef GLCD_DEVICE_AVR8
-		#define GLCD_DEVICE_AVR8
+	#define GLCD_DEVICE_AVR8
+	#define GLCD_USE_AVR_DELAY
+	#define __DELAY_BACKWARD_COMPATIBLE__
+
+	#if !defined(USE_ARDUINO)
+		#define USE_ARDUINO
 	#endif
+
 #endif
 
 #if defined(GLCD_DEVICE_AVR8)
@@ -105,6 +110,7 @@
 
 #endif
 
+
 #if defined(GLCD_CONTROLLER_PCD8544)
 	#include "controllers/PCD8544.h"
 	
@@ -114,6 +120,8 @@
 #elif defined(GLCD_CONTROLLER_NT75451)
 	#include "controllers/NT75451.h"
 		
+#elif defined(ARDUINO_ARCH_AVR)
+
 #else
 	#error "Controller not supported or defined"
 	

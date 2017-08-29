@@ -36,7 +36,8 @@
 
 #include "../glcd.h"
 
-#if defined(GLCD_DEVICE_AVR8)
+#if defined(GLCD_DEVICE_AVR8) && !defined(ARDUINO_ARCH_AVR)
+/* Arduino specific routines are in subdir "../arduino/avr8.c" - not here! */
 
 void glcd_init(void)
 {
@@ -139,7 +140,7 @@ void glcd_init(void)
 	glcd_select_screen(glcd_buffer,&glcd_bbox);
 	
 	glcd_clear();	
-	
+
 #else
 	#error "Controller not supported"
 #endif /* GLCD_CONTROLLER_* */

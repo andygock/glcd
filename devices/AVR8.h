@@ -35,7 +35,7 @@
 #ifndef GLCD_PINOUTS_AVR8_H_
 #define GLCD_PINOUTS_AVR8_H_
 
-#if defined(GLCD_DEVICE_AVR8)
+#if defined(GLCD_DEVICE_AVR8) && !defined(ARDUINO_ARCH_AVR)
 
 #include <avr/io.h>
 #include <avr/pgmspace.h>
@@ -113,7 +113,7 @@
 	#define CONTROLLER_RST_PIN   1
 	/**@}*/
 
-#elif defined(GLCD_CUSTOM_PINS)
+#elif defined(GLCD_CUSTOM_PINS) || defined(ARDUINO_ARCH_AVR)
 	/* User has defined port and pins elsewhere */
 
 #else

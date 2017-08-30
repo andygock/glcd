@@ -10,7 +10,7 @@
 This isn't a very optimum way of using PGM space and SRAM, but it is
 beginner friendly and suitable for Arduino implementation.
 
-Lots of SRAM is wasted with this method! glcd_pinmap_t alone costs 25 bytes
+Lots of SRAM is wasted with this method! glcd_pinmap_t alone costs 17 bytes
 
 Ideal beginner friendly initialisation sequence example:
 
@@ -26,15 +26,9 @@ Ideal beginner friendly initialisation sequence example:
 
 Notes and references:
 
-PORTA, PORTB, PORTC etc are
-
-str_defs.h
-
-http://www.atmel.com/webdoc/avrlibcreferencemanual/FAQ_1faq_port_pass.html
-
-http://www.avrfreaks.net/forum/passing-port-argument
-
-http://www.nongnu.org/avr-libc/user-manual/FAQ.html#faq_port_pass
+Passing AVR port as function argument
+- http://www.nongnu.org/avr-libc/user-manual/FAQ.html#faq_port_pass
+- http://www.avrfreaks.net/forum/passing-port-argument
 
 */
 
@@ -46,7 +40,7 @@ http://www.nongnu.org/avr-libc/user-manual/FAQ.html#faq_port_pass
 #define PIN(x) (*(&x - 2))
 #endif
 
-/* uint8_t */
+/* pin type as uint8_t */
 #define PORT_AVR_SS 0
 #define PORT_MOSI 1
 #define PORT_MISO 2
@@ -55,8 +49,6 @@ http://www.nongnu.org/avr-libc/user-manual/FAQ.html#faq_port_pass
 #define PORT_DC 5 /* GLCD_TYPE_PCD8544 only */
 #define PORT_A0 5 /* GLCD_TYPE_ST7565R only */
 #define PORT_RST 6
-
-
 
 /* Maximum number of IO pins that may be used */
 #define NUMBER_OF_PINS 8
@@ -76,8 +68,12 @@ struct glcd_pinmap_t {
 extern struct glcd_pinmap_t glcd_pinmap;
 
 /* Function prototypes */
+
 void glcd_select_lcd_controller(uint8_t controller);
-void glcd_set_pin(uint8_t pin_type, volatile uint8_t *port, uint8_t pin);
+void glcd_set_pinmap(uint8_t pin_type, volatile uint8_t *port, uint8_t pin_mask);
+uint8_t glcd_bitmask_to_bitnumber(uint8_t mask);
+void glcd_set_pin(uint8_t name, uint8_t arduino_pin);
+
 void GLCD_SELECT();
 void GLCD_DESELECT();
 void GLCD_DC_LOW();

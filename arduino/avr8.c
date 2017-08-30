@@ -42,6 +42,8 @@
 
 #if defined(USE_ARDUINO)
 
+#include <Arduino.h>
+
 /* Extra global variables used for Arduino implementation */
 struct glcd_pinmap_t glcd_pinmap;
 
@@ -49,10 +51,39 @@ void glcd_select_lcd_controller(uint8_t controller) {
 	glcd_pinmap.controller = controller;
 }
 
-void glcd_set_pin(uint8_t pin_type, volatile uint8_t *port, uint8_t pin) {
+void glcd_set_pinmap(uint8_t pin_type, volatile uint8_t *port, uint8_t pin) {
 	glcd_pinmap.port[pin_type] = port;
 	glcd_pinmap.pin[pin_type] = pin;
 }
+
+/* Convert a bitmask to a bit number */
+uint8_t glcd_bitmask_to_bitnumber(uint8_t mask) {
+	/*
+		in: 0b00000001 out: 0
+		in: 0b00000010 out: 1
+		in: 0b00000100 out: 2
+		...
+		output can be 0 to 7 - or 0xff if error (case of input == 0)
+	 */
+
+	uint8_t i;
+	for (i=0; i<8; i++) {
+		if (mask & (1<<i)) {
+			return i;
+		}
+	}
+	return 0xFF; // mask == 0 - user should not pass 0 as mask
+}
+
+
+/* Alternative to glcd_set_pin(), but use digital pin numbers, more user friendly */
+void glcd_set_pin(uint8_t name, uint8_t arduino_pin) {
+	/* Macros from <Arduino.h> */
+	volatile uint8_t port = digitalPinToPort(arduino_pin);
+	uint8_t bit_mask = digitalPinToBitMask(arduino_pin);
+	glcd_set_pinmap(name, &port, glcd_bitmask_to_bitnumber(bit_mask));
+}
+
 
 void glcd_init(void)
 {

@@ -46,21 +46,21 @@
 #define SPIx_CLK_INIT                  RCC_APB1PeriphClockCmd
 #define SPIx_PRESCALLER				   SPI_BaudRatePrescaler_8
 
-#define SPIx_SCK_PIN                   GPIO_Pin_3
+#define SPIx_SCK_PIN                   GPIO_PIN_3
 #define SPIx_SCK_GPIO_PORT             GPIOB
 #define SPIx_SCK_GPIO_CLK              RCC_AHB1Periph_GPIOB
 #define SPIx_SCK_SOURCE                GPIO_PinSource3
 #define SPIx_SCK_AF                    GPIO_AF_SPI3
 
 #if 0 // Not using MISO pin for this LCD.
-#define SPIx_MISO_PIN                  GPIO_Pin_4
+#define SPIx_MISO_PIN                  GPIO_PIN_4
 #define SPIx_MISO_GPIO_PORT            GPIOB
 #define SPIx_MISO_GPIO_CLK             RCC_AHB1Periph_GPIOB
 #define SPIx_MISO_SOURCE               GPIO_PinSource4
 #define SPIx_MISO_AF                   GPIO_AF_SPI3
 #endif
 
-#define SPIx_MOSI_PIN                  GPIO_Pin_5
+#define SPIx_MOSI_PIN                  GPIO_PIN_5
 #define SPIx_MOSI_GPIO_PORT            GPIOB
 #define SPIx_MOSI_GPIO_CLK             RCC_AHB1Periph_GPIOB
 #define SPIx_MOSI_SOURCE               GPIO_PinSource5
@@ -71,7 +71,7 @@
  * ON and OFF backlight (no brightness control) */
 #define USE_TIMER_PWM
 //define BACKLIGHT_INVERT_OUT	// Uncoment if your backlight turn on with a low value.
-#define LCD_LED_PIN					GPIO_Pin_15 // Should be and TIMx_CHx pin.
+#define LCD_LED_PIN					GPIO_PIN_15 // Should be and TIMx_CHx pin.
 #define LCD_LED_PORT				GPIOA
 #define LCD_LED_GPIO_RCC			RCC_AHB1Periph_GPIOA
 #ifdef USE_TIMER_PWM
@@ -89,13 +89,13 @@
 
 
 #define CONTROLLER_SPI_SS_PORT  GPIOB
-#define CONTROLLER_SPI_SS_PIN   GPIO_Pin_8
+#define CONTROLLER_SPI_SS_PIN   GPIO_PIN_8
 #define CONTROLLER_SPI_SS_RCC	RCC_AHB1Periph_GPIOB
 #define CONTROLLER_SPI_DC_PORT  GPIOB
-#define CONTROLLER_SPI_DC_PIN   GPIO_Pin_4
+#define CONTROLLER_SPI_DC_PIN   GPIO_PIN_4
 #define CONTROLLER_SPI_DC_RCC	RCC_AHB1Periph_GPIOB
 #define CONTROLLER_SPI_RST_PORT GPIOB
-#define CONTROLLER_SPI_RST_PIN  GPIO_Pin_9
+#define CONTROLLER_SPI_RST_PIN  GPIO_PIN_9
 #define CONTROLLER_SPI_RST_RCC	RCC_AHB1Periph_GPIOB
 
 

@@ -3,7 +3,7 @@
    \brief Functions specific to certain devices (microcontrollers).
           These are functions are defined in devices/yourdevice.c
    \author Andy Gock
- */ 
+ */
 
 /*
 	Copyright (c) 2012, Andy Gock
@@ -53,6 +53,9 @@
 	#include <stdint.h>
 	#include <xc.h>
 	#include <libpic30.h>
+#elif defined(GLCD_DEVICE_PIC18H)
+		#include <stdint.h>
+		#include <xc.h>
 #elif defined(GLCD_DEVICE_PIC32)
 #else
 	#error "Device not supported or defined"

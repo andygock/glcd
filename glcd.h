@@ -81,6 +81,13 @@
 	extern void delay_ms(uint32_t ms);
 	#define PROGMEM
 
+#elif defined(GLCD_DEVICE_PIC18H)
+		#include <xc.h>
+		#include "./devices/PIC18H.h"
+		#include "../mcc_generated_files/mcc.h"
+		#define PROGMEM
+		#define delay_ms(t) __delay_ms(t)
+
 #elif defined(GLCD_DEVICE_PIC24H)
 	#define FCY (FOSC/2)
 	#include <stdint.h>
@@ -106,7 +113,10 @@
 	
 #elif defined(GLCD_CONTROLLER_NT75451)
 	#include "controllers/NT75451.h"
-		
+
+#elif defined(GLCD_CONTROLLER_SSD1309)
+	#include "controllers/SSD1309.h"
+
 #else
 	#error "Controller not supported or defined"
 	

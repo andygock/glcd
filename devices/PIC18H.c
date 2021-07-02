@@ -56,8 +56,7 @@ void glcd_init(void)
 	CONTROLLER_RST_TRIS = 0;
 
 	/* Deselect LCD */
-
-  GLCD_DESELECT();
+    GLCD_DESELECT();
 	spi_master_open(CUSTOM0);
 
 	/* Send reset pulse to LCD */
@@ -67,8 +66,8 @@ void glcd_init(void)
 	/* Begin sending data for initialisation sequence */
 	glcd_ST7565R_init();
 	/* Set all dots black and hold for 0.5s, then clear it, we do this so we can visually check init sequence is working */
-
-  glcd_all_on();
+        
+    glcd_all_on();
 	delay_ms(1000);
 	glcd_normal();
 
@@ -77,17 +76,17 @@ void glcd_init(void)
 
 	glcd_select_screen(glcd_buffer,&glcd_bbox);
 	glcd_clear();
-	#elif defined(GLCD_CONTROLLER_SSD1309)
-  /* Set SS, DC and A0 pins as output */
-	#if defined(GLCD_CONTROLLER_SSD1309_SPI)
+#elif defined(GLCD_CONTROLLER_SSD1309)
+    /* Set SS, DC and A0 pins as output */
+#if defined(GLCD_CONTROLLER_SSD1309_SPI)
 
-  CONTROLLER_SS_TRIS = 0;
+    CONTROLLER_SS_TRIS = 0;
 	CONTROLLER_A0_TRIS = 0;
 	CONTROLLER_RST_TRIS = 0;
 
 	/* Deselect LCD */
 
-  GLCD_DESELECT();
+    GLCD_DESELECT();
 	spi_master_open(MASTER0);
 	/* Send reset pulse to LCD */
 	glcd_reset();
@@ -95,30 +94,30 @@ void glcd_init(void)
 	/* Begin sending data for initialisation sequence */
 	glcd_SSD1309_init();
 	/* Set all dots black and hold for 0.5s, then clear it, we do this so we can visually check init sequence is working */
-  glcd_set_start_line(0);
+    glcd_set_start_line(0);
 
-  glcd_all_on();
+    glcd_all_on();
 	delay_ms(250);
 	glcd_normal();
 
 	glcd_select_screen(glcd_buffer,&glcd_bbox);
-  glcd_clear_now();
+    glcd_clear_now();
 	glcd_clear();
-  glcd_reset_bbox();
+    glcd_reset_bbox();
 
 
 #else
-  glcd_reset();
+    glcd_reset();
 	delay_ms(1);
 	glcd_SSD1309_init();
-  glcd_normal();
-  glcd_select_screen(glcd_buffer,&glcd_bbox);
-  glcd_clear_now();
-  glcd_reset_bbox();
+    glcd_normal();
+    glcd_select_screen(glcd_buffer,&glcd_bbox);
+    glcd_clear_now();
+    glcd_reset_bbox();
 #endif
 
 #else
-	#error "Controller not supported"
+    #error "Controller not supported"
 #endif /* GLCD_CONTROLLER_* */
 
 }
@@ -133,7 +132,6 @@ void glcd_spi_write(uint8_t c)
 void glcd_reset(void)
 {
 	#if defined(GLCD_CONTROLLER_ST7565R)
-
     /* Toggle RST low to reset. Minimum pulse 100ns on datasheet. */
 	GLCD_SELECT();
 	GLCD_RESET_LOW();
@@ -141,11 +139,11 @@ void glcd_reset(void)
 	GLCD_RESET_HIGH();
 	GLCD_DESELECT();
 
-  #elif defined(GLCD_CONTROLLER_SSD1309)
-  GLCD_RESET_LOW();
-	__delay_ms(GLCD_RESET_TIME);
-	GLCD_RESET_HIGH();
-  #endif
+    #elif defined(GLCD_CONTROLLER_SSD1309)
+    GLCD_RESET_LOW();
+    __delay_ms(GLCD_RESET_TIME);
+    GLCD_RESET_HIGH();
+    #endif
 
 }
 

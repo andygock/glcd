@@ -17,24 +17,24 @@ uint8_t bufpage[GLCD_LCD_WIDTH+1];
 
 void glcd_command(uint8_t c)
 {
-	#if defined(GLCD_CONTROLLER_SSD1309_SPI)
+#if defined(GLCD_CONTROLLER_SSD1309_SPI)
     GLCD_A0_LOW();
-		glcd_spi_write(c);
+	glcd_spi_write(c);
 
-    #else
+#else
     buf[0]=COMMAND_BYTE;
     buf[1] = c;
     i2c_writeNBytes(SLAVE_ADDR,buf,2);
-    #endif
+#endif
 
 }
 
 void glcd_data(uint8_t c)
 {
-	#if defined(GLCD_CONTROLLER_SSD1309_SPI)
+#if defined(GLCD_CONTROLLER_SSD1309_SPI)
     GLCD_A0_HIGH();
-		glcd_spi_write(c);
-    #else // I2C
+    glcd_spi_write(c);
+#else // I2C
     buf[0]= DATA_BYTE;
     buf[1] = c;
     i2c_writeNBytes(SLAVE_ADDR,buf,2);
@@ -191,39 +191,36 @@ void glcd_write()
 	uint8_t bank;
 
 	for (bank = 0; bank < GLCD_NUMBER_OF_BANKS; bank++) {
-	/* Each bank is a single row 8 bits tall */
-	uint8_t column;
+        /* Each bank is a single row 8 bits tall */
+        uint8_t column;
 
-		if (glcd_bbox_selected->y_min >= (bank+1)*8) {
-			continue; /* Skip the entire bank */
-		}
+        if (glcd_bbox_selected->y_min >= (bank+1)*8) {
+                continue; /* Skip the entire bank */
+        }
 
-	if (glcd_bbox_selected->y_max < bank*8) {
-		break;    /* No more banks need updating */
-	}
-	glcd_set_page_mode();
-	glcd_set_y_address(bank);
-	glcd_set_x_address(glcd_bbox_selected->x_min);
-	#if defined(GLCD_CONTROLLER_SSD1309_SPI)
-	for (column = glcd_bbox_selected->x_min; column <= glcd_bbox_selected->x_max; column++)
-	{
-			glcd_data( glcd_buffer_selected[GLCD_NUMBER_OF_COLS * bank + column] );
-	}
-  #else // I2C
-  glcd_datastream(&(*glcd_buffer_selected) + (GLCD_NUMBER_OF_COLS * bank + glcd_bbox_selected->x_min) , glcd_bbox_selected->x_max-glcd_bbox_selected->x_min +1);
-  #endif
+        if (glcd_bbox_selected->y_max < bank*8) {
+            break;    /* No more banks need updating */
+        }
+        glcd_set_page_mode();
+        glcd_set_y_address(bank);
+        glcd_set_x_address(glcd_bbox_selected->x_min);
+        #if defined(GLCD_CONTROLLER_SSD1309_SPI)
+        for (column = glcd_bbox_selected->x_min; column <= glcd_bbox_selected->x_max; column++)
+        {
+                glcd_data( glcd_buffer_selected[GLCD_NUMBER_OF_COLS * bank + column] );
+        }
+        #else // I2C
+        glcd_datastream(&(*glcd_buffer_selected) + (GLCD_NUMBER_OF_COLS * bank + glcd_bbox_selected->x_min) , glcd_bbox_selected->x_max-glcd_bbox_selected->x_min +1);
+        #endif
 	}
 	glcd_reset_bbox();
-
 }
 
 void glcd_SSD1309_init(void) {
-
 
 	/* Default init sequence */
 	glcd_command(SSD1309_NORMAL);  //0xA6 // normal display
 	glcd_command(SSD1309_DISPLAY_ON);
 	glcd_set_contrast(255);
-
 }
 #endif /* defined(GLCD_CONTROLLER_SSD1309) */
